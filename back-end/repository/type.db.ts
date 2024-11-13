@@ -1,6 +1,12 @@
 import { Type } from '../model/type';
 
-const types: Type[] = [];
+const types: Type[] = [
+    new Type({name: "european"}),
+    new Type({name: "federal"}),
+    new Type({name: "regional"}),
+    new Type({name: "provincial"}),
+    new Type({name: "municipal"})
+];
 
 const getTypes = (): Type[] => types;
 
