@@ -1,5 +1,6 @@
 import {Party} from "./party";
 import {Region} from "./region";
+import { Type } from "./type";
 
 export class Candidate {
     private id?: number;
@@ -34,6 +35,13 @@ export class Candidate {
                 this.parties = filtered;
             }
         }
+    }
+    getListOfTypes(): Type[] {
+        const types: Type[] = [];
+        for (const p of this.parties) {
+            types.push(...p.getType());
+        }
+        return types;
     }
 
     equals(candidate: Candidate): boolean {
