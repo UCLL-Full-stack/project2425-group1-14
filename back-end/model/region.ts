@@ -1,5 +1,5 @@
 import {Type} from "./type";
-import {Region as RegionPrisma, Type as TypePrisma, ChildRei } from '@prisma/client';
+import {Region as RegionPrisma, Type as TypePrisma } from '@prisma/client';
 
 export class Region {
     readonly  id?: number;
@@ -28,14 +28,12 @@ export class Region {
         );
     }
 
-    /*
-    static from({ id, name, type, parent }: RegionPrisma & {type: TypePrisma; parent: RegionPrisma}) {
-        var parentRec : RegionPrisma | undefined;
-        if (parent === null) { parentRec = undefined } else { parentRec = Region.from(parentRec) }
-        return new Region({name: name, type: Type.from(type), parent: parentRec, id: id});
-    }
-    */
-    static from({ id, name, type, parent }: RegionPrisma & {type: TypePrisma; parent: RegionPrisma | null})   {
-        return new Region({name: name, type: Type.from(type), parent: Region.from({id: }), id: id});
+    static from(data: (RegionPrisma & {type: TypePrisma; parent?: (RegionPrisma & {type: TypePrisma}) | null})): Region {
+        return new Region({
+            name: data.name, 
+            type: Type.from(data.type),
+            parent: data.parent ? Region.from(data.parent) : undefined, 
+            id: data.id
+        });
     }
 }
