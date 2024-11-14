@@ -1,11 +1,11 @@
 import {Type} from "./type";
 
 export class Party {
-    private id?: number;
-    private name: string;
-    private abbr: string;
-    private image: string;
-    private type: Type[];
+    readonly  id?: number;
+    readonly  name: string;
+    readonly  abbr: string;
+    readonly  image: string;
+    readonly  type: Type[];
 
     constructor(party: { name: string; abbr: string; image: string; type: Type[]; id?: number }) {
         this.id = party.id;
@@ -21,6 +21,7 @@ export class Party {
     getImage(): string { return this.image; }
     getType(): Type[] { return this.type; }
 
+    /*
     addTypeToParty(type: Type): void {
         if (!this.type.includes(type)) {
             this.type.push(type);
@@ -34,6 +35,7 @@ export class Party {
             }
         }
     }
+    */
 
     equals(party: Party): boolean {
         return (

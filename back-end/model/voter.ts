@@ -1,12 +1,12 @@
 import {Region} from "./region";
 
 export class Voter {
-    private id?: number;
-    private name: string;
-    private email: string;
-    private phone: string;
-    private key: string;
-    private home: Region;
+    readonly  id?: number;
+    readonly  name: string;
+    readonly  email: string;
+    readonly  phone: string;
+    readonly  key: string;
+    readonly  home: Region;
 
     constructor(voter: { name: string; email: string; phone: string; key: string; home: Region; id?: number }) {
         this.id = voter.id;

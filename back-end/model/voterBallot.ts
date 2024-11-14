@@ -2,9 +2,9 @@ import {Ballot} from "./ballot";
 import {Voter} from "./voter";
 
 export class VoterBallot {
-    private ballot: Ballot;
-    private voter: Voter;
-    private votedFor: String;
+    readonly  ballot: Ballot;
+    readonly  voter: Voter;
+    readonly  votedFor: String;
 
     constructor(voterBallot: {ballot: Ballot; voter: Voter; votedFor: String}) {
         this.ballot = voterBallot.ballot;
@@ -16,9 +16,11 @@ export class VoterBallot {
     getVoter(): Voter { return this.voter; }
     getVotes(): String { return this.votedFor; }
 
+    /*
     changeVotes(votedFor: String): void {
         this.votedFor = votedFor;
     }
+    */
 
     equals(voterBallot: VoterBallot): boolean {
         return (

@@ -3,11 +3,11 @@ import {Region} from "./region";
 import { Type } from "./type";
 
 export class Candidate {
-    private id?: number;
-    private name: string;
-    private image: string;
-    private region: Region;
-    private parties: Party[];
+    readonly  id?: number;
+    readonly  name: string;
+    readonly  image: string;
+    readonly  region: Region;
+    readonly  parties: Party[];
 
     constructor(candidate: { name: string; image: string; region: Region; parties: Party[]; id?: number }) {
         this.id = candidate.id;
@@ -23,6 +23,7 @@ export class Candidate {
     getRegion(): Region { return this.region; }
     getParties(): Party[] { return this.parties; }
 
+    /*
     addPartyToCandidate(party: Party): void {
         if (!this.parties.map(p => p.getType()).includes(party.getType())) {
             this.parties.push(party);
@@ -43,6 +44,7 @@ export class Candidate {
         }
         return types;
     }
+    */
 
     equals(candidate: Candidate): boolean {
         return (

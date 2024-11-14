@@ -2,9 +2,9 @@ import {Candidate} from "./candidate";
 import {Party} from "./party";
 
 export class PartyCandidate {
-    private candidate: Candidate;
-    private party: Party;
-    private position: number;
+    readonly  candidate: Candidate;
+    readonly  party: Party;
+    readonly  position: number;
 
     constructor(partyCandidate: {candidate: Candidate; party: Party; position: number}) {
         this.candidate = partyCandidate.candidate;

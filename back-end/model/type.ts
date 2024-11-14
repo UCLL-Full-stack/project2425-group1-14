@@ -1,6 +1,8 @@
+import { Type as TypePrisma } from '@prisma/client';
+
 export class Type {
-    private id?: number;
-    private name: string;
+    readonly  id?: number;
+    readonly  name: string;
 
     constructor(type: { name: string; id?: number }) {
         this.id = type.id;
@@ -15,5 +17,9 @@ export class Type {
             this.id === type.getId() &&
             this.name === type.getName()
         );
+    }
+
+    static from({ id, name }: TypePrisma) {
+        return new Type({name: name, id: id});
     }
 }

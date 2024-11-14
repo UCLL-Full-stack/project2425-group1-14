@@ -1,10 +1,10 @@
 import {Type} from "./type";
 
 export class Region {
-    private id?: number;
-    private name: string;
-    private type: Type;
-    private parent?: Region;
+    readonly  id?: number;
+    readonly  name: string;
+    readonly  type: Type;
+    readonly  parent?: Region;
 
     constructor(region: { name: string; type: Type; parent: Region; id?: number }) {
         this.id = region.id;

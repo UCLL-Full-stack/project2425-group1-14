@@ -1,12 +1,12 @@
 import {Region} from "./region";
 
 export class Ballot {
-    private id?: number;
-    private name: string;
-    private system: string;
-    private minimum: number;
-    private maximum: number;
-    private region: Region;
+    readonly  id?: number;
+    readonly  name: string;
+    readonly  system: string;
+    readonly  minimum: number;
+    readonly  maximum: number;
+    readonly  region: Region;
 
     constructor(ballot: { name: string; system: string; minimum: number; maximum: number; region: Region; id?: number }) {
         this.id = ballot.id;

@@ -1,31 +1,47 @@
+import database from '../util/database';
 import { Type } from '../model/type';
 
-const types: Type[] = [
-    new Type({name: "european"}),
-    new Type({name: "federal"}),
-    new Type({name: "regional"}),
-    new Type({name: "provincial"}),
-    new Type({name: "municipal"})
-];
 
-const getTypes = (): Type[] => types;
-
-const getTypeById = (t: {id: number}): Type | undefined => {
-    return types.find((type: Type) => type.getId() === t.id);
+const getTypes = async (): Promise<Type[]> => {
+    try {
+        const typesPrisma = await database.type.findMany();
+        return typesPrisma.map((typePrisma) => Type.from(typePrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 };
 
-const getTypeByName = (t: {name: string}): Type | undefined => {
-    return types.find((type: Type) => type.getName() === t.name);
+const getTypeById = async ({ id }: { id: number }): Promise<Type | null> => {
+    try {
+        const typePrisma = await database.type.findUnique({
+            where: { id },
+        });
+
+        return typePrisma ? Type.from(typePrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 };
 
-const createType = (type: Type) => {
-    types.push(type);
-    return types.at(-1);
+const createType = async ({ name }: Type): Promise<Type> => {
+    try {
+        const coursePrisma = await database.type.create({
+            data: {
+                name,
+            },
+        });
+
+        return Type.from(coursePrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 };
 
 export default {
     getTypes,
     getTypeById,
-    getTypeByName,
-    createType
+    createType,
 };
