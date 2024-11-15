@@ -25,6 +25,19 @@ const getTypeById = async ({ id }: { id: number }): Promise<Type | null> => {
     }
 };
 
+const getTypeByName = async ({ name }: { name: string }): Promise<Type[]> => {
+    try {
+        const typesPrisma = await database.type.findMany({
+            where: { name: { equals: name } },
+        });
+
+        return typesPrisma.map((typePrisma) => Type.from(typePrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 const createType = async ({ name }: Type): Promise<Type> => {
     try {
         const coursePrisma = await database.type.create({
@@ -43,5 +56,6 @@ const createType = async ({ name }: Type): Promise<Type> => {
 export default {
     getTypes,
     getTypeById,
+    getTypeByName,
     createType,
 };

@@ -28,10 +28,49 @@ const getRegionById = async ({ id }: { id: number }): Promise<Region | null> => 
     }
 };
 
+const getRegionByName = async ({ name }: { name: string }): Promise<Region[]> => {
+    try {
+        const regionsPrisma = await database.region.findMany({
+            where: { name: { equals: name } },
+            include: { type: true, parent: { include: { type: true, },},},
+        });
+        return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
+const getRegionByNameAndType = async ({ name, typeId }: { name: string, typeId: number }): Promise<Region[]> => {
+    try {
+        const regionsPrisma = await database.region.findMany({
+            where: { name: { equals: name }, typeId: { equals: typeId} },
+            include: { type: true, parent: { include: { type: true, },},},
+        });
+        return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 const getRegionsByName = async ({ name }: { name: string }): Promise<Region[]> => {
     try {
         const regionsPrisma = await database.region.findMany({
             where: { name: { contains: name } },
+            include: { type: true, parent: { include: { type: true, },},},
+        });
+        return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
+const getRegionsByNameAndType = async ({ name, typeId }: { name: string, typeId: number }): Promise<Region[]> => {
+    try {
+        const regionsPrisma = await database.region.findMany({
+            where: { name: { equals: name }, typeId: { equals: typeId} },
             include: { type: true, parent: { include: { type: true, },},},
         });
         return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
@@ -88,7 +127,10 @@ const getChildren = async ({ parentId }: { parentId: number }): Promise<Region[]
 export default {
     getRegions,
     getRegionById,
+    getRegionByName,
+    getRegionByNameAndType,
     getRegionsByName,
+    getRegionsByNameAndType,
     getRegionsByType,
     createRegion,
     getChildren,

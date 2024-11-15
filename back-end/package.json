@@ -1,8 +1,8 @@
 {
-    "name": "courses_api",
-    "version": "1.0.0",
-    "description": "Courses API",
-    "author": "johanpck",
+    "name": "hanno_api",
+    "version": "0.1.0",
+    "description": "Hannọ API",
+    "author": "saperoi,JackVanHecke",
     "license": "ISC",
     "main": "app.ts",
     "prisma": {
@@ -10,7 +10,9 @@
     },
     "scripts": {
         "test": "jest",
-        "start": "nodemon -L app.ts --delay 3"
+        "start": "nodemon -L app.ts --delay 3",
+        "seed": "npx ts-node util/seed.ts",
+        "instart": "nodemon -L app.ts --delay 0"
     },
     "nodemonConfig": {
         "ext": "ts",
