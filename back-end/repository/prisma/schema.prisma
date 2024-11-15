@@ -50,7 +50,6 @@ model PartyType {
 model Candidate {
   id         Int              @id @default(autoincrement())
   name       String
-  image      String
   region     Region           @relation(fields: [locationId], references: [id])
   locationId Int
   parties    PartyCandidate[]
