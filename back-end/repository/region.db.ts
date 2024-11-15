@@ -5,14 +5,7 @@ import { Type } from '../model/type';
 const getRegions = async (): Promise<Region[]> => {
     try {
         const regionsPrisma = await database.region.findMany({
-            include: {
-                type: true,
-                parent: {
-                    include: {
-                        type: true,
-                    },
-                },
-            },
+            include: { type: true, parent: { include: { type: true, },},},
         });
         return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
     } catch (error) {
@@ -25,14 +18,7 @@ const getRegionById = async ({ id }: { id: number }): Promise<Region | null> => 
     try {
         const regionPrisma = await database.region.findUnique({
             where: { id: id },
-            include: {
-                type: true,
-                parent: {
-                    include: {
-                        type: true,
-                    },
-                },
-            },
+            include: { type: true, parent: { include: { type: true, },},},
         });
 
         return regionPrisma ? Region.from(regionPrisma) : null;
@@ -42,18 +28,11 @@ const getRegionById = async ({ id }: { id: number }): Promise<Region | null> => 
     }
 };
 
-const getRegionsByName = async ({ name }: { name: string }): Promise<Region[] | null> => {
+const getRegionsByName = async ({ name }: { name: string }): Promise<Region[]> => {
     try {
         const regionsPrisma = await database.region.findMany({
             where: { name: { contains: name } },
-            include: {
-                type: true,
-                parent: {
-                    include: {
-                        type: true,
-                    },
-                },
-            },
+            include: { type: true, parent: { include: { type: true, },},},
         });
         return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
     } catch (error) {
@@ -62,18 +41,11 @@ const getRegionsByName = async ({ name }: { name: string }): Promise<Region[] | 
     }
 };
 
-const getRegionsByType = async ({ typeId }: { typeId: number }): Promise<Region[] | null> => {
+const getRegionsByType = async ({ typeId }: { typeId: number }): Promise<Region[]> => {
     try {
         const regionsPrisma = await database.region.findMany({
             where: { typeId: typeId },
-            include: {
-                type: true,
-                parent: {
-                    include: {
-                        type: true,
-                    },
-                },
-            },
+            include: { type: true, parent: { include: { type: true, },},},
         });
         return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
     } catch (error) {
@@ -87,19 +59,10 @@ const createRegion = async ({ name, type, parent }: Region): Promise<Region> => 
         const regionPrisma = await database.region.create({
             data: {
                 name: name,
-                type: {
-                    connect: { id: type.id },
-                },
+                type: { connect: { id: type.id }, },
                 parent: parent ? { connect: { id: parent.id } } : undefined,
             },
-            include: {
-                type: true,
-                parent: {
-                    include: {
-                        type: true,
-                    },
-                },
-            },
+            include: { type: true, parent: { include: { type: true, },},},
         });
 
         return Region.from(regionPrisma);
@@ -109,19 +72,11 @@ const createRegion = async ({ name, type, parent }: Region): Promise<Region> => 
     }
 };
 
-const getChildren = async ({ id }: { id: number }): Promise<Region[] | null> => {
+const getChildren = async ({ parentId }: { parentId: number }): Promise<Region[]> => {
     try {
         const regionsPrisma = await database.region.findMany({
-            where: { parentId: id },
-
-            include: {
-                type: true,
-                parent: {
-                    include: {
-                        type: true,
-                    },
-                },
-            },
+            where: { parentId: parentId },
+            include: { type: true, parent: false },
         });
         return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
     } catch (error) {

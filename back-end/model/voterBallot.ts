@@ -1,12 +1,13 @@
 import {Ballot} from "./ballot";
 import {Voter} from "./voter";
+import {PartyCandidate} from "./partyCandidate";
 
 export class VoterBallot {
     readonly  ballot: Ballot;
     readonly  voter: Voter;
-    readonly  votedFor: String;
+    readonly  votedFor: PartyCandidate[];
 
-    constructor(voterBallot: {ballot: Ballot; voter: Voter; votedFor: String}) {
+    constructor(voterBallot: {ballot: Ballot; voter: Voter; votedFor: PartyCandidate[]}) {
         this.ballot = voterBallot.ballot;
         this.voter = voterBallot.voter;
         this.votedFor = voterBallot.votedFor;
@@ -14,7 +15,7 @@ export class VoterBallot {
 
     getBallot(): Ballot { return this.ballot; }
     getVoter(): Voter { return this.voter; }
-    getVotes(): String { return this.votedFor; }
+    getVotes(): PartyCandidate[] { return this.votedFor; }
 
     /*
     changeVotes(votedFor: String): void {
@@ -26,7 +27,7 @@ export class VoterBallot {
         return (
             this.ballot === voterBallot.getBallot() &&
             this.voter === voterBallot.getVoter() &&
-            this.votedFor === voterBallot.getVotes()
+            voterBallot.getVotes().every((candidate) => {this.votedFor.includes(candidate)})
         );
     }
 }
