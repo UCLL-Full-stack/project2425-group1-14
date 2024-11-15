@@ -13,21 +13,11 @@ export class VoterBallot {
         this.votedFor = voterBallot.votedFor;
     }
 
-    getBallot(): Ballot { return this.ballot; }
-    getVoter(): Voter { return this.voter; }
-    getVotes(): PartyCandidate[] { return this.votedFor; }
-
-    /*
-    changeVotes(votedFor: String): void {
-        this.votedFor = votedFor;
-    }
-    */
-
     equals(voterBallot: VoterBallot): boolean {
         return (
-            this.ballot === voterBallot.getBallot() &&
-            this.voter === voterBallot.getVoter() &&
-            voterBallot.getVotes().every((candidate) => {this.votedFor.includes(candidate)})
+            this.ballot === voterBallot.ballot &&
+            this.voter === voterBallot.voter &&
+            voterBallot.votedFor.every((candidate) => {this.votedFor.includes(candidate)})
         );
     }
 }

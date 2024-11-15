@@ -9,13 +9,10 @@ export class Type {
         this.name = type.name;
     }
 
-    getId(): number | undefined { return this.id; }
-    getName(): string { return this.name; }
-
     equals(type: Type): boolean {
         return (
-            this.id === type.getId() &&
-            this.name === type.getName()
+            this.id === type.id &&
+            this.name === type.name
         );
     }
 

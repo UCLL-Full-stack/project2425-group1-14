@@ -1,6 +1,7 @@
 import { Type } from '../model/type';
 import typeDB from '../repository/type.db';
 import { TypeInput } from '../types';
+import { ServiceError } from '../types/serviceError';
 
 const getTypes = async () : Promise<Type[]> => {
     const types = await typeDB.getTypes();
@@ -9,15 +10,15 @@ const getTypes = async () : Promise<Type[]> => {
 
 const getTypeById = async (id: number): Promise<Type> => {
     const type = await typeDB.getTypeById({ id });
-    if (!type) throw new Error(`Type with id ${id} does not exist.`);
+    if (!type) throw new ServiceError(`Type with id ${id} does not exist.`);
     return type;
 };
 
 const createType = async ({ name }: TypeInput): Promise<Type> => {
-    if (!name) { throw new Error('Name was not provided')}
+    if (!name) { throw new ServiceError('Name was not provided')}
 
     const existingType = await typeDB.getTypeByName({name: name});
-    if (existingType.length > 0) throw new Error('Type with this name already exists.');
+    if (existingType.length > 0) throw new ServiceError('Type with this name already exists.');
 
     const newType = new Type({ name });
     return await typeDB.createType(newType);
