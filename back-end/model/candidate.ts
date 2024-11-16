@@ -1,22 +1,36 @@
-import { PartyCandidate } from "./partyCandidate";
-import {Region} from "./region";
+import { Region } from './region';
+import {
+    Candidate as CandidatePrisma,
+    Region as RegionPrisma,
+    Type as TypePrisma,
+} from '@prisma/client';
 
 export class Candidate {
-    readonly  id?: number;
-    readonly  name: string;
-    readonly  region: Region;
+    readonly id?: number;
+    readonly name: string;
+    readonly location: Region;
 
-    constructor(candidate: { name: string; region: Region; parties: PartyCandidate[]; id?: number }) {
+    constructor(candidate: { name: string; location: Region; id?: number }) {
         this.id = candidate.id;
         this.name = candidate.name;
-        this.region = candidate.region;
+        this.location = candidate.location;
     }
-    
+
     equals(candidate: Candidate): boolean {
         return (
             this.id === candidate.id &&
             this.name === candidate.name &&
-            this.region === candidate.region
+            this.location === candidate.location
         );
+    }
+
+    static from(
+        data: CandidatePrisma & { location: RegionPrisma & { type: TypePrisma } }
+    ): Candidate {
+        return new Candidate({
+            id: data.id,
+            name: data.name,
+            location: Region.from(data.location),
+        });
     }
 }

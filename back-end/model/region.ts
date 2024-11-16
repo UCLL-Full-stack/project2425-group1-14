@@ -1,11 +1,11 @@
-import {Type} from "./type";
-import {Region as RegionPrisma, Type as TypePrisma } from '@prisma/client';
+import { Type } from './type';
+import { Region as RegionPrisma, Type as TypePrisma } from '@prisma/client';
 
 export class Region {
-    readonly  id?: number;
-    readonly  name: string;
-    readonly  type: Type;
-    readonly  parent?: Region;
+    readonly id?: number;
+    readonly name: string;
+    readonly type: Type;
+    readonly parent?: Region;
 
     constructor(region: { name: string; type: Type; parent?: Region; id?: number }) {
         this.id = region.id;
@@ -23,12 +23,17 @@ export class Region {
         );
     }
 
-    static from(data: (RegionPrisma & {type: TypePrisma; parent?: (RegionPrisma & {type: TypePrisma}) | null})): Region {
+    static from(
+        data: RegionPrisma & {
+            type: TypePrisma;
+            parent?: (RegionPrisma & { type: TypePrisma }) | null;
+        }
+    ): Region {
         return new Region({
-            name: data.name, 
+            name: data.name,
             type: Type.from(data.type),
-            parent: data.parent ? Region.from(data.parent) : undefined, 
-            id: data.id
+            parent: data.parent ? Region.from(data.parent) : undefined,
+            id: data.id,
         });
     }
 }

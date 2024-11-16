@@ -1,8 +1,8 @@
 import { Type as TypePrisma } from '@prisma/client';
 
 export class Type {
-    readonly  id?: number;
-    readonly  name: string;
+    readonly id?: number;
+    readonly name: string;
 
     constructor(type: { name: string; id?: number }) {
         this.id = type.id;
@@ -10,13 +10,10 @@ export class Type {
     }
 
     equals(type: Type): boolean {
-        return (
-            this.id === type.id &&
-            this.name === type.name
-        );
+        return this.id === type.id && this.name === type.name;
     }
 
-    static from({ id, name }: TypePrisma) {
-        return new Type({name: name, id: id});
+    static from(data: TypePrisma) {
+        return new Type({ name: data.name, id: data.id });
     }
 }
