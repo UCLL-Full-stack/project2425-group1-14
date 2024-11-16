@@ -1,7 +1,6 @@
 import database from '../util/database';
 import { Type } from '../model/type';
 
-
 const getTypes = async (): Promise<Type[]> => {
     try {
         const typesPrisma = await database.type.findMany();

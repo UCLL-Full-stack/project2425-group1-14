@@ -4,10 +4,10 @@ import typeDB from '../repository/type.db';
 import { RegionInput } from '../types';
 import { ServiceError } from '../types/serviceError';
 
-const getRegions = async () : Promise<Region[]> => {
+const getRegions = async (): Promise<Region[]> => {
     const regions = await regionDB.getRegions();
     return regions;
-}
+};
 
 const getRegionById = async (id: number): Promise<Region> => {
     const region = await regionDB.getRegionById({ id });
@@ -25,11 +25,17 @@ const getRegionsByType = async (typeId: number): Promise<Region[]> => {
     return regions;
 };
 
-const createRegion = async({name, typeId, parentId}: RegionInput): Promise<Region> => {
-    if (!name) { throw new ServiceError('Name was not provided')}
-    if (!typeId) { throw new ServiceError('Type was not provided')}
-    if (!parentId) { parentId = null}
-    
+const createRegion = async ({ name, typeId, parentId }: RegionInput): Promise<Region> => {
+    if (!name) {
+        throw new ServiceError('Name was not provided');
+    }
+    if (!typeId) {
+        throw new ServiceError('Type was not provided');
+    }
+    if (!parentId) {
+        parentId = null;
+    }
+
     const type = await typeDB.getTypeById({ id: typeId });
     if (!type) throw new ServiceError(`Type with id ${typeId} does not exist.`);
 
@@ -39,10 +45,11 @@ const createRegion = async({name, typeId, parentId}: RegionInput): Promise<Regio
         if (!parent) throw new ServiceError(`Region with id ${parentId} does not exist.`);
     }
 
-    const existingRegion = await regionDB.getRegionByNameAndType({name: name, typeId: typeId});
-    if (existingRegion.length > 0) throw new ServiceError('Region with this name and typealready exists.');
+    const existingRegion = await regionDB.getRegionByNameAndType({ name: name, typeId: typeId });
+    if (existingRegion.length > 0)
+        throw new ServiceError('Region with this name and typealready exists.');
 
-    const newRegion = new Region({name, type, parent});
+    const newRegion = new Region({ name, type, parent });
     return await regionDB.createRegion(newRegion);
 };
 
@@ -51,4 +58,19 @@ const getChildren = async (parentId: number): Promise<Region[]> => {
     return regions;
 };
 
-export default { getRegions, getRegionById, getRegionsByName, getRegionsByType, createRegion, getChildren };
+/*
+const getParents = async (childId: number): Promise<Region[]> => {
+    const regions = await regionDB.getParents({ childId });
+    return regions;
+};
+*/
+
+export default {
+    getRegions,
+    getRegionById,
+    getRegionsByName,
+    getRegionsByType,
+    createRegion,
+    getChildren,
+    // getParents,
+};

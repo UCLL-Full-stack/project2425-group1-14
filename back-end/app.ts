@@ -5,6 +5,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { typeRouter } from './controller/type.routes';
+import { regionRouter } from './controller/region.routes';
 
 const app = express();
 dotenv.config();
@@ -14,6 +15,7 @@ app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
 
 app.use('/types', typeRouter);
+app.use('/regions', regionRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Hannọ API is running...' });
