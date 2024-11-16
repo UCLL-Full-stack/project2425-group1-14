@@ -39,6 +39,21 @@ export default function Home() {
           </div>
         </div>
 
+        <nav className={styles.nav}>
+          <a href="pages/admin/index.tsx" className={styles.navLink}>
+            dev
+          </a>
+
+
+          ---
+
+
+
+          <a href="voter/index.tsx" className={styles.navLink}>
+            voter
+          </a>
+        </nav>
+
         <div className={styles.center}>
           <Image
             className={styles.logo}
@@ -49,6 +64,11 @@ export default function Home() {
             priority
           />
         </div>
+
+
+
+
+
 
         <div className={styles.grid}>
           <a
