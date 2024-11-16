@@ -110,3 +110,4 @@ dist
 back-end/repository/prisma/migrations/
 back-end/util/hellcord.ts
 hanno.code-workspace
+back-end/repository/_base.db.ts

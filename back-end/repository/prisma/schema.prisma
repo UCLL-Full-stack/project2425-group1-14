@@ -41,7 +41,7 @@ model Party {
 model Candidate {
   id         Int              @id @default(autoincrement())
   name       String
-  region     Region           @relation(fields: [locationId], references: [id])
+  location   Region           @relation(fields: [locationId], references: [id])
   locationId Int
   parties    PartyCandidate[]
 }
@@ -59,10 +59,10 @@ model PartyCandidate {
 model Voter {
   id          Int           @id @default(autoincrement())
   name        String
-  email       String
+  email       String        @unique
   key         String
   phone       String
-  home        Region        @relation(fields: [locationId], references: [id])
+  location    Region        @relation(fields: [locationId], references: [id])
   locationId  Int
   VoterBallot VoterBallot[]
 }
