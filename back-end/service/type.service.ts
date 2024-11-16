@@ -1,7 +1,7 @@
 import { Type } from '../model/type';
 import typeDB from '../repository/type.db';
 import { TypeInput } from '../types';
-import { ServiceError } from '../types/serviceError';
+import { ServiceError } from '../types/error';
 
 const getTypes = async (): Promise<Type[]> => {
     const types = await typeDB.getTypes();

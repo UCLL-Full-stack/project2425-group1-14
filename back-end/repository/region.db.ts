@@ -1,6 +1,6 @@
 import database from '../util/database';
 import { Region } from '../model/region';
-import { Type } from '../model/type';
+import { RepositoryError } from '../types/error';
 
 const getRegions = async (): Promise<Region[]> => {
     try {
@@ -10,7 +10,7 @@ const getRegions = async (): Promise<Region[]> => {
         return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
     } catch (error) {
         console.error(error);
-        throw new Error('Database error. See server log for details.');
+        throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
@@ -24,7 +24,7 @@ const getRegionById = async ({ id }: { id: number }): Promise<Region | null> => 
         return regionPrisma ? Region.from(regionPrisma) : null;
     } catch (error) {
         console.error(error);
-        throw new Error('Database error. See server log for details.');
+        throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
@@ -37,7 +37,7 @@ const getRegionByName = async ({ name }: { name: string }): Promise<Region[]> =>
         return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
     } catch (error) {
         console.error(error);
-        throw new Error('Database error. See server log for details.');
+        throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
@@ -56,7 +56,7 @@ const getRegionByNameAndType = async ({
         return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
     } catch (error) {
         console.error(error);
-        throw new Error('Database error. See server log for details.');
+        throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
@@ -69,7 +69,7 @@ const getRegionsByName = async ({ name }: { name: string }): Promise<Region[]> =
         return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
     } catch (error) {
         console.error(error);
-        throw new Error('Database error. See server log for details.');
+        throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
@@ -88,7 +88,7 @@ const getRegionsByNameAndType = async ({
         return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
     } catch (error) {
         console.error(error);
-        throw new Error('Database error. See server log for details.');
+        throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
@@ -101,7 +101,7 @@ const getRegionsByType = async ({ typeId }: { typeId: number }): Promise<Region[
         return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
     } catch (error) {
         console.error(error);
-        throw new Error('Database error. See server log for details.');
+        throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
@@ -119,7 +119,7 @@ const createRegion = async ({ name, type, parent }: Region): Promise<Region> => 
         return Region.from(regionPrisma);
     } catch (error) {
         console.error(error);
-        throw new Error('Database error. See server log for details.');
+        throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
@@ -132,7 +132,7 @@ const getChildren = async ({ parentId }: { parentId: number }): Promise<Region[]
         return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
     } catch (error) {
         console.error(error);
-        throw new Error('Database error. See server log for details.');
+        throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
@@ -144,7 +144,7 @@ const getParents = async ({ childId }: { childId: number }): Promise<Region[]> =
         if (childRegion == null) { return parents; }
     } catch (error) {
         console.error(error);
-        throw new Error('Database error. See server log for details.');
+        throw new RepositoryError('Database error. See server log for details.');
     }
 
     while (childRegion.parent) {

@@ -2,7 +2,7 @@ import { Region } from '../model/region';
 import regionDB from '../repository/region.db';
 import typeDB from '../repository/type.db';
 import { RegionInput } from '../types';
-import { ServiceError } from '../types/serviceError';
+import { ServiceError } from '../types/error';
 
 const getRegions = async (): Promise<Region[]> => {
     const regions = await regionDB.getRegions();
