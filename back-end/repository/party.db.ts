@@ -1,19 +1,14 @@
 import database from '../util/database';
 import { Party } from '../model/party';
 import { RepositoryError } from '../types/error';
+import { Type } from '../model/type';
 
 const getParties = async (): Promise<Party[]> => {
     try {
-        const partiesPrisma = await database.party.findMany();
-        const parties = [];
-        for (const pt of partiesPrisma) {
-            const partyTypesPrisma = await database.partyType.findMany({
-                where: { partyId: {equals: pt.id}},
-                include: {type: true}
-            });
-            parties.push({ id: pt.id, name: pt.name, abbr: pt.abbr, logo: pt.logo, type: partyTypesPrisma.map(ptp => ptp.type)});
-        }
-        return parties.map((partyPrisma) => Party.from(partyPrisma));
+        const partiesPrisma = await database.party.findMany({
+            include: { type: true },
+        });
+        return partiesPrisma.map((partyPrisma) => Party.from(partyPrisma));
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
@@ -26,29 +21,39 @@ const getPartyById = async ({ id }: { id: number }): Promise<Party | null> => {
             where: { id: id },
             include: { type: true },
         });
-        if (partyPrisma == null) { return null }
-        const partyTypesPrisma = await database.partyType.findMany({
-            where: { partyId: {equals: partyPrisma.id}},
-            include: {type: true}
-        });
-        return Party.from({ id: partyPrisma.id, name: partyPrisma.name, abbr: partyPrisma.abbr, logo: partyPrisma.logo, type: partyTypesPrisma.map(ptp => ptp.type)})
+        return partyPrisma ? Party.from(partyPrisma) : null;
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
-const createParty = async ({ name, abbr, logo }: Party): Promise<Party> => {
+const createParty = async ({ name, abbr, logo, type }: Party): Promise<Party> => {
     try {
         const partyPrisma = await database.party.create({
             data: {
                 name: name,
                 abbr: abbr,
-                logo: logo
-            }
+                logo: logo,
+                type: { connect: { id: type.id } },
+            },
+            include: { type: true },
         });
 
-        return Party.from({ id: partyPrisma.id, name: partyPrisma.name, abbr: partyPrisma.abbr, logo: partyPrisma.logo, type: []});
+        return Party.from(partyPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
+const getPartiesByType = async ({ typeId }: { typeId: number }): Promise<Party[]> => {
+    try {
+        const partiesPrisma = await database.party.findMany({
+            where: { typeId: typeId },
+            include: { type: true },
+        });
+        return partiesPrisma.map((p) => Party.from(p));
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
@@ -58,5 +63,6 @@ const createParty = async ({ name, abbr, logo }: Party): Promise<Party> => {
 export default {
     getParties,
     getPartyById,
-    createParty
-}
+    createParty,
+    getPartiesByType,
+};

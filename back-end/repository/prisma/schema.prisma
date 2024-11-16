@@ -8,10 +8,10 @@ datasource db {
 }
 
 model Type {
-  id        Int         @id @default(autoincrement())
-  name      String
-  Region    Region[]
-  PartyType PartyType[]
+  id     Int      @id @default(autoincrement())
+  name   String
+  Region Region[]
+  Party  Party[]
 }
 
 model Region {
@@ -32,19 +32,10 @@ model Party {
   name           String
   abbr           String
   logo           String
-  type           PartyType[]
+  type           Type             @relation(fields: [typeId], references: [id])
+  typeId         Int
   PartyCandidate PartyCandidate[]
   BallotParty    BallotParty[]
-}
-
-model PartyType {
-  type     Type  @relation(fields: [typeId], references: [id])
-  typeId   Int
-  party    Party @relation(fields: [partyId], references: [id])
-  partyId  Int
-  position Int   @default(autoincrement())
-
-  @@id([typeId, partyId])
 }
 
 model Candidate {

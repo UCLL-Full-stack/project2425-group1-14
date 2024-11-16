@@ -13,7 +13,6 @@ const main = async () => {
     await prisma.voter.deleteMany();
     await prisma.partyCandidate.deleteMany();
     await prisma.candidate.deleteMany();
-    await prisma.partyType.deleteMany();
     await prisma.party.deleteMany();
     await prisma.region.deleteMany();
     await prisma.type.deleteMany();
@@ -55,19 +54,6 @@ const main = async () => {
     const regionNamurCite = await prisma.region.create({data: { name: "Namur", type: { connect: { id: typeMunicipal.id }}, parent: { connect: { id: regionNamur.id}}}});
     const regionWavre = await prisma.region.create({data: { name: "Wavre", type: { connect: { id: typeMunicipal.id }}, parent: { connect: { id: regionBrabantWallon.id}}}});
     const regionBruxelles = await prisma.region.create({data: { name: "Bruxelles", type: { connect: { id: typeMunicipal.id }}, parent: { connect: { id: regionBrussels.id}}}});
-
-    const partyPVDAPTB = await prisma.party.create({ data: { name: "Partij van de Arbeid van België - Parti du travail de Belgique", abbr: "PVDA-PTB", logo: "https://upload.wikimedia.org/wikipedia/commons/e/e5/PVDAPTB-2022-icon-profile01.png"}});
-    await prisma.partyType.createMany({data: [{typeId: typeEuropean.id, partyId: partyPVDAPTB.id }, { typeId: typeNational.id, partyId: partyPVDAPTB.id }, { typeId: typeRegional.id, partyId: partyPVDAPTB.id }, { typeId: typeProvincial.id, partyId: partyPVDAPTB.id }, { typeId: typeMunicipal.id, partyId: partyPVDAPTB.id }]});
-    const partyVooruit = await prisma.party.create({ data: { name: "VOORUIT", abbr: "VOORUIT", logo: "https://scontent-bru2-1.xx.fbcdn.net/v/t39.30808-6/456201351_918460983654762_1258929504954960520_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=oDo-hayEGjQQ7kNvgHR5f2N&_nc_zt=23&_nc_ht=scontent-bru2-1.xx&_nc_gid=A-SgP0N5GVvmExYX2i50iwh&oh=00_AYDtOiY2l8zOtovrZvYJnGg4Ue0FDFMfL_7HNyQniW5nVw&oe=673C72A5"}});
-    await prisma.partyType.createMany({data: [{typeId: typeEuropean.id, partyId: partyVooruit.id }, { typeId: typeNational.id, partyId: partyVooruit.id }, { typeId: typeRegional.id, partyId: partyVooruit.id }, { typeId: typeProvincial.id, partyId: partyVooruit.id }, { typeId: typeMunicipal.id, partyId: partyVooruit.id }]});
-
-    const candidateJosDHaese = await prisma.candidate.create({ data: { name: "Jos d'Haese", region: { connect: { id: regionAntwerpenStad.id }}}});
-    await prisma.partyCandidate.create({ data: {partyId: partyPVDAPTB.id, candidateId: candidateJosDHaese.id, position: 1}});
-
-    const voterSapero = await prisma.voter.create({ data: { name: "Julia Icosa", email: "sapero@icosahedr.online", phone: "", key: "icosa", home: { connect: {id: regionHeers.id}}}});
-    const ballotFederaal24 = await prisma.ballot.create({ data: {name: "Federale Verkiezing België 2024", minimum: 0, maximum: 1, system: "D'Hondt", location: { connect: { id: regionBelgium.id }}}});
-    await prisma.ballotParty.createMany({ data: [{ballotId: ballotFederaal24.id, partyId: partyPVDAPTB.id}, {ballotId: ballotFederaal24.id, partyId: partyVooruit.id}, ]});
-    await prisma.voterBallot.createMany({ data: [{voterId: voterSapero.id, ballotId: ballotFederaal24.id, votedFor: JSON.stringify({1: [partyPVDAPTB.id]})}]});
 
 };
 

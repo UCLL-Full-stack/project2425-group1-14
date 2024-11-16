@@ -24,7 +24,7 @@ export class BallotParty {
     static from(
         data: BallotPartyPrisma & {
             ballot: BallotPrisma & { location: RegionPrisma & { type: TypePrisma } };
-            party: PartyPrisma & { type: TypePrisma[] };
+            party: PartyPrisma & { type: TypePrisma };
         }
     ): BallotParty {
         return new BallotParty({

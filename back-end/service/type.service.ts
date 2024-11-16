@@ -20,7 +20,9 @@ const createType = async ({ name }: TypeInput): Promise<Type> => {
     }
 
     const existingType = await typeDB.getTypeByName({ name: name });
-    if (existingType.length > 0) throw new ServiceError('Type with this name already exists.');
+    if (existingType.length > 0) {
+        throw new ServiceError('Type with this name already exists.');
+    }
 
     const newType = new Type({ name });
     return await typeDB.createType(newType);

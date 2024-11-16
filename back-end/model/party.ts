@@ -6,9 +6,9 @@ export class Party {
     readonly name: string;
     readonly abbr: string;
     readonly logo: string;
-    readonly type: Type[];
+    readonly type: Type;
 
-    constructor(party: { name: string; abbr: string; logo: string; type: Type[]; id?: number }) {
+    constructor(party: { name: string; abbr: string; logo: string; type: Type; id?: number }) {
         this.id = party.id;
         this.name = party.name;
         this.abbr = party.abbr;
@@ -26,13 +26,13 @@ export class Party {
         );
     }
 
-    static from(data: PartyPrisma & { type: TypePrisma[] }): Party {
+    static from(data: PartyPrisma & { type: TypePrisma}): Party {
         return new Party({
             id: data.id,
             name: data.name,
             abbr: data.abbr,
             logo: data.logo,
-            type: data.type.map((t) => Type.from(t)),
+            type: Type.from(data.type),
         });
     }
 }

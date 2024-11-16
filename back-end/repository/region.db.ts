@@ -28,10 +28,10 @@ const getRegionById = async ({ id }: { id: number }): Promise<Region | null> => 
     }
 };
 
-const getRegionByName = async ({ name }: { name: string }): Promise<Region[]> => {
+const getRegionsByName = async ({ name }: { name: string }): Promise<Region[]> => {
     try {
         const regionsPrisma = await database.region.findMany({
-            where: { name: { equals: name } },
+            where: { name: { contains: name } },
             include: { type: true, parent: { include: { type: true } } },
         });
         return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
@@ -60,19 +60,6 @@ const getRegionByNameAndType = async ({
     }
 };
 
-const getRegionsByName = async ({ name }: { name: string }): Promise<Region[]> => {
-    try {
-        const regionsPrisma = await database.region.findMany({
-            where: { name: { contains: name } },
-            include: { type: true, parent: { include: { type: true } } },
-        });
-        return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
-    } catch (error) {
-        console.error(error);
-        throw new RepositoryError('Database error. See server log for details.');
-    }
-};
-
 const getRegionsByNameAndType = async ({
     name,
     typeId,
@@ -82,7 +69,7 @@ const getRegionsByNameAndType = async ({
 }): Promise<Region[]> => {
     try {
         const regionsPrisma = await database.region.findMany({
-            where: { name: { equals: name }, typeId: { equals: typeId } },
+            where: { name: { contains: name }, typeId: { equals: typeId } },
             include: { type: true, parent: { include: { type: true } } },
         });
         return regionsPrisma.map((regionPrisma) => Region.from(regionPrisma));
@@ -136,33 +123,30 @@ const getChildren = async ({ parentId }: { parentId: number }): Promise<Region[]
     }
 };
 
-/*
 const getParents = async ({ childId }: { childId: number }): Promise<Region[]> => {
     var parents: Region[] = [];
     try {
-        var childRegion = await getRegionById({id: childId});
-        if (childRegion == null) { return parents; }
+        var childRegion = await getRegionById({ id: childId });
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
     }
 
-    while (childRegion.parent) {
-        parents.push(childRegion.parent)
+    while (childRegion != null && childRegion.parent) {
+        parents.push(childRegion.parent);
+        var childRegion = await getRegionById({ id: childId });
     }
     return parents;
 };
-*/
 
 export default {
     getRegions,
     getRegionById,
-    getRegionByName,
-    getRegionByNameAndType,
     getRegionsByName,
+    getRegionByNameAndType,
     getRegionsByNameAndType,
     getRegionsByType,
     createRegion,
     getChildren,
-    // getParents
+    getParents,
 };

@@ -30,7 +30,7 @@ export class PartyCandidate {
     static from(
         data: PartyCandidatePrisma & {
             candidate: CandidatePrisma & { location: RegionPrisma & { type: TypePrisma } };
-            party: PartyPrisma & { type: TypePrisma[] };
+            party: PartyPrisma & { type: TypePrisma };
         }
     ): PartyCandidate {
         return new PartyCandidate({
