@@ -40,7 +40,7 @@ export default function Home() {
         </div>
 
         <nav className={styles.nav}>
-          <a href="pages/admin/index.tsx" className={styles.navLink}>
+          <a href="/admin" className={styles.navLink}>
             dev
           </a>
 
@@ -49,7 +49,7 @@ export default function Home() {
 
 
 
-          <a href="voter/index.tsx" className={styles.navLink}>
+          <a href="/voter" className={styles.navLink}>
             voter
           </a>
         </nav>

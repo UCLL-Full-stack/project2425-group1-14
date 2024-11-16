@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "@material-ui/core": "^4.12.4",
+    "@types/axios": "^0.9.36",
+    "axios": "^1.7.7",
     "react-router-dom": "^6.28.0"
   },
   "devDependencies": {

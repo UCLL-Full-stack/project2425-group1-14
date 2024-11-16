@@ -1,44 +1,52 @@
-import React from 'react';
-import { Container, Typography, Paper, Button, TextField, List, ListItem, ListItemText } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const AdminVotingPage: React.FC = () => {
+interface VoterStats {
+    totalVoters: number;
+    totalVotes: number;
+    totalCandidates: number;
+}
+
+const AdminPage: React.FC = () => {
+    const [stats, setStats] = useState<VoterStats | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const response = await axios.get('/api/admin/stats');
+                setStats(response.data as VoterStats);
+            } catch (err) {
+                setError('Failed to fetch statistics');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchStats();
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
     return (
-        <Container>
-            <Typography variant="h3" gutterBottom>
-                Admin Voting Page
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-                Welcome to the admin voting page. Here you can manage the voting process.
-            </Typography>
-            <Paper style={{ padding: 16, marginBottom: 16 }}>
-                <Typography variant="h5" gutterBottom>
-                    Create New Vote
-                </Typography>
-                <form noValidate autoComplete="off">
-                    <TextField label="Vote Title" fullWidth margin="normal" />
-                    <TextField label="Description" fullWidth margin="normal" multiline rows={4} />
-                    <Button variant="contained" color="primary" style={{ marginTop: 16 }}>
-                        Create Vote
-                    </Button>
-
-                </form>
-            </Paper>
-            <Paper style={{ padding: 16 }}>
-                <Typography variant="h5" gutterBottom>
-                    Current Votes
-                </Typography>
-                <List>
-                    <ListItem>
-                        <ListItemText primary="Vote 1" secondary="Description of vote 1" />
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText primary="Vote 2" secondary="Description of vote 2" />
-                    </ListItem>
-                    {/* moeten hier beschikbare opties zetten voor votes, best met backend */}
-                </List>
-            </Paper>
-        </Container>
+        <div>
+            <h1>Admin Dashboard</h1>
+            {stats && (
+                <div>
+                    <p>Total Voters: {stats.totalVoters}</p>
+                    <p>Total Votes: {stats.totalVotes}</p>
+                    <p>Total Candidates: {stats.totalCandidates}</p>
+                </div>
+            )}
+        </div>
     );
 };
 
-export default AdminVotingPage;
+export default AdminPage;
