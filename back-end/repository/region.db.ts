@@ -123,20 +123,50 @@ const getChildren = async ({ parentId }: { parentId: number }): Promise<Region[]
     }
 };
 
-const getParents = async ({ childId }: { childId: number }): Promise<Region[]> => {
-    var parents: Region[] = [];
+const getChildrenRecursive = async ({ parentId }: { parentId: number }): Promise<Region[]> => {
     try {
-        var childRegion = await getRegionById({ id: childId });
+        var children: Region[] = [];
+
+        var childRegions = [await getRegionById({ id: parentId })];
+        
+        while (childRegions.some(c => c !== null)) {
+            var layer: Region[][] = [];
+            for (const childRegion of childRegions) { if (childRegion != null) { children.push(childRegion); }}
+            for (const childRegion of childRegions) {
+                if (childRegion == null) { continue; }
+                if (childRegion.id === undefined) { throw new RepositoryError("Child region somehow has an undefined ID.")}
+                layer.push(await getChildren({parentId: childRegion.id}));
+            }
+            childRegions = [];
+            for (const arr of layer) {
+                childRegions.push(...arr)
+            }
+        }
+        return children;
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
     }
+};
 
-    while (childRegion != null && childRegion.parent) {
-        parents.push(childRegion.parent);
+const getParents = async ({ childId }: { childId: number }): Promise<Region[]> => {
+    try {
+        var parents: Region[] = [];
+
         var childRegion = await getRegionById({ id: childId });
+
+        while (childRegion != null && childRegion.parent) {
+            parents.push(childRegion.parent);
+            if (childRegion.parent.id == null) {
+                throw new RepositoryError("Parent somehow has null ID")
+            }
+            var childRegion = await getRegionById({ id: childRegion.parent.id });
+        }
+        return parents;
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
     }
-    return parents;
 };
 
 const deleteRegionById = async ({ id }: { id: number }): Promise<String> => {
@@ -166,6 +196,7 @@ export default {
     getRegionsByType,
     createRegion,
     getChildren,
+    getChildrenRecursive,
     getParents,
     deleteRegionById
 };

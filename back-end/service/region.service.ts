@@ -70,6 +70,11 @@ const getChildren = async (parentId: number): Promise<Region[]> => {
     return regions;
 };
 
+const getChildrenRecursive = async (parentId: number): Promise<Region[]> => {
+    const regions = await regionDB.getChildrenRecursive({ parentId });
+    return regions;
+};
+
 const getParents = async (childId: number): Promise<Region[]> => {
     const regions = await regionDB.getParents({ childId });
     return regions;
@@ -83,5 +88,6 @@ export default {
     getRegionsByNameAndType,
     createRegion,
     getChildren,
+    getChildrenRecursive,
     getParents,
 };
