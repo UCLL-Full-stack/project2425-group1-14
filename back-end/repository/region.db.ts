@@ -139,6 +139,24 @@ const getParents = async ({ childId }: { childId: number }): Promise<Region[]> =
     return parents;
 };
 
+const deleteRegionById = async ({ id }: { id: number }): Promise<String> => {
+    try {
+        const ballotPrisma = await database.ballot.deleteMany({
+            where: { locationId: id }
+        });
+        const voterPrisma = await database.voter.deleteMany({
+            where: { locationId: id }
+        });
+        const regionsPrisma = await database.region.deleteMany({
+            where: { id: id }
+        });
+        return `Deleted ${ballotPrisma.count} Ballots, ${voterPrisma} Voters and ${regionsPrisma.count} Regions.`
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.\nIf you\'re not a server admin, please make sure any Ballots, Voters, VoterBallots or BallotParties have been deleted first.');
+    }
+};
+
 export default {
     getRegions,
     getRegionById,
@@ -149,4 +167,5 @@ export default {
     createRegion,
     getChildren,
     getParents,
+    deleteRegionById
 };
