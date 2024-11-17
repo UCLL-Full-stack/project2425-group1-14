@@ -235,7 +235,9 @@ const changeRegionParent = async ({
         return Region.from(regionPrisma);
     } catch (error) {
         console.error(error);
-        throw new RepositoryError('Database error. See server log for details. Check if the provided parent ID is not a child of the provided region.');
+        throw new RepositoryError(
+            'Database error. See server log for details. Check if the provided parent ID is not a child of the provided region.'
+        );
     }
 };
 

@@ -56,18 +56,20 @@ const createType = async ({ name }: Type): Promise<Type> => {
 const deleteTypeById = async ({ id }: { id: number }): Promise<String> => {
     try {
         const partyPrisma = await database.party.deleteMany({
-            where: { typeId: id }
+            where: { typeId: id },
         });
         const regionPrisma = await database.party.deleteMany({
-            where: { typeId: id }
+            where: { typeId: id },
         });
         const typePrisma = await database.party.deleteMany({
-            where: { id: id }
+            where: { id: id },
         });
-        return `Deleted ${partyPrisma.count} Parties, ${regionPrisma} Regions and ${typePrisma.count} Types.`
+        return `Deleted ${partyPrisma.count} Parties, ${regionPrisma} Regions and ${typePrisma.count} Types.`;
     } catch (error) {
         console.error(error);
-        throw new RepositoryError('Database error. See server log for details.\nIf you are not a server admin, please check that any parties or regions with this type are deleted first.');
+        throw new RepositoryError(
+            'Database error. See server log for details.\nIf you are not a server admin, please check that any parties or regions with this type are deleted first.'
+        );
     }
 };
 
@@ -77,7 +79,7 @@ const changeTypeName = async ({ id, name }: { id: number; name: string }): Promi
             where: { id: id },
             data: {
                 name: name,
-            }
+            },
         });
         return Type.from(typePrisma);
     } catch (error) {
@@ -92,5 +94,5 @@ export default {
     getTypeByName,
     createType,
     deleteTypeById,
-    changeTypeName
+    changeTypeName,
 };

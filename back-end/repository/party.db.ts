@@ -53,7 +53,13 @@ const getPartiesByType = async ({ typeId }: { typeId: number }): Promise<Party[]
     }
 };
 
-const getPartiesByNameAndType = async ({ name, typeId }: { name: string, typeId: number }): Promise<Party[]> => {
+const getPartiesByNameAndType = async ({
+    name,
+    typeId,
+}: {
+    name: string;
+    typeId: number;
+}): Promise<Party[]> => {
     try {
         const partiesPrisma = await database.party.findMany({
             where: { name: { contains: name }, typeId: typeId },
@@ -88,15 +94,15 @@ const createParty = async ({ name, abbr, logo, type }: Party): Promise<Party> =>
 const deletePartyById = async ({ id }: { id: number }): Promise<String> => {
     try {
         const candidatesPartyPrisma = await database.partyCandidate.deleteMany({
-            where: { partyId: id }
+            where: { partyId: id },
         });
         const ballotPartyPrisma = await database.ballotParty.deleteMany({
-            where: { partyId: id }
+            where: { partyId: id },
         });
         const partiesPrisma = await database.party.deleteMany({
-            where: { id: id }
+            where: { id: id },
         });
-        return `Deleted ${candidatesPartyPrisma.count} PartyCandidates, ${ballotPartyPrisma} BallotParties and ${partiesPrisma.count} Parties.`
+        return `Deleted ${candidatesPartyPrisma.count} PartyCandidates, ${ballotPartyPrisma} BallotParties and ${partiesPrisma.count} Parties.`;
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
@@ -156,7 +162,7 @@ const changePartyType = async ({ id, typeId }: { id: number; typeId: number }): 
         const partyPrisma = await database.party.update({
             where: { id: id },
             data: {
-                type: { connect: { id: typeId }},
+                type: { connect: { id: typeId } },
             },
             include: { type: true },
         });

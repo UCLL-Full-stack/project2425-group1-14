@@ -51,8 +51,7 @@ const createVoter = async ({ name, email, key, locationId }: VoterInput): Promis
 
     const newVoter = new Voter({ name, email, key, location });
     return await voterDB.createVoter(newVoter);
-
-}
+};
 
 const deleteVoterById = async (id: number): Promise<String> => {
     const voter = await voterDB.deleteVoterById({ id });
@@ -107,5 +106,4 @@ export default {
     changeVoterEmail,
     changeVoterKey,
     changeVoterRegion,
-    
 };

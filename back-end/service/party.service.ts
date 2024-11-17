@@ -45,7 +45,8 @@ const createParty = async ({ name, abbr, logo, typeId }: PartyInput): Promise<Pa
     }
     if (!logo) {
         // Transparent 1x1 pixel Base64
-        logo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII=";
+        logo =
+            'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII=';
     }
 
     const type = await typeDB.getTypeById({ id: typeId });
@@ -55,8 +56,7 @@ const createParty = async ({ name, abbr, logo, typeId }: PartyInput): Promise<Pa
 
     const newParty = new Party({ name, abbr, logo, type });
     return await partyDB.createParty(newParty);
-
-}
+};
 
 const deletePartyById = async (id: number): Promise<String> => {
     const party = await partyDB.deletePartyById({ id });
