@@ -7,12 +7,12 @@
 
 ## 2 - Back-end: Rest API wih Node.js & Express.js
 - [~] Alle lagen worden geïmplementeerd volgens de principes van gelaagde architectuur:
-    - [~] Domein
+    - [x] Domein
     - [~] Services
     - [~] Controllers
 - [x] Validatie:
     - [x] Controllers bevatten geen validatie.
-    - [X] Services bevatten overkoepelende validatieregels.
+    - [x] Services bevatten overkoepelende validatieregels.
     - [x] Domeinobjecten bevatten input validatie en business validatie die specifiek zijn voor dat domeinobject.
 - [ ] Testen:
     - [ ] Alle domeinobjecten zijn volledig getest met Jest, inclusief validatie.
@@ -36,7 +36,7 @@
 
 ## 4 - Database ✓
 - [x] Je werkt niet langer met statische gegevens in de repositories, maar met een echte database.
-- [X] Wijzigingen aan bestaande entiteiten moeten in de servicelaag via het domeinmodel worden gedaan en pas daarna via de repository-laag naar de database worden gestuurd. Op deze manier worden business- en validatieregels niet geschonden.
+- [x] Wijzigingen aan bestaande entiteiten moeten in de servicelaag via het domeinmodel worden gedaan en pas daarna via de repository-laag naar de database worden gestuurd. Op deze manier worden business- en validatieregels niet geschonden.
 - [x] Het databaseschema wordt gemodelleerd in een Prisma-schema en de Prisma-client wordt gegenereerd.
 - [x] Databaseobjecten in de domeinlaag gebruiken de Prisma-client om de database te bevragen.
 - [x] Er worden geen Prisma-objecten doorgegeven aan de servicelaag. Prisma-objecten worden gekoppeld aan domeinobjecten in een statische from-methode van het bijbehorende domeinobject.

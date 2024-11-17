@@ -108,7 +108,7 @@ const changeVoterEmail = async ({ id, email }: { id: number; email: string }): P
         const voterPrisma = await database.voter.update({
             where: { id: id },
             data: {
-                name: email,
+                email: email,
             },
             include: { location: { include: { type: true } } },
         });
@@ -168,4 +168,9 @@ export default {
     changeVoterEmail,
     changeVoterKey,
     changeVoterRegion,
+    /*
+    submitVote,
+    updateVote,
+    deleteVote,
+    */
 };

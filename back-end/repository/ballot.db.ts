@@ -182,4 +182,8 @@ export default {
     changeBallotName,
     changeBallotMinimum,
     changeBallotMaximum,
+    /*
+    addPartyToBallot,
+    removePartyFromBallot,
+    */
 };
