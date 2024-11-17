@@ -40,7 +40,13 @@ const getBallotsByRegion = async ({ locationId }: { locationId: number }): Promi
     }
 };
 
-const createBallot = async ({name, system, minimum, maximum, location}: Ballot): Promise<Ballot> => {
+const createBallot = async ({
+    name,
+    system,
+    minimum,
+    maximum,
+    location,
+}: Ballot): Promise<Ballot> => {
     try {
         const ballotPrisma = await database.ballot.create({
             data: {
@@ -48,7 +54,7 @@ const createBallot = async ({name, system, minimum, maximum, location}: Ballot):
                 system: system,
                 minimum: minimum,
                 maximum: maximum,
-                location: {connect: {id: location.id}}
+                location: { connect: { id: location.id } },
             },
             include: { location: { include: { type: true } } },
         });
@@ -57,7 +63,7 @@ const createBallot = async ({name, system, minimum, maximum, location}: Ballot):
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
     }
-}
+};
 
 const changeBallotName = async ({ id, name }: { id: number; name: string }): Promise<Ballot> => {
     try {
@@ -75,7 +81,13 @@ const changeBallotName = async ({ id, name }: { id: number; name: string }): Pro
     }
 };
 
-const changeBallotMinimum = async ({ id, minimum }: { id: number; minimum: number }): Promise<Ballot> => {
+const changeBallotMinimum = async ({
+    id,
+    minimum,
+}: {
+    id: number;
+    minimum: number;
+}): Promise<Ballot> => {
     try {
         const ballotPrisma = await database.ballot.update({
             where: { id: id },
@@ -91,7 +103,13 @@ const changeBallotMinimum = async ({ id, minimum }: { id: number; minimum: numbe
     }
 };
 
-const changeBallotMaximum = async ({ id, maximum }: { id: number; maximum: number }): Promise<Ballot> => {
+const changeBallotMaximum = async ({
+    id,
+    maximum,
+}: {
+    id: number;
+    maximum: number;
+}): Promise<Ballot> => {
     try {
         const ballotPrisma = await database.ballot.update({
             where: { id: id },
