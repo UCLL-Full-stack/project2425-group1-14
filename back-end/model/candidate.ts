@@ -1,3 +1,4 @@
+import { DomainError } from '../types/error';
 import { Region } from './region';
 import {
     Candidate as CandidatePrisma,
@@ -11,9 +12,16 @@ export class Candidate {
     readonly location: Region;
 
     constructor(candidate: { name: string; location: Region; id?: number }) {
+        this.validate(candidate);
         this.id = candidate.id;
         this.name = candidate.name;
         this.location = candidate.location;
+    }
+
+    validate(candidate: { name: string }): void {
+        if (candidate.name.trim() == '') {
+            throw new DomainError('Name cannot be empty');
+        }
     }
 
     equals(candidate: Candidate): boolean {

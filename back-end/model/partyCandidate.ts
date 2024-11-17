@@ -1,3 +1,4 @@
+import { DomainError } from '../types/error';
 import { Candidate } from './candidate';
 import { Party } from './party';
 import {
@@ -14,9 +15,16 @@ export class PartyCandidate {
     readonly position: number;
 
     constructor(partyCandidate: { candidate: Candidate; party: Party; position: number }) {
+        this.validate(partyCandidate);
         this.candidate = partyCandidate.candidate;
         this.party = partyCandidate.party;
         this.position = partyCandidate.position;
+    }
+
+    validate(partyCandidate: { position: number }) {
+        if (partyCandidate.position < 1) {
+            throw new DomainError('Position cannot be negative');
+        }
     }
 
     equals(partyCandidate: PartyCandidate): boolean {

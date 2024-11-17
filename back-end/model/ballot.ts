@@ -1,3 +1,4 @@
+import { DomainError } from '../types/error';
 import { Region } from './region';
 import { Ballot as BallotPrisma, Region as RegionPrisma, Type as TypePrisma } from '@prisma/client';
 
@@ -17,12 +18,22 @@ export class Ballot {
         location: Region;
         id?: number;
     }) {
+        this.validate(ballot);
         this.id = ballot.id;
         this.name = ballot.name;
         this.system = ballot.system;
         this.minimum = ballot.minimum;
         this.maximum = ballot.maximum;
         this.location = ballot.location;
+    }
+
+    validate(ballot: { name: string; minimum: number; maximum: number }): void {
+        if (ballot.name.trim() == '') {
+            throw new DomainError('Name cannot be empty');
+        }
+        if (ballot.maximum > 0 && ballot.minimum > ballot.maximum) {
+            throw new DomainError('Minimum cannot be more than maximum');
+        }
     }
 
     equals(ballot: Ballot): boolean {

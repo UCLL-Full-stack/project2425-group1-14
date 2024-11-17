@@ -10,10 +10,10 @@
     - [~] Domein
     - [~] Services
     - [~] Controllers
-- [ ] Validatie:
+- [x] Validatie:
     - [x] Controllers bevatten geen validatie.
     - [~] Services bevatten overkoepelende validatieregels.
-    - [~] Domeinobjecten bevatten input validatie en business validatie die specifiek zijn voor dat domeinobject.
+    - [x] Domeinobjecten bevatten input validatie en business validatie die specifiek zijn voor dat domeinobject.
 - [ ] Testen:
     - [ ] Alle domeinobjecten zijn volledig getest met Jest, inclusief validatie.
     - [ ] Alle services zijn volledig getest met Jest.
