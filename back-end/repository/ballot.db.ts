@@ -1,6 +1,8 @@
 import database from '../util/database';
 import { RepositoryError } from '../types/error';
 import { Ballot } from '../model/ballot';
+import { BallotParty } from '../model/ballotParty';
+import { Party } from '../model/party';
 
 const getBallots = async (): Promise<Ballot[]> => {
     try {
@@ -34,6 +36,32 @@ const getBallotsByRegion = async ({ locationId }: { locationId: number }): Promi
             include: { location: { include: { type: true } } },
         });
         return ballotsPrisma.map((ballotPrisma) => Ballot.from(ballotPrisma));
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
+const getPartiesByBallot = async ({ id }: { id: number }): Promise<Party[]> => {
+    try {
+        const partyBallotsPrisma = await database.ballotParty.findMany({
+            where: { ballotId: id },
+            include: { party: { include: { type: true } } },
+        });
+
+        return partyBallotsPrisma.map((partyBallotPrisma) => Party.from(partyBallotPrisma.party));
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
+const getVotesByBallot = async ({ id }: { id: number }): Promise<Object[]> => {
+    try {
+        const voterBallotPrisma = await database.voterBallot.findMany({
+            where: { ballotId: id },
+        });
+        return voterBallotPrisma.map((votedPrisma) => JSON.parse(votedPrisma.votedFor));
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
@@ -147,6 +175,8 @@ export default {
     getBallots,
     getBallotById,
     getBallotsByRegion,
+    getPartiesByBallot,
+    getVotesByBallot,
     createBallot,
     deleteBallotById,
     changeBallotName,
