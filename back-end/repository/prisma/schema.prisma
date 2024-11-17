@@ -65,7 +65,6 @@ model Voter {
   name        String
   email       String        @unique
   key         String
-  phone       String
   location    Region        @relation(fields: [locationId], references: [id])
   locationId  Int
   VoterBallot VoterBallot[]

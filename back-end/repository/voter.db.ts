@@ -53,13 +53,12 @@ const getVotersByRegion = async ({ locationId }: { locationId: number }): Promis
     }
 };
 
-const createVoter = async ({ name, email, phone, key, location }: Voter): Promise<Voter> => {
+const createVoter = async ({ name, email, key, location }: Voter): Promise<Voter> => {
     try {
         const voterPrisma = await database.voter.create({
             data: {
                 name: name,
                 email: email,
-                phone: phone,
                 key: key,
                 location: { connect: { id: location.id } },
             },
