@@ -85,6 +85,22 @@ const deleteRegionById = async (id: number): Promise<String> => {
     return region;
 };
 
+const changeRegionName = async (id: number, name: string): Promise<Region> => {
+    const region = await regionDB.changeRegionName({ id, name });
+    if (!region) {
+        throw new ServiceError(`Region with id ${id} does not exist.`);
+    }
+    return region;
+};
+
+const changeRegionParent = async (id: number, parentId: number): Promise<Region> => {
+    const region = await regionDB.changeRegionParent({ id, parentId });
+    if (!region) {
+        throw new ServiceError(`Region with id ${id} does not exist.`);
+    }
+    return region;
+};
+
 export default {
     getRegions,
     getRegionById,
@@ -96,4 +112,6 @@ export default {
     getChildrenRecursive,
     getParents,
     deleteRegionById,
+    changeRegionName,
+    changeRegionParent,
 };

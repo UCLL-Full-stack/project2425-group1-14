@@ -10,7 +10,9 @@ const getTypes = async (): Promise<Type[]> => {
 
 const getTypeById = async (id: number): Promise<Type> => {
     const type = await typeDB.getTypeById({ id });
-    if (!type) throw new ServiceError(`Type with id ${id} does not exist.`);
+    if (!type) {
+        throw new ServiceError(`Type with id ${id} does not exist.`);
+    }
     return type;
 };
 
@@ -40,6 +42,9 @@ const deleteTypeById = async (id: number): Promise<String> => {
 
 const changeTypeName = async (id: number, name: string): Promise<Type> => {
     const type = await typeDB.changeTypeName({ id, name });
+    if (!type) {
+        throw new ServiceError(`Type with id ${id} does not exist.`);
+    }
     return type;
 };
 
