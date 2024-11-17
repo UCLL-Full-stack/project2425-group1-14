@@ -1,6 +1,6 @@
+import { Candidate } from '../model/candidate';
 import { Party } from '../model/party';
 import partyDB from '../repository/party.db';
-import regionDb from '../repository/region.db';
 import typeDB from '../repository/type.db';
 import { PartyInput } from '../types';
 import { ServiceError } from '../types/error';
@@ -32,6 +32,11 @@ const getPartiesByNameAndType = async (name: string, id: number): Promise<Party[
     const parties = await partyDB.getPartiesByNameAndType({ name, typeId: id });
     return parties;
 };
+
+const getCandidatesByParty = async (id: number): Promise<Candidate[]> => {
+    const candidates = await partyDB.getCandidatesByParty({partyId: id});
+    return candidates
+}
 
 const createParty = async ({ name, abbr, logo, typeId }: PartyInput): Promise<Party> => {
     if (!name) {
@@ -106,6 +111,7 @@ export default {
     getPartiesByName,
     getPartiesByType,
     getPartiesByNameAndType,
+    getCandidatesByParty,
     createParty,
     deletePartyById,
     changePartyName,

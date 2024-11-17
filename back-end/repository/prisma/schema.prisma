@@ -57,7 +57,7 @@ model PartyCandidate {
   partyId     Int
   position    Int       @default(autoincrement())
 
-  @@id([candidateId, partyId])
+  @@id(name: "partyCandidateId", [candidateId, partyId])
 }
 
 model Voter {
@@ -89,7 +89,7 @@ model VoterBallot {
   ballotId Int
   votedFor String
 
-  @@id([voterId, ballotId])
+  @@id(name: "voterBallotId", [voterId, ballotId])
 }
 
 model BallotParty {
@@ -98,5 +98,5 @@ model BallotParty {
   ballot   Ballot @relation(fields: [ballotId], references: [id])
   ballotId Int
 
-  @@id([partyId, ballotId])
+  @@id(name: "ballotPartyId", [partyId, ballotId])
 }

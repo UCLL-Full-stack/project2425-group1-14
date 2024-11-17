@@ -111,4 +111,9 @@ export default {
     changeVoterEmail,
     changeVoterKey,
     changeVoterRegion,
+    /*
+    submitVote,
+    deleteVote,
+    updateVote,
+    */
 };

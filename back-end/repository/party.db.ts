@@ -1,6 +1,7 @@
 import database from '../util/database';
 import { Party } from '../model/party';
 import { RepositoryError } from '../types/error';
+import { Candidate } from '../model/candidate';
 
 const getParties = async (): Promise<Party[]> => {
     try {
@@ -85,6 +86,25 @@ const createParty = async ({ name, abbr, logo, type }: Party): Promise<Party> =>
         });
 
         return Party.from(partyPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
+const getCandidatesByParty = async ({ partyId }: { partyId: number }): Promise<Candidate[]> => {
+    try {
+        const partyCandidatesPrisma = await database.partyCandidate.findMany({
+            where: {
+                partyId: partyId,
+            },
+            include: {
+                candidate: { include: { location: { include: { type: true } } } },
+            },
+        });
+        return partyCandidatesPrisma.map((partyCandidatePrisma) =>
+            Candidate.from(partyCandidatePrisma.candidate)
+        );
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
@@ -179,6 +199,7 @@ export default {
     getPartiesByName,
     getPartiesByType,
     getPartiesByNameAndType,
+    getCandidatesByParty,
     createParty,
     deletePartyById,
     changePartyName,

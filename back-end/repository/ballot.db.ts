@@ -171,6 +171,52 @@ const deleteBallotById = async ({ id }: { id: number }): Promise<String> => {
     }
 };
 
+const addPartyToBallot = async ({
+    ballotId,
+    partyId,
+}: {
+    ballotId: number;
+    partyId: number;
+}): Promise<BallotParty> => {
+    try {
+        const ballotPartyPrisma = await database.ballotParty.create({
+            data: {
+                ballot: { connect: { id: ballotId } },
+                party: { connect: { id: partyId } },
+            },
+            include: {
+                party: { include: { type: true } },
+                ballot: { include: { location: { include: { type: true } } } },
+            },
+        });
+        return BallotParty.from(ballotPartyPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
+const removePartyFromBallot = async ({
+    ballotId,
+    partyId,
+}: {
+    ballotId: number;
+    partyId: number;
+}): Promise<String> => {
+    try {
+        const ballotPartyPrisma = await database.ballotParty.deleteMany({
+            where: {
+                ballotId: ballotId,
+                partyId: partyId,
+            }
+        });
+        return `Deleted ${ballotPartyPrisma.count} BallotParties`;
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
 export default {
     getBallots,
     getBallotById,
@@ -182,8 +228,6 @@ export default {
     changeBallotName,
     changeBallotMinimum,
     changeBallotMaximum,
-    /*
     addPartyToBallot,
     removePartyFromBallot,
-    */
 };

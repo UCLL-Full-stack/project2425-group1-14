@@ -170,7 +170,7 @@ export default {
     changeVoterRegion,
     /*
     submitVote,
-    updateVote,
     deleteVote,
+    updateVote,
     */
 };
