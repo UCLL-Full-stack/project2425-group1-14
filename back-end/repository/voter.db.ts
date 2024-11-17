@@ -87,6 +87,69 @@ const deleteVoterById = async ({ id }: { id: number }): Promise<String> => {
     }
 };
 
+const changeVoterName = async ({ id, name }: { id: number; name: string }): Promise<Voter> => {
+    try {
+        const voterPrisma = await database.voter.update({
+            where: { id: id },
+            data: {
+                name: name,
+            },
+            include: { location: { include: { type: true } } },
+        });
+        return Voter.from(voterPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+const changeVoterEmail = async ({ id, email }: { id: number; email: string }): Promise<Voter> => {
+    try {
+        const voterPrisma = await database.voter.update({
+            where: { id: id },
+            data: {
+                name: email,
+            },
+            include: { location: { include: { type: true } } },
+        });
+        return Voter.from(voterPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
+const changeVoterKey = async ({ id, key }: { id: number; key: string }): Promise<Voter> => {
+    try {
+        const voterPrisma = await database.voter.update({
+            where: { id: id },
+            data: {
+                key: key,
+            },
+            include: { location: { include: { type: true } } },
+        });
+        return Voter.from(voterPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
+const changeVoterRegion = async ({ id, locationId }: { id: number; locationId: number }): Promise<Voter> => {
+    try {
+        const voterPrisma = await database.voter.update({
+            where: { id: id },
+            data: {
+                location: { connect: { id: locationId }},
+            },
+            include: { location: { include: { type: true } } },
+        });
+        return Voter.from(voterPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
 export default {
     getVoters,
     getVoterById,
@@ -94,4 +157,8 @@ export default {
     getVotersByRegion,
     createVoter,
     deleteVoterById,
+    changeVoterName,
+    changeVoterEmail,
+    changeVoterKey,
+    changeVoterRegion
 };
