@@ -127,7 +127,7 @@ const getChildrenRecursive = async ({ parentId }: { parentId: number }): Promise
     try {
         var children: Region[] = [];
 
-        var childRegions = [await getRegionById({ id: parentId })];
+        var childRegions = await getChildren({ parentId: parentId });
 
         while (childRegions.some((c) => c !== null)) {
             var layer: Region[][] = [];
@@ -197,6 +197,48 @@ const deleteRegionById = async ({ id }: { id: number }): Promise<String> => {
     }
 };
 
+const changeRegionName = async ({ id, name }: { id: number; name: string }): Promise<Region> => {
+    try {
+        const regionPrisma = await database.region.update({
+            where: { id: id },
+            data: {
+                name: name,
+            },
+            include: { type: true, parent: { include: { type: true } } },
+        });
+        return Region.from(regionPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
+const changeRegionParent = async ({
+    id,
+    parentId,
+}: {
+    id: number;
+    parentId: number;
+}): Promise<Region> => {
+    try {
+        const childRec = await getChildrenRecursive({ parentId });
+        if (childRec.map((c) => c.id).includes(parentId)) {
+            throw new RepositoryError(`Region with ${parentId} is already a child of region ${id}`);
+        }
+        const regionPrisma = await database.region.update({
+            where: { id: id },
+            data: {
+                parent: { connect: { id: parentId } },
+            },
+            include: { type: true, parent: { include: { type: true } } },
+        });
+        return Region.from(regionPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
 export default {
     getRegions,
     getRegionById,
@@ -209,4 +251,6 @@ export default {
     getChildrenRecursive,
     getParents,
     deleteRegionById,
+    changeRegionName,
+    changeRegionParent,
 };
