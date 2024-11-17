@@ -80,6 +80,11 @@ const getParents = async (childId: number): Promise<Region[]> => {
     return regions;
 };
 
+const deleteRegionById = async (id: number): Promise<String> => {
+    const region = await regionDB.deleteRegionById({ id });
+    return region;
+};
+
 export default {
     getRegions,
     getRegionById,
@@ -90,4 +95,5 @@ export default {
     getChildren,
     getChildrenRecursive,
     getParents,
+    deleteRegionById,
 };

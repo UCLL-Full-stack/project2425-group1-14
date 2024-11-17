@@ -14,6 +14,11 @@ const getTypeById = async (id: number): Promise<Type> => {
     return type;
 };
 
+const getTypeByName = async (name: string): Promise<Type[]> => {
+    const types = await typeDB.getTypeByName({ name });
+    return types;
+};
+
 const createType = async ({ name }: TypeInput): Promise<Type> => {
     if (!name) {
         throw new ServiceError('Name was not provided');
@@ -28,4 +33,9 @@ const createType = async ({ name }: TypeInput): Promise<Type> => {
     return await typeDB.createType(newType);
 };
 
-export default { getTypes, getTypeById, createType };
+const deleteTypeById = async (id: number): Promise<String> => {
+    const type = await typeDB.deleteTypeById({ id });
+    return type;
+};
+
+export default { getTypes, getTypeById, getTypeByName, createType, deleteTypeById };

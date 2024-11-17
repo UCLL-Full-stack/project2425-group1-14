@@ -128,18 +128,26 @@ const getChildrenRecursive = async ({ parentId }: { parentId: number }): Promise
         var children: Region[] = [];
 
         var childRegions = [await getRegionById({ id: parentId })];
-        
-        while (childRegions.some(c => c !== null)) {
+
+        while (childRegions.some((c) => c !== null)) {
             var layer: Region[][] = [];
-            for (const childRegion of childRegions) { if (childRegion != null) { children.push(childRegion); }}
             for (const childRegion of childRegions) {
-                if (childRegion == null) { continue; }
-                if (childRegion.id === undefined) { throw new RepositoryError("Child region somehow has an undefined ID.")}
-                layer.push(await getChildren({parentId: childRegion.id}));
+                if (childRegion != null) {
+                    children.push(childRegion);
+                }
+            }
+            for (const childRegion of childRegions) {
+                if (childRegion == null) {
+                    continue;
+                }
+                if (childRegion.id === undefined) {
+                    throw new RepositoryError('Child region somehow has an undefined ID.');
+                }
+                layer.push(await getChildren({ parentId: childRegion.id }));
             }
             childRegions = [];
             for (const arr of layer) {
-                childRegions.push(...arr)
+                childRegions.push(...arr);
             }
         }
         return children;
@@ -158,7 +166,7 @@ const getParents = async ({ childId }: { childId: number }): Promise<Region[]> =
         while (childRegion != null && childRegion.parent) {
             parents.push(childRegion.parent);
             if (childRegion.parent.id == null) {
-                throw new RepositoryError("Parent somehow has null ID")
+                throw new RepositoryError('Parent somehow has null ID');
             }
             var childRegion = await getRegionById({ id: childRegion.parent.id });
         }
@@ -172,18 +180,20 @@ const getParents = async ({ childId }: { childId: number }): Promise<Region[]> =
 const deleteRegionById = async ({ id }: { id: number }): Promise<String> => {
     try {
         const ballotPrisma = await database.ballot.deleteMany({
-            where: { locationId: id }
+            where: { locationId: id },
         });
         const voterPrisma = await database.voter.deleteMany({
-            where: { locationId: id }
+            where: { locationId: id },
         });
         const regionsPrisma = await database.region.deleteMany({
-            where: { id: id }
+            where: { id: id },
         });
-        return `Deleted ${ballotPrisma.count} Ballots, ${voterPrisma} Voters and ${regionsPrisma.count} Regions.`
+        return `Deleted ${ballotPrisma.count} Ballots, ${voterPrisma} Voters and ${regionsPrisma.count} Regions.`;
     } catch (error) {
         console.error(error);
-        throw new RepositoryError('Database error. See server log for details.\nIf you\'re not a server admin, please make sure any Ballots, Voters, VoterBallots or BallotParties have been deleted first.');
+        throw new RepositoryError(
+            "Database error. See server log for details.\nIf you're not a server admin, please make sure any Ballots, Voters, VoterBallots or BallotParties have been deleted first."
+        );
     }
 };
 
@@ -198,5 +208,5 @@ export default {
     getChildren,
     getChildrenRecursive,
     getParents,
-    deleteRegionById
+    deleteRegionById,
 };
