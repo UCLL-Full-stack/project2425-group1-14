@@ -1,7 +1,6 @@
 import database from '../util/database';
 import { Party } from '../model/party';
 import { RepositoryError } from '../types/error';
-import { Type } from '../model/type';
 
 const getParties = async (): Promise<Party[]> => {
     try {
@@ -104,6 +103,70 @@ const deletePartyById = async ({ id }: { id: number }): Promise<String> => {
     }
 };
 
+const changePartyName = async ({ id, name }: { id: number; name: string }): Promise<Party> => {
+    try {
+        const partyPrisma = await database.party.update({
+            where: { id: id },
+            data: {
+                name: name,
+            },
+            include: { type: true },
+        });
+        return Party.from(partyPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
+const changePartyAbbr = async ({ id, abbr }: { id: number; abbr: string }): Promise<Party> => {
+    try {
+        const partyPrisma = await database.party.update({
+            where: { id: id },
+            data: {
+                abbr: abbr,
+            },
+            include: { type: true },
+        });
+        return Party.from(partyPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
+const changePartyLogo = async ({ id, logo }: { id: number; logo: string }): Promise<Party> => {
+    try {
+        const partyPrisma = await database.party.update({
+            where: { id: id },
+            data: {
+                logo: logo,
+            },
+            include: { type: true },
+        });
+        return Party.from(partyPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
+const changePartyType = async ({ id, typeId }: { id: number; typeId: number }): Promise<Party> => {
+    try {
+        const partyPrisma = await database.party.update({
+            where: { id: id },
+            data: {
+                type: { connect: { id: typeId }},
+            },
+            include: { type: true },
+        });
+        return Party.from(partyPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
 export default {
     getParties,
     getPartyById,
@@ -112,4 +175,8 @@ export default {
     getPartiesByNameAndType,
     createParty,
     deletePartyById,
+    changePartyName,
+    changePartyAbbr,
+    changePartyLogo,
+    changePartyType,
 };
