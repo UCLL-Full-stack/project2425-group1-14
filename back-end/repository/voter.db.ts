@@ -102,6 +102,7 @@ const changeVoterName = async ({ id, name }: { id: number; name: string }): Prom
         throw new RepositoryError('Database error. See server log for details.');
     }
 };
+
 const changeVoterEmail = async ({ id, email }: { id: number; email: string }): Promise<Voter> => {
     try {
         const voterPrisma = await database.voter.update({
