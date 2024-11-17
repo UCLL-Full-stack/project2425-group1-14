@@ -28,8 +28,8 @@ const main = async () => {
     const regionBelgium = await prisma.region.create({data: { name: "Belgium", type: { connect: { id: typeNational.id }}, parent: { connect: { id: regionEurope.id}}}});
 
     const regionFlanders = await prisma.region.create({data: { name: "Flanders", type: { connect: { id: typeRegional.id }}, parent: { connect: { id: regionBelgium.id}}}});
-    const regionWallonia = await prisma.region.create({data: { name: "Flanders", type: { connect: { id: typeRegional.id }}, parent: { connect: { id: regionBelgium.id}}}});
-    const regionBrussels = await prisma.region.create({data: { name: "Flanders", type: { connect: { id: typeRegional.id }}, parent: { connect: { id: regionBelgium.id}}}});
+    const regionWallonia = await prisma.region.create({data: { name: "Wallonia", type: { connect: { id: typeRegional.id }}, parent: { connect: { id: regionBelgium.id}}}});
+    const regionBrussels = await prisma.region.create({data: { name: "Brussels", type: { connect: { id: typeRegional.id }}, parent: { connect: { id: regionBelgium.id}}}});
 
     const regionWestVlaanderen = await prisma.region.create({data: { name: "West Vlaanderen", type: { connect: { id: typeProvincial.id }}, parent: { connect: { id: regionFlanders.id}}}});
     const regionOostVlaanderen = await prisma.region.create({data: { name: "Oost Vlaanderen", type: { connect: { id: typeProvincial.id }}, parent: { connect: { id: regionFlanders.id}}}});

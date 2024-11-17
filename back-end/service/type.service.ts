@@ -38,4 +38,9 @@ const deleteTypeById = async (id: number): Promise<String> => {
     return type;
 };
 
-export default { getTypes, getTypeById, getTypeByName, createType, deleteTypeById };
+const changeTypeName = async (id: number, name: string): Promise<Type> => {
+    const type = await typeDB.changeTypeName({ id, name });
+    return type;
+};
+
+export default { getTypes, getTypeById, getTypeByName, createType, deleteTypeById, changeTypeName };

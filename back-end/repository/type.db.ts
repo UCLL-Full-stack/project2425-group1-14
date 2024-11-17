@@ -71,10 +71,26 @@ const deleteTypeById = async ({ id }: { id: number }): Promise<String> => {
     }
 };
 
+const changeTypeName = async ({ id, name }: { id: number; name: string }): Promise<Type> => {
+    try {
+        const typePrisma = await database.type.update({
+            where: { id: id },
+            data: {
+                name: name,
+            }
+        });
+        return Type.from(typePrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
 export default {
     getTypes,
     getTypeById,
     getTypeByName,
     createType,
-    deleteTypeById
+    deleteTypeById,
+    changeTypeName
 };
