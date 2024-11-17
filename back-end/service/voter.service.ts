@@ -67,6 +67,11 @@ const changeVoterName = async (id: number, name: string): Promise<Voter> => {
 };
 
 const changeVoterEmail = async (id: number, email: string): Promise<Voter> => {
+    const existVoter = await voterDB.getVoterByEmail({ email });
+    if (existVoter) {
+        throw new ServiceError(`Voter with email ${email} already exists.`);
+    }
+
     var validationVoter = await getVoterById(id);
     validationVoter = new Voter({ ...validationVoter, email: email });
 
