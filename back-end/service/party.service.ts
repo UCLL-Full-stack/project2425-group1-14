@@ -34,9 +34,9 @@ const getPartiesByNameAndType = async (name: string, id: number): Promise<Party[
 };
 
 const getCandidatesByParty = async (id: number): Promise<Candidate[]> => {
-    const candidates = await partyDB.getCandidatesByParty({partyId: id});
-    return candidates
-}
+    const candidates = await partyDB.getCandidatesByParty({ partyId: id });
+    return candidates;
+};
 
 const createParty = async ({ name, abbr, logo, typeId }: PartyInput): Promise<Party> => {
     if (!name) {

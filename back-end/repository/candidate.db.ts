@@ -123,9 +123,9 @@ const changeCandidateRegion = async ({
 };
 
 const getPartiesByCandidate = async ({
-    candidateId
+    candidateId,
 }: {
-    candidateId: number
+    candidateId: number;
 }): Promise<Party[]> => {
     try {
         const partyCandidatesPrisma = await database.partyCandidate.findMany({
@@ -134,14 +134,16 @@ const getPartiesByCandidate = async ({
             },
             include: {
                 party: { include: { type: true } },
-            }
+            },
         });
-        return partyCandidatesPrisma.map((partyCandidatePrisma) => Party.from(partyCandidatePrisma.party));
+        return partyCandidatesPrisma.map((partyCandidatePrisma) =>
+            Party.from(partyCandidatePrisma.party)
+        );
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
     }
-}
+};
 
 const addCandidateToParty = async ({
     candidateId,
@@ -180,7 +182,7 @@ const removeCandidateFromParty = async ({
             where: {
                 candidateId: candidateId,
                 partyId: partyId,
-            }
+            },
         });
         return `Deleted ${partyCandidatePrisma.count} PartyCandidates`;
     } catch (error) {
@@ -192,7 +194,7 @@ const removeCandidateFromParty = async ({
 const changePartyCandidatePosition = async ({
     candidateId,
     partyId,
-    position
+    position,
 }: {
     candidateId: number;
     partyId: number;
@@ -200,17 +202,19 @@ const changePartyCandidatePosition = async ({
 }): Promise<PartyCandidate> => {
     try {
         const partyCandidatePrisma = await database.partyCandidate.update({
-            where: { partyCandidateId: {
-                candidateId: candidateId,
-                partyId: partyId,
-            }},
+            where: {
+                partyCandidateId: {
+                    candidateId: candidateId,
+                    partyId: partyId,
+                },
+            },
             data: {
-                position: position
+                position: position,
             },
             include: {
                 party: { include: { type: true } },
                 candidate: { include: { location: { include: { type: true } } } },
-            }
+            },
         });
         return PartyCandidate.from(partyCandidatePrisma);
     } catch (error) {

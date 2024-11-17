@@ -208,7 +208,7 @@ const removePartyFromBallot = async ({
             where: {
                 ballotId: ballotId,
                 partyId: partyId,
-            }
+            },
         });
         return `Deleted ${ballotPartyPrisma.count} BallotParties`;
     } catch (error) {
