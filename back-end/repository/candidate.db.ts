@@ -27,7 +27,11 @@ const getCandidateById = async ({ id }: { id: number }): Promise<Candidate | nul
     }
 };
 
-const getCandidatesByRegion = async ({ locationId }: { locationId: number }): Promise<Candidate[]> => {
+const getCandidatesByRegion = async ({
+    locationId,
+}: {
+    locationId: number;
+}): Promise<Candidate[]> => {
     try {
         const candidatesPrisma = await database.candidate.findMany({
             where: { locationId: locationId },
@@ -72,7 +76,13 @@ const deleteCandidateById = async ({ id }: { id: number }): Promise<String> => {
     }
 };
 
-const changeCandidateName = async ({ id, name }: { id: number; name: string }): Promise<Candidate> => {
+const changeCandidateName = async ({
+    id,
+    name,
+}: {
+    id: number;
+    name: string;
+}): Promise<Candidate> => {
     try {
         const candidatePrisma = await database.candidate.update({
             where: { id: id },
