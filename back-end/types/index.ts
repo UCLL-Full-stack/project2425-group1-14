@@ -14,14 +14,13 @@ type PartyInput = {
     id?: number;
     name?: string;
     abbr?: string;
-    image?: string;
-    typeIDs?: number[];
+    logo?: string;
+    typeId?: number;
 };
 
 type CandidateInput = {
     id?: number;
     name?: string;
-    image?: string;
     regionId?: number;
 };
 

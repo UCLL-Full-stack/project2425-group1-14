@@ -26,11 +26,6 @@ const createType = async ({ name }: TypeInput): Promise<Type> => {
         throw new ServiceError('Name was not provided');
     }
 
-    const existingType = await typeDB.getTypeByName({ name: name });
-    if (existingType.length > 0) {
-        throw new ServiceError('Type with this name already exists.');
-    }
-
     const newType = new Type({ name });
     return await typeDB.createType(newType);
 };
@@ -41,10 +36,10 @@ const deleteTypeById = async (id: number): Promise<String> => {
 };
 
 const changeTypeName = async (id: number, name: string): Promise<Type> => {
+    var validationType = await getTypeById(id);
+    validationType = new Type({ ...validationType, name: name });
+
     const type = await typeDB.changeTypeName({ id, name });
-    if (!type) {
-        throw new ServiceError(`Type with id ${id} does not exist.`);
-    }
     return type;
 };
 

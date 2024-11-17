@@ -86,18 +86,15 @@ const deleteRegionById = async (id: number): Promise<String> => {
 };
 
 const changeRegionName = async (id: number, name: string): Promise<Region> => {
+    var validationRegion = await getRegionById(id);
+    validationRegion = new Region({ ...validationRegion, name: name });
+
     const region = await regionDB.changeRegionName({ id, name });
-    if (!region) {
-        throw new ServiceError(`Region with id ${id} does not exist.`);
-    }
     return region;
 };
 
 const changeRegionParent = async (id: number, parentId: number): Promise<Region> => {
     const region = await regionDB.changeRegionParent({ id, parentId });
-    if (!region) {
-        throw new ServiceError(`Region with id ${id} does not exist.`);
-    }
     return region;
 };
 
