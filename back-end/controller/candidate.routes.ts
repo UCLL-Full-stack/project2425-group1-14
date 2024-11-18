@@ -342,7 +342,7 @@ candidateRouter.post('/party', async (req: Request, res: Response, next: NextFun
  *  delete:
  *   tags:
  *    - candidate
- *   summary: Remove a from to a party.
+ *   summary: Remove a candidate from a party.
  *   requestBody:
  *    required: true
  *    content:

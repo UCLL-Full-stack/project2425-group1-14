@@ -233,17 +233,14 @@ regionRouter.get('/:id/children', async (req: Request, res: Response, next: Next
  *        items:
  *         $ref: '#/components/schemas/Region'
  */
-regionRouter.get(
-    '/:id/descendants',
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const regions = await regionService.getDescendants(Number(req.params.id));
-            res.status(200).json(regions);
-        } catch (error) {
-            next(error);
-        }
+regionRouter.get('/:id/descendants', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const regions = await regionService.getDescendants(Number(req.params.id));
+        res.status(200).json(regions);
+    } catch (error) {
+        next(error);
     }
-);
+});
 
 /**
  * @swagger
