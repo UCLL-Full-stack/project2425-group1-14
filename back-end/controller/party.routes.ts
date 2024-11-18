@@ -43,6 +43,8 @@ const partyRouter = express.Router();
  * @swagger
  * /parties:
  *  get:
+ *   tags:
+ *    - party
  *   summary: Get a list of all parties.
  *   responses:
  *    200:
@@ -67,6 +69,8 @@ partyRouter.get('/', async (req: Request, res: Response, next: NextFunction) => 
  * @swagger
  * /parties/{id}:
  *  get:
+ *   tags:
+ *    - party
  *   summary: Get a party by id.
  *   parameters:
  *    - in: path
@@ -94,8 +98,10 @@ partyRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) 
 
 /**
  * @swagger
- * /types/by:
+ * /parties/by:
  *  get:
+ *   tags:
+ *    - party
  *   summary: Get parties by name, type, or both.
  *   parameters:
  *    - in: query
@@ -143,6 +149,8 @@ partyRouter.get('/by', async (req: Request, res: Response, next: NextFunction) =
  * @swagger
  * /parties/{id}/candidates:
  *  get:
+ *   tags:
+ *    - party
  *   summary: Get a party's candidates by id.
  *   parameters:
  *    - in: path
@@ -174,6 +182,8 @@ partyRouter.get('/:id/candidates', async (req: Request, res: Response, next: Nex
  * @swagger
  * /parties:
  *  post:
+ *   tags:
+ *    - party
  *   summary: Create a new party.
  *   requestBody:
  *    required: true
@@ -204,6 +214,8 @@ partyRouter.post('/', async (req: Request, res: Response, next: NextFunction) =>
  * @swagger
  * /parties/{id}:
  *  delete:
+ *   tags:
+ *    - party
  *   summary: Delete a party by id.
  *   parameters:
  *    - in: path
@@ -233,6 +245,8 @@ partyRouter.delete('/:id', async (req: Request, res: Response, next: NextFunctio
  * @swagger
  * /parties/name:
  *  patch:
+ *   tags:
+ *    - party
  *   summary: Change a party's name.
  *   requestBody:
  *    required: true
@@ -262,6 +276,8 @@ partyRouter.patch('/name', async (req: Request, res: Response, next: NextFunctio
  * @swagger
  * /parties/abbr:
  *  patch:
+ *   tags:
+ *    - party
  *   summary: Change a party's abbreviation.
  *   requestBody:
  *    required: true
@@ -291,6 +307,8 @@ partyRouter.patch('/abbr', async (req: Request, res: Response, next: NextFunctio
  * @swagger
  * /parties/logo:
  *  patch:
+ *   tags:
+ *    - party
  *   summary: Change a party's logo.
  *   requestBody:
  *    required: true
@@ -320,6 +338,8 @@ partyRouter.patch('/logo', async (req: Request, res: Response, next: NextFunctio
  * @swagger
  * /parties/type:
  *  patch:
+ *   tags:
+ *    - party
  *   summary: Change a party's type.
  *   requestBody:
  *    required: true

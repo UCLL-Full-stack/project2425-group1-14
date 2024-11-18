@@ -40,6 +40,8 @@ const regionRouter = express.Router();
  * @swagger
  * /regions:
  *  get:
+ *   tags:
+ *    - region
  *   summary: Get a list of all regions.
  *   responses:
  *    200:
@@ -64,6 +66,8 @@ regionRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
  * @swagger
  * /regions/{id}:
  *  get:
+ *   tags:
+ *    - region
  *   summary: Get a region by id.
  *   parameters:
  *    - in: path
@@ -91,8 +95,10 @@ regionRouter.get('/:id', async (req: Request, res: Response, next: NextFunction)
 
 /**
  * @swagger
- * /types/by:
+ * /region/by:
  *  get:
+ *   tags:
+ *    - region
  *   summary: Get regions by name, type, or both.
  *   parameters:
  *    - in: query
@@ -140,6 +146,8 @@ regionRouter.get('/by', async (req: Request, res: Response, next: NextFunction) 
  * @swagger
  * /regions:
  *  post:
+ *   tags:
+ *    - region
  *   summary: Create a new region.
  *   requestBody:
  *    required: true
@@ -170,6 +178,8 @@ regionRouter.post('/', async (req: Request, res: Response, next: NextFunction) =
  * @swagger
  * /regions/{id}/children:
  *  get:
+ *   tags:
+ *    - region
  *   summary: Get a list of all child regions.
  *   parameters:
  *    - in: path
@@ -202,6 +212,8 @@ regionRouter.get('/:id/children', async (req: Request, res: Response, next: Next
  * @swagger
  * /regions/{id}/childrenRecursive:
  *  get:
+ *   tags:
+ *    - region
  *   summary: Get a list of all child regions.
  *   parameters:
  *    - in: path
@@ -237,6 +249,8 @@ regionRouter.get(
  * @swagger
  * /regions/{id}/parents:
  *  get:
+ *   tags:
+ *    - region
  *   summary: Get a list of all parent regions.
  *   parameters:
  *    - in: path
@@ -269,6 +283,8 @@ regionRouter.get('/:id/parents', async (req: Request, res: Response, next: NextF
  * @swagger
  * /regions/{id}:
  *  delete:
+ *   tags:
+ *    - region
  *   summary: Delete a region by id.
  *   parameters:
  *    - in: path
@@ -298,6 +314,8 @@ regionRouter.delete('/:id', async (req: Request, res: Response, next: NextFuncti
  * @swagger
  * /regions/name:
  *  patch:
+ *   tags:
+ *    - region
  *   summary: Change a region's name.
  *   requestBody:
  *    required: true
@@ -327,6 +345,8 @@ regionRouter.patch('/name', async (req: Request, res: Response, next: NextFuncti
  * @swagger
  * /regions/parent:
  *  patch:
+ *   tags:
+ *    - region
  *   summary: Change a region's parent.
  *   requestBody:
  *    required: true

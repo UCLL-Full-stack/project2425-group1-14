@@ -34,7 +34,7 @@ const swaggerOpts = {
         openapi: '3.0.0',
         info: {
             title: 'Hannọ API',
-            version: '1.0.0',
+            version: '0.1.0',
         },
     },
     apis: ['./controller/*.routes.ts'],

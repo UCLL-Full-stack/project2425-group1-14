@@ -30,6 +30,8 @@ const typeRouter = express.Router();
  * @swagger
  * /types:
  *  get:
+ *   tags:
+ *    - type
  *   summary: Get a list of all types.
  *   responses:
  *    200:
@@ -54,6 +56,8 @@ typeRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  * @swagger
  * /types/by:
  *  get:
+ *   tags:
+ *    - type
  *   summary: Get a type by id or name.
  *   parameters:
  *    - in: query
@@ -93,6 +97,8 @@ typeRouter.get('/by', async (req: Request, res: Response, next: NextFunction) =>
  * @swagger
  * /types:
  *  post:
+ *   tags:
+ *    - type
  *   summary: Create a new type.
  *   requestBody:
  *    required: true
@@ -123,6 +129,8 @@ typeRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
  * @swagger
  * /types/{id}:
  *  delete:
+ *   tags:
+ *    - type
  *   summary: Delete a type by id.
  *   parameters:
  *    - in: path
@@ -152,6 +160,8 @@ typeRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction
  * @swagger
  * /types/name:
  *  patch:
+ *   tags:
+ *    - type
  *   summary: Change a type's name.
  *   requestBody:
  *    required: true
