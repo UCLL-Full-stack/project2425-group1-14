@@ -95,7 +95,7 @@ regionRouter.get('/:id', async (req: Request, res: Response, next: NextFunction)
 
 /**
  * @swagger
- * /region/by:
+ * /regions/by:
  *  get:
  *   tags:
  *    - region
