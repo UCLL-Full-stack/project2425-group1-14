@@ -78,13 +78,11 @@ typeRouter.get('/by', async (req: Request, res: Response, next: NextFunction) =>
         if (req.query.id) {
             const type = await typeService.getTypeById(Number(req.query.id));
             res.status(200).json(type);
-        }
-        if (req.query.name) {
+        } else if (req.query.name) {
             const type = await typeService.getTypeByName(String(req.query.name));
             res.status(200).json(type);
-        }
-        else {
-            throw new ControllerError("ID or Name must be provided");
+        } else {
+            throw new ControllerError('ID or Name must be provided');
         }
     } catch (error) {
         next(error);
