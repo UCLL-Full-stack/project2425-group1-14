@@ -8,7 +8,7 @@
 ## 2 - Back-end: Rest API wih Node.js & Express.js
 - [~] Alle lagen worden geïmplementeerd volgens de principes van gelaagde architectuur:
     - [x] Domein
-    - [~] Services
+    - [x] Services
     - [~] Controllers
 - [x] Validatie:
     - [x] Controllers bevatten geen validatie.
@@ -20,7 +20,7 @@
 - [ ] Controllers worden getest via swagger (handmatig), geen aparte tests nodig.
 - [x] De gegevens die binnenkomen via requests in de router worden ingekapseld in Data Transfer Objects. Deze DTO's zijn gedefinieerd in een bestand index.ts in de map types.
 - [~] Alle routes zijn volledig gedocumenteerd en uitvoerbaar met Swagger via de url /api-docs.
-- [~] Voor elk type is er een volledig uitgewerkt componentenschema gedefinieerd bovenaan de controller zelf.
+- [x] Voor elk type is er een volledig uitgewerkt componentenschema gedefinieerd bovenaan de controller zelf.
 
 ## 3 - Front-end: Introduction to React & Next.js
 - [x] Een Next.js front-end app is geïnstalleerd in de front-end directory.

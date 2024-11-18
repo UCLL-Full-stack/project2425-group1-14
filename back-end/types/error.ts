@@ -6,6 +6,14 @@ export class DomainError extends Error {
     }
 }
 
+export class RepositoryError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = 'RepositoryError';
+        Object.setPrototypeOf(this, RepositoryError.prototype);
+    }
+}
+
 export class ServiceError extends Error {
     constructor(message: string) {
         super(message);
@@ -14,10 +22,10 @@ export class ServiceError extends Error {
     }
 }
 
-export class RepositoryError extends Error {
+export class ControllerError extends Error {
     constructor(message: string) {
         super(message);
-        this.name = 'RepositoryError';
-        Object.setPrototypeOf(this, ServiceError.prototype);
+        this.name = 'ControllerError';
+        Object.setPrototypeOf(this, ControllerError.prototype);
     }
 }

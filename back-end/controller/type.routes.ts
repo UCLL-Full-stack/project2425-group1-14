@@ -22,6 +22,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import typeService from '../service/type.service';
 import { TypeInput } from '../types';
+import { ControllerError } from '../types/error';
 
 const typeRouter = express.Router();
 
@@ -51,46 +52,19 @@ typeRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
 
 /**
  * @swagger
- * /types/{id}:
+ * /types/by:
  *  get:
- *   summary: Get a type by id.
+ *   summary: Get a type by id or name.
  *   parameters:
- *    - in: path
- *      name: id
- *      schema:
- *       type: number
- *       format: int64
- *       required: true
- *       description: The type id.
- *   responses:
- *    200:
- *     description: A type object.
- *     content:
- *      application/json:
- *       schema:
- *        $ref: '#/components/schemas/Type'
- */
-typeRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const type = await typeService.getTypeById(Number(req.params.id));
-        res.status(200).json(type);
-    } catch (error) {
-        next(error);
-    }
-});
-
-/**
- * @swagger
- * /types/{name}:
- *  get:
- *   summary: Get a type by name.
- *   parameters:
- *    - in: path
+ *    - in: query
  *      name: name
- *      schema:
- *       type: string
- *       required: true
- *       description: The type name.
+ *      type: string
+ *      description: The type name.
+ *    - in: query
+ *      name: id
+ *      type: number
+ *      format: int64
+ *      description: The type id.
  *   responses:
  *    200:
  *     description: A type object.
@@ -99,10 +73,19 @@ typeRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
  *       schema:
  *        $ref: '#/components/schemas/Type'
  */
-typeRouter.get('/:name', async (req: Request, res: Response, next: NextFunction) => {
+typeRouter.get('/by', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const type = await typeService.getTypeByName(String(req.params.name));
-        res.status(200).json(type);
+        if (req.query.id) {
+            const type = await typeService.getTypeById(Number(req.query.id));
+            res.status(200).json(type);
+        }
+        if (req.query.name) {
+            const type = await typeService.getTypeByName(String(req.query.name));
+            res.status(200).json(type);
+        }
+        else {
+            throw new ControllerError("ID or Name must be provided");
+        }
     } catch (error) {
         next(error);
     }
