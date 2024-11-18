@@ -21,7 +21,7 @@ type PartyInput = {
 type CandidateInput = {
     id?: number;
     name?: string;
-    regionId?: number;
+    locationId?: number;
 };
 
 type PartyCandidateInput = {
@@ -69,4 +69,4 @@ export {
     BallotInput,
     VoterBallotInput,
     BallotPartyInput,
-}
+};
