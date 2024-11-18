@@ -136,6 +136,25 @@ regionRouter.get('/by', async (req: Request, res: Response, next: NextFunction) 
     }
 });
 
+/**
+ * @swagger
+ * /regions:
+ *  post:
+ *   summary: Create a new region.
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       $ref: '#/components/schemas/RegionInput'
+ *   responses:
+ *    200:
+ *     description: The created region.
+ *     content:
+ *      application/json:
+ *       schema:
+ *        $ref: '#/components/schemas/Region'
+ */
 regionRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const region = <RegionInput>req.body;
@@ -275,19 +294,62 @@ regionRouter.delete('/:id', async (req: Request, res: Response, next: NextFuncti
     }
 });
 
-/*
-    ✓✓ getRegions,
-    ✓✓ getRegionById,
-    ✓✓ getRegionsByName,
-    ✓✓ getRegionsByType,
-    ✓✓ getRegionsByNameAndType,
-    ✓ createRegion,
-    ✓✓ getChildren,
-    ✓✓ getChildrenRecursive,
-    ✓✓ getParents,
-    ✓✓ deleteRegionById,
-    changeRegionName,
-    changeRegionParent,
-*/
+/**
+ * @swagger
+ * /regions/name:
+ *  patch:
+ *   summary: Change a region's name.
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       $ref: '#/components/schemas/RegionInput'
+ *   responses:
+ *    200:
+ *     description: A region object.
+ *     content:
+ *      application/json:
+ *       schema:
+ *        $ref: '#/components/schemas/Region'
+ */
+regionRouter.patch('/name', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const regionInput = <RegionInput>req.body;
+        const region = await regionService.changeRegionName(regionInput);
+        res.status(200).json(region);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /regions/parent:
+ *  patch:
+ *   summary: Change a region's parent.
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       $ref: '#/components/schemas/RegionInput'
+ *   responses:
+ *    200:
+ *     description: A region object.
+ *     content:
+ *      application/json:
+ *       schema:
+ *        $ref: '#/components/schemas/Region'
+ */
+regionRouter.patch('/parent', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const regionInput = <RegionInput>req.body;
+        const region = await regionService.changeRegionParent(regionInput);
+        res.status(200).json(region);
+    } catch (error) {
+        next(error);
+    }
+});
 
 export { regionRouter };
