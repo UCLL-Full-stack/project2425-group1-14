@@ -70,8 +70,8 @@ const getChildren = async (parentId: number): Promise<Region[]> => {
     return regions;
 };
 
-const getChildrenRecursive = async (parentId: number): Promise<Region[]> => {
-    const regions = await regionDB.getChildrenRecursive({ parentId });
+const getDescendants = async (parentId: number): Promise<Region[]> => {
+    const regions = await regionDB.getDescendants({ parentId });
     return regions;
 };
 
@@ -118,7 +118,7 @@ export default {
     getRegionsByNameAndType,
     createRegion,
     getChildren,
-    getChildrenRecursive,
+    getDescendants,
     getParents,
     deleteRegionById,
     changeRegionName,

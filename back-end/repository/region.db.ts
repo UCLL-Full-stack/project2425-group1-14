@@ -123,7 +123,7 @@ const getChildren = async ({ parentId }: { parentId: number }): Promise<Region[]
     }
 };
 
-const getChildrenRecursive = async ({ parentId }: { parentId: number }): Promise<Region[]> => {
+const getDescendants = async ({ parentId }: { parentId: number }): Promise<Region[]> => {
     try {
         var children: Region[] = [];
 
@@ -221,7 +221,7 @@ const changeRegionParent = async ({
     parentId: number;
 }): Promise<Region> => {
     try {
-        const childRec = await getChildrenRecursive({ parentId });
+        const childRec = await getDescendants({ parentId });
         if (childRec.map((c) => c.id).includes(parentId)) {
             throw new RepositoryError(`Region with ${parentId} is already a child of region ${id}`);
         }
@@ -250,7 +250,7 @@ export default {
     getRegionsByType,
     createRegion,
     getChildren,
-    getChildrenRecursive,
+    getDescendants,
     getParents,
     deleteRegionById,
     changeRegionName,

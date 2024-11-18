@@ -210,7 +210,7 @@ regionRouter.get('/:id/children', async (req: Request, res: Response, next: Next
 
 /**
  * @swagger
- * /regions/{id}/childrenRecursive:
+ * /regions/{id}/descendants:
  *  get:
  *   tags:
  *    - region
@@ -234,10 +234,10 @@ regionRouter.get('/:id/children', async (req: Request, res: Response, next: Next
  *         $ref: '#/components/schemas/Region'
  */
 regionRouter.get(
-    '/:id/childrenRecursive',
+    '/:id/descendants',
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const regions = await regionService.getChildrenRecursive(Number(req.params.id));
+            const regions = await regionService.getDescendants(Number(req.params.id));
             res.status(200).json(regions);
         } catch (error) {
             next(error);
