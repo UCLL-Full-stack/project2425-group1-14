@@ -6,10 +6,10 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { typeRouter } from './controller/type.routes';
 import { regionRouter } from './controller/region.routes';
-import { partyRouter } from './controller/party.router';
-import { candidateRouter } from './controller/candidate.router';
-import { voterRouter } from './controller/voter.router';
-import { ballotRouter } from './controller/ballot.router';
+import { partyRouter } from './controller/party.routes';
+import { candidateRouter } from './controller/candidate.routes';
+import { voterRouter } from './controller/voter.routes';
+import { ballotRouter } from './controller/ballot.routes';
 
 const app = express();
 dotenv.config();
@@ -48,6 +48,8 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         res.status(401).json({ status: 'Unauthorized Error', message: err.message });
     } else if (err.name === 'ServiceError') {
         res.status(400).json({ status: 'Service Error', message: err.message });
+    } else if (err.name === 'RepositoryError') {
+        res.status(400).json({ status: 'RepositoryError', message: err.message });
     } else if (err.name === 'DomainError') {
         res.status(400).json({ status: 'Domain Error', message: err.message });
     } else {
