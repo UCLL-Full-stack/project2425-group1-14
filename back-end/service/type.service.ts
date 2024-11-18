@@ -35,7 +35,13 @@ const deleteTypeById = async (id: number): Promise<String> => {
     return type;
 };
 
-const changeTypeName = async (id: number, name: string): Promise<Type> => {
+const changeTypeName = async ({ id, name }: TypeInput): Promise<Type> => {
+    if (!id) {
+        throw new ServiceError('Type was not provided');
+    }
+    if (!name) {
+        throw new ServiceError('Name was not provided');
+    }
     var validationType = await getTypeById(id);
     validationType = new Type({ ...validationType, name: name });
 

@@ -3,7 +3,7 @@ import { Candidate } from '../model/candidate';
 import { Party } from '../model/party';
 import candidateDB from '../repository/candidate.db';
 import regionDB from '../repository/region.db';
-import { CandidateInput } from '../types';
+import { CandidateInput, PartyCandidateInput } from '../types';
 import { ServiceError } from '../types/error';
 
 const getCandidates = async (): Promise<Candidate[]> => {
@@ -46,7 +46,13 @@ const deleteCandidateById = async (id: number): Promise<String> => {
     return candidate;
 };
 
-const changeCandidateName = async (id: number, name: string): Promise<Candidate> => {
+const changeCandidateName = async ({ id, name }: CandidateInput): Promise<Candidate> => {
+    if (!id) {
+        throw new ServiceError('Candidate was not provided');
+    }
+    if (!name) {
+        throw new ServiceError('Name was not provided');
+    }
     var validationCandidate = await getCandidateById(id);
     validationCandidate = new Candidate({ ...validationCandidate, name: name });
 
@@ -54,7 +60,13 @@ const changeCandidateName = async (id: number, name: string): Promise<Candidate>
     return candidate;
 };
 
-const changeCandidateRegion = async (id: number, locationId: number): Promise<Candidate> => {
+const changeCandidateRegion = async ({ id, locationId }: CandidateInput): Promise<Candidate> => {
+    if (!id) {
+        throw new ServiceError('Candidate was not provided');
+    }
+    if (!locationId) {
+        throw new ServiceError('Location was not provided');
+    }
     const location = await regionDB.getRegionById({ id: locationId });
     if (!location) {
         throw new ServiceError(`Location with id ${locationId} does not exist.`);
@@ -72,24 +84,48 @@ const getPartiesByCandidate = async (id: number): Promise<Party[]> => {
     return candidates;
 };
 
-const addCandidateToParty = async (
-    candidateId: number,
-    partyId: number
-): Promise<PartyCandidate> => {
+const addCandidateToParty = async ({
+    candidateId,
+    partyId,
+}: PartyCandidateInput): Promise<PartyCandidate> => {
+    if (!candidateId) {
+        throw new ServiceError('Candidate was not provided');
+    }
+    if (!partyId) {
+        throw new ServiceError('Location was not provided');
+    }
     const partyCandidate = await candidateDB.addCandidateToParty({ candidateId, partyId });
     return partyCandidate;
 };
 
-const removeCandidateFromParty = async (candidateId: number, partyId: number): Promise<String> => {
+const removeCandidateFromParty = async ({
+    candidateId,
+    partyId,
+}: PartyCandidateInput): Promise<String> => {
+    if (!candidateId) {
+        throw new ServiceError('Candidate was not provided');
+    }
+    if (!partyId) {
+        throw new ServiceError('Party was not provided');
+    }
     const partyCandidate = await candidateDB.removeCandidateFromParty({ candidateId, partyId });
     return partyCandidate;
 };
 
-const changePartyCandidatePosition = async (
-    candidateId: number,
-    partyId: number,
-    position: number
-): Promise<PartyCandidate> => {
+const changePartyCandidatePosition = async ({
+    candidateId,
+    partyId,
+    position,
+}: PartyCandidateInput): Promise<PartyCandidate> => {
+    if (!candidateId) {
+        throw new ServiceError('Candidate was not provided');
+    }
+    if (!partyId) {
+        throw new ServiceError('Party was not provided');
+    }
+    if (!position) {
+        throw new ServiceError('Position was not provided');
+    }
     const partyCandidate = await candidateDB.changePartyCandidatePosition({
         candidateId,
         partyId,

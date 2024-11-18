@@ -3,7 +3,7 @@ import { BallotParty } from '../model/ballotParty';
 import { Party } from '../model/party';
 import ballotDB from '../repository/ballot.db';
 import regionDB from '../repository/region.db';
-import { BallotInput } from '../types';
+import { BallotInput, BallotPartyInput } from '../types';
 import { ServiceError } from '../types/error';
 
 const getBallots = async (): Promise<Ballot[]> => {
@@ -71,7 +71,13 @@ const deleteBallotById = async (id: number): Promise<String> => {
     return ballot;
 };
 
-const changeBallotName = async (id: number, name: string): Promise<Ballot> => {
+const changeBallotName = async ({ id, name }: BallotInput): Promise<Ballot> => {
+    if (!id) {
+        throw new ServiceError('Ballot was not provided');
+    }
+    if (!name) {
+        throw new ServiceError('Name was not provided');
+    }
     var validationBallot = await getBallotById(id);
     validationBallot = new Ballot({ ...validationBallot, name: name });
 
@@ -79,7 +85,13 @@ const changeBallotName = async (id: number, name: string): Promise<Ballot> => {
     return ballot;
 };
 
-const changeBallotMinimum = async (id: number, minimum: number): Promise<Ballot> => {
+const changeBallotMinimum = async ({ id, minimum }: BallotInput): Promise<Ballot> => {
+    if (!id) {
+        throw new ServiceError('Ballot was not provided');
+    }
+    if (!minimum) {
+        throw new ServiceError('Minimum was not provided');
+    }
     var validationBallot = await getBallotById(id);
     validationBallot = new Ballot({ ...validationBallot, minimum: minimum });
 
@@ -87,7 +99,13 @@ const changeBallotMinimum = async (id: number, minimum: number): Promise<Ballot>
     return ballot;
 };
 
-const changeBallotMaximum = async (id: number, maximum: number): Promise<Ballot> => {
+const changeBallotMaximum = async ({ id, maximum }: BallotInput): Promise<Ballot> => {
+    if (!id) {
+        throw new ServiceError('Ballot was not provided');
+    }
+    if (!maximum) {
+        throw new ServiceError('Maximum was not provided');
+    }
     var validationBallot = await getBallotById(id);
     validationBallot = new Ballot({ ...validationBallot, maximum: maximum });
 
@@ -95,12 +113,24 @@ const changeBallotMaximum = async (id: number, maximum: number): Promise<Ballot>
     return ballot;
 };
 
-const addPartyToBallot = async (ballotId: number, partyId: number): Promise<BallotParty> => {
+const addPartyToBallot = async ({ ballotId, partyId }: BallotPartyInput): Promise<BallotParty> => {
+    if (!ballotId) {
+        throw new ServiceError('Ballot was not provided');
+    }
+    if (!partyId) {
+        throw new ServiceError('Party was not provided');
+    }
     const ballotParty = ballotDB.addPartyToBallot({ ballotId, partyId });
     return ballotParty;
 };
 
-const removePartyFromBallot = async (ballotId: number, partyId: number): Promise<String> => {
+const removePartyFromBallot = async ({ ballotId, partyId }: BallotPartyInput): Promise<String> => {
+    if (!ballotId) {
+        throw new ServiceError('Ballot was not provided');
+    }
+    if (!partyId) {
+        throw new ServiceError('Party was not provided');
+    }
     const ballotParty = ballotDB.removePartyFromBallot({ ballotId, partyId });
     return ballotParty;
 };

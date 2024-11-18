@@ -58,7 +58,13 @@ const deleteVoterById = async (id: number): Promise<String> => {
     return voter;
 };
 
-const changeVoterName = async (id: number, name: string): Promise<Voter> => {
+const changeVoterName = async ({ id, name }: VoterInput): Promise<Voter> => {
+    if (!id) {
+        throw new ServiceError('Voter was not provided');
+    }
+    if (!name) {
+        throw new ServiceError('Name was not provided');
+    }
     var validationVoter = await getVoterById(id);
     validationVoter = new Voter({ ...validationVoter, name: name });
 
@@ -66,7 +72,13 @@ const changeVoterName = async (id: number, name: string): Promise<Voter> => {
     return voter;
 };
 
-const changeVoterEmail = async (id: number, email: string): Promise<Voter> => {
+const changeVoterEmail = async ({ id, email }: VoterInput): Promise<Voter> => {
+    if (!id) {
+        throw new ServiceError('Voter was not provided');
+    }
+    if (!email) {
+        throw new ServiceError('Email was not provided');
+    }
     const existVoter = await voterDB.getVoterByEmail({ email });
     if (existVoter) {
         throw new ServiceError(`Voter with email ${email} already exists.`);
@@ -79,7 +91,13 @@ const changeVoterEmail = async (id: number, email: string): Promise<Voter> => {
     return voter;
 };
 
-const changeVoterKey = async (id: number, key: string): Promise<Voter> => {
+const changeVoterKey = async ({ id, key }: VoterInput): Promise<Voter> => {
+    if (!id) {
+        throw new ServiceError('Voter was not provided');
+    }
+    if (!key) {
+        throw new ServiceError('Key was not provided');
+    }
     var validationVoter = await getVoterById(id);
     validationVoter = new Voter({ ...validationVoter, key: key });
 
@@ -87,7 +105,13 @@ const changeVoterKey = async (id: number, key: string): Promise<Voter> => {
     return voter;
 };
 
-const changeVoterRegion = async (id: number, locationId: number): Promise<Voter> => {
+const changeVoterRegion = async ({ id, locationId }: VoterInput): Promise<Voter> => {
+    if (!id) {
+        throw new ServiceError('Voter was not provided');
+    }
+    if (!locationId) {
+        throw new ServiceError('Location was not provided');
+    }
     const location = await regionDB.getRegionById({ id: locationId });
     if (!location) {
         throw new ServiceError(`Location with id ${locationId} does not exist.`);

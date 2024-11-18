@@ -85,7 +85,13 @@ const deleteRegionById = async (id: number): Promise<String> => {
     return region;
 };
 
-const changeRegionName = async (id: number, name: string): Promise<Region> => {
+const changeRegionName = async ({ id, name }: RegionInput): Promise<Region> => {
+    if (!id) {
+        throw new ServiceError('Region was not provided');
+    }
+    if (!name) {
+        throw new ServiceError('Name was not provided');
+    }
     var validationRegion = await getRegionById(id);
     validationRegion = new Region({ ...validationRegion, name: name });
 
@@ -93,7 +99,13 @@ const changeRegionName = async (id: number, name: string): Promise<Region> => {
     return region;
 };
 
-const changeRegionParent = async (id: number, parentId: number): Promise<Region> => {
+const changeRegionParent = async ({ id, parentId }: RegionInput): Promise<Region> => {
+    if (!id) {
+        throw new ServiceError('Region was not provided');
+    }
+    if (!parentId) {
+        throw new ServiceError('Parent was not provided');
+    }
     const region = await regionDB.changeRegionParent({ id, parentId });
     return region;
 };

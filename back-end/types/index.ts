@@ -50,12 +50,12 @@ type BallotInput = {
 type VoterBallotInput = {
     ballotId?: number;
     voterId?: number;
-    votedFor?: number[];
+    votedFor?: Object;
 };
 
 type BallotPartyInput = {
-    ballot?: number;
-    party?: number;
+    ballotId?: number;
+    partyId?: number;
     position?: number;
 };
 

@@ -68,7 +68,13 @@ const deletePartyById = async (id: number): Promise<String> => {
     return party;
 };
 
-const changePartyName = async (id: number, name: string): Promise<Party> => {
+const changePartyName = async ({ id, name }: PartyInput): Promise<Party> => {
+    if (!id) {
+        throw new ServiceError('Party was not provided');
+    }
+    if (!name) {
+        throw new ServiceError('Name was not provided');
+    }
     var validationParty = await getPartyById(id);
     validationParty = new Party({ ...validationParty, name: name });
 
@@ -76,7 +82,13 @@ const changePartyName = async (id: number, name: string): Promise<Party> => {
     return party;
 };
 
-const changePartyAbbr = async (id: number, abbr: string): Promise<Party> => {
+const changePartyAbbr = async ({ id, abbr }: PartyInput): Promise<Party> => {
+    if (!id) {
+        throw new ServiceError('Party was not provided');
+    }
+    if (!abbr) {
+        throw new ServiceError('Abbreviation was not provided');
+    }
     var validationParty = await getPartyById(id);
     validationParty = new Party({ ...validationParty, abbr: abbr });
 
@@ -84,7 +96,13 @@ const changePartyAbbr = async (id: number, abbr: string): Promise<Party> => {
     return party;
 };
 
-const changePartyLogo = async (id: number, logo: string): Promise<Party> => {
+const changePartyLogo = async ({ id, logo }: PartyInput): Promise<Party> => {
+    if (!id) {
+        throw new ServiceError('Party was not provided');
+    }
+    if (!logo) {
+        throw new ServiceError('Logo was not provided');
+    }
     var validationParty = await getPartyById(id);
     validationParty = new Party({ ...validationParty, name: logo });
 
@@ -92,7 +110,13 @@ const changePartyLogo = async (id: number, logo: string): Promise<Party> => {
     return party;
 };
 
-const changePartyType = async (id: number, typeId: number): Promise<Party> => {
+const changePartyType = async ({ id, typeId }: PartyInput): Promise<Party> => {
+    if (!id) {
+        throw new ServiceError('Party was not provided');
+    }
+    if (!typeId) {
+        throw new ServiceError('Type was not provided');
+    }
     const type = await typeDB.getTypeById({ id: typeId });
     if (!type) {
         throw new ServiceError(`Type with id ${typeId} does not exist.`);

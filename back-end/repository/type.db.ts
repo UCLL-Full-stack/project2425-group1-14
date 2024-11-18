@@ -58,13 +58,13 @@ const deleteTypeById = async ({ id }: { id: number }): Promise<String> => {
         const partyPrisma = await database.party.deleteMany({
             where: { typeId: id },
         });
-        const regionPrisma = await database.party.deleteMany({
+        const regionPrisma = await database.region.deleteMany({
             where: { typeId: id },
         });
-        const typePrisma = await database.party.deleteMany({
+        const typePrisma = await database.type.deleteMany({
             where: { id: id },
         });
-        return `Deleted ${partyPrisma.count} Parties, ${regionPrisma} Regions and ${typePrisma.count} Types.`;
+        return `Deleted ${partyPrisma.count} Parties, ${regionPrisma.count} Regions and ${typePrisma.count} Types.`;
     } catch (error) {
         console.error(error);
         throw new RepositoryError(
