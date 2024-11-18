@@ -56,7 +56,6 @@ type VoterBallotInput = {
 type BallotPartyInput = {
     ballotId?: number;
     partyId?: number;
-    position?: number;
 };
 
 export {

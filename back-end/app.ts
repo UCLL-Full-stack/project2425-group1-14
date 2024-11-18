@@ -6,6 +6,10 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { typeRouter } from './controller/type.routes';
 import { regionRouter } from './controller/region.routes';
+import { partyRouter } from './controller/party.router';
+import { candidateRouter } from './controller/candidate.router';
+import { voterRouter } from './controller/voter.router';
+import { ballotRouter } from './controller/ballot.router';
 
 const app = express();
 dotenv.config();
@@ -16,6 +20,10 @@ app.use(bodyParser.json());
 
 app.use('/types', typeRouter);
 app.use('/regions', regionRouter);
+app.use('/parties', partyRouter);
+app.use('/candidates', candidateRouter);
+app.use('/voter', voterRouter);
+app.use('/ballots', ballotRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Hannọ API is running...' });

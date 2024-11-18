@@ -196,6 +196,4 @@ typeRouter.patch('/name', async (req: Request, res: Response, next: NextFunction
     }
 });
 
-//  getTypes, getTypeById, getTypeByName, createType, deleteTypeById, changeTypeName
-
 export { typeRouter };
