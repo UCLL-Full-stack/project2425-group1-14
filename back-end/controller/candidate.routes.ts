@@ -134,13 +134,13 @@ candidateRouter.get('/:id', async (req: Request, res: Response, next: NextFuncti
  */
 candidateRouter.get('/by', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        if (req.query.locationId && req.query.name) {
+        if (req.query.locationId) {
             const candidate = await candidateService.getCandidatesByRegion(
                 Number(req.query.locationId)
             );
             res.status(200).json(candidate);
         } else {
-            throw new ControllerError('Name or Type must be provided');
+            throw new ControllerError('Location must be provided');
         }
     } catch (error) {
         next(error);
@@ -391,7 +391,9 @@ candidateRouter.delete('/party', async (req: Request, res: Response, next: NextF
 candidateRouter.patch('/party', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const partyCandidateInput = <PartyCandidateInput>req.body;
-        const partyCandidate = await candidateService.changePartyCandidatePosition(partyCandidateInput);
+        const partyCandidate = await candidateService.changePartyCandidatePosition(
+            partyCandidateInput
+        );
         res.status(200).json(partyCandidate);
     } catch (error) {
         next(error);
