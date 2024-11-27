@@ -8,8 +8,9 @@ import { typeRouter } from './controller/type.routes';
 import { regionRouter } from './controller/region.routes';
 import { partyRouter } from './controller/party.routes';
 import { candidateRouter } from './controller/candidate.routes';
-import { voterRouter } from './controller/voter.routes';
+import { userRouter } from './controller/user.routes';
 import { ballotRouter } from './controller/ballot.routes';
+import { expressjwt } from 'express-jwt';
 
 const app = express();
 dotenv.config();
@@ -18,11 +19,20 @@ const port = process.env.APP_PORT || 3000;
 app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
 
+app.use(
+    expressjwt({
+        secret: process.env.JWT_SECRET || 'hanno',
+        algorithms: ['HS256']
+    }).unless({
+        path: ['/api-docs', /^\/api-docs\/.*/, '/users/login', '/users/signup', '/status']
+    })
+);
+
 app.use('/types', typeRouter);
 app.use('/regions', regionRouter);
 app.use('/parties', partyRouter);
 app.use('/candidates', candidateRouter);
-app.use('/voter', voterRouter);
+app.use('/users', userRouter);
 app.use('/ballots', ballotRouter);
 
 app.get('/status', (req, res) => {
@@ -34,7 +44,7 @@ const swaggerOpts = {
         openapi: '3.0.0',
         info: {
             title: 'Hannọ API',
-            version: '0.1.0',
+            version: '0.2.0',
         },
     },
     apis: ['./controller/*.routes.ts'],

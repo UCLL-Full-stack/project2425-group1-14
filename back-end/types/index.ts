@@ -1,3 +1,5 @@
+type Role = 'admin' | 'manager' | 'voter';
+
 type TypeInput = {
     id?: number;
     name?: string;
@@ -30,11 +32,13 @@ type PartyCandidateInput = {
     position?: number;
 };
 
-type VoterInput = {
+type UserInput = {
     id?: number;
+    username?: string;
     name?: string;
     email?: string;
-    key?: string;
+    password?: string;
+    role?: Role;
     locationId?: number;
 };
 
@@ -58,14 +62,22 @@ type BallotPartyInput = {
     partyId?: number;
 };
 
+type AuthenticationResponse = {
+    token: string;
+    username: string;
+    name: string;
+};
+
 export {
+    Role,
     TypeInput,
     RegionInput,
     PartyInput,
     CandidateInput,
     PartyCandidateInput,
-    VoterInput,
+    UserInput,
     BallotInput,
     VoterBallotInput,
     BallotPartyInput,
+    AuthenticationResponse
 };

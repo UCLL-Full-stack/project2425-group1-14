@@ -23,7 +23,7 @@ model Region {
   parentId  Int?
   child     Region[]    @relation("ChildRegion")
   Candidate Candidate[]
-  Voter     Voter[]
+  User      User[]
   Ballot    Ballot[]
 
   @@unique([name, typeId])
@@ -60,11 +60,13 @@ model PartyCandidate {
   @@id(name: "partyCandidateId", [candidateId, partyId])
 }
 
-model Voter {
+model User {
   id          Int           @id @default(autoincrement())
+  username    String        @unique
   name        String
   email       String        @unique
-  key         String
+  password    String
+  role        String
   location    Region        @relation(fields: [locationId], references: [id])
   locationId  Int
   VoterBallot VoterBallot[]
@@ -83,13 +85,13 @@ model Ballot {
 }
 
 model VoterBallot {
-  voter    Voter  @relation(fields: [voterId], references: [id])
-  voterId  Int
+  user     User   @relation(fields: [userId], references: [id])
+  userId   Int
   ballot   Ballot @relation(fields: [ballotId], references: [id])
   ballotId Int
   votedFor String
 
-  @@id(name: "voterBallotId", [voterId, ballotId])
+  @@id(name: "voterBallotId", [userId, ballotId])
 }
 
 model BallotParty {

@@ -179,20 +179,26 @@ const getParents = async ({ childId }: { childId: number }): Promise<Region[]> =
 
 const deleteRegionById = async ({ id }: { id: number }): Promise<String> => {
     try {
+        const nonVoterCount = await database.user.count({
+            where: { locationId: id, role: {not: 'voter'} },
+        });
+        if (nonVoterCount > 0) {
+            throw new RepositoryError("There are users with the region");
+        }
         const ballotPrisma = await database.ballot.deleteMany({
             where: { locationId: id },
         });
-        const voterPrisma = await database.voter.deleteMany({
-            where: { locationId: id },
+        const userPrisma = await database.user.deleteMany({
+            where: { locationId: id, role: 'voter' },
         });
         const regionsPrisma = await database.region.deleteMany({
             where: { id: id },
         });
-        return `Deleted ${ballotPrisma.count} Ballots, ${voterPrisma} Voters and ${regionsPrisma.count} Regions.`;
+        return `Deleted ${ballotPrisma.count} Ballots, ${userPrisma} Users and ${regionsPrisma.count} Regions.`;
     } catch (error) {
         console.error(error);
         throw new RepositoryError(
-            "Database error. See server log for details.\nIf you're not a server admin, please make sure any Ballots, Voters, VoterBallots or BallotParties have been deleted first."
+            "Database error. See server log for details.\nIf you're not a server admin, please make sure any Ballots, Users, VoterBallots or BallotParties have been deleted or moved first."
         );
     }
 };

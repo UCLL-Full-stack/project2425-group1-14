@@ -10,7 +10,7 @@ const main = async () => {
     await prisma.ballotParty.deleteMany();
     await prisma.voterBallot.deleteMany();
     await prisma.ballot.deleteMany();
-    await prisma.voter.deleteMany();
+    await prisma.user.deleteMany();
     await prisma.partyCandidate.deleteMany();
     await prisma.candidate.deleteMany();
     await prisma.party.deleteMany();

@@ -1,156 +1,171 @@
 import database from '../util/database';
 import { RepositoryError } from '../types/error';
-import { Voter } from '../model/voter';
+import { User } from '../model/user';
 
-const getVoters = async (): Promise<Voter[]> => {
+const getUsers = async (): Promise<User[]> => {
     try {
-        const votersPrisma = await database.voter.findMany({
+        const usersPrisma = await database.user.findMany({
             include: { location: { include: { type: true } } },
         });
-        return votersPrisma.map((voterPrisma) => Voter.from(voterPrisma));
+        return usersPrisma.map((userPrisma) => User.from(userPrisma));
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
-const getVoterById = async ({ id }: { id: number }): Promise<Voter | null> => {
+const getUserById = async ({ id }: { id: number }): Promise<User | null> => {
     try {
-        const voterPrisma = await database.voter.findUnique({
+        const userPrisma = await database.user.findUnique({
             where: { id: id },
             include: { location: { include: { type: true } } },
         });
-        return voterPrisma ? Voter.from(voterPrisma) : null;
+        return userPrisma ? User.from(userPrisma) : null;
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
-const getVoterByEmail = async ({ email }: { email: string }): Promise<Voter | null> => {
+const getUserByEmail = async ({ email }: { email: string }): Promise<User | null> => {
     try {
-        const voterPrisma = await database.voter.findUnique({
+        const userPrisma = await database.user.findUnique({
             where: { email: email },
             include: { location: { include: { type: true } } },
         });
-        return voterPrisma ? Voter.from(voterPrisma) : null;
+        return userPrisma ? User.from(userPrisma) : null;
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
-const getVotersByRegion = async ({ locationId }: { locationId: number }): Promise<Voter[]> => {
+const getUsersByRegion = async ({ locationId }: { locationId: number }): Promise<User[]> => {
     try {
-        const votersPrisma = await database.voter.findMany({
+        const usersPrisma = await database.user.findMany({
             where: { locationId: locationId },
             include: { location: { include: { type: true } } },
         });
-        return votersPrisma.map((voterPrisma) => Voter.from(voterPrisma));
+        return usersPrisma.map((userPrisma) => User.from(userPrisma));
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
-const createVoter = async ({ name, email, key, location }: Voter): Promise<Voter> => {
+const getUserByUsername = async ({ username }: { username: string }): Promise<User | null> => {
     try {
-        const voterPrisma = await database.voter.create({
+        const userPrisma = await database.user.findUnique({
+            where: { username: username },
+            include: { location: { include: { type: true } } },
+        });
+        return userPrisma ? User.from(userPrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
+const createUser = async ({ username, name, email, password, role, location }: User): Promise<User> => {
+    try {
+        const userPrisma = await database.user.create({
             data: {
+                username: username,
                 name: name,
                 email: email,
-                key: key,
+                password: password,
+                role: role,
                 location: { connect: { id: location.id } },
             },
             include: { location: { include: { type: true } } },
         });
 
-        return Voter.from(voterPrisma);
+        return User.from(userPrisma);
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
-const deleteVoterById = async ({ id }: { id: number }): Promise<String> => {
+const deleteUserById = async ({ id }: { id: number }): Promise<String> => {
     try {
         const voterBallotPrisma = await database.voterBallot.deleteMany({
-            where: { voterId: id },
+            where: { userId: id },
         });
-        const voterPrisma = await database.voter.deleteMany({
+        const userPrisma = await database.user.deleteMany({
             where: { id: id },
         });
-        return `Deleted ${voterBallotPrisma.count} VoterBallots and ${voterPrisma.count} Voters`;
+        return `Deleted ${voterBallotPrisma.count} VoterBallots and ${userPrisma.count} Users`;
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
-const changeVoterName = async ({ id, name }: { id: number; name: string }): Promise<Voter> => {
+const changeUserName = async ({ id, name }: { id: number; name: string }): Promise<User> => {
     try {
-        const voterPrisma = await database.voter.update({
+        const userPrisma = await database.user.update({
             where: { id: id },
             data: {
                 name: name,
             },
             include: { location: { include: { type: true } } },
         });
-        return Voter.from(voterPrisma);
+        return User.from(userPrisma);
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
-const changeVoterEmail = async ({ id, email }: { id: number; email: string }): Promise<Voter> => {
+const changeUserEmail = async ({ id, email }: { id: number; email: string }): Promise<User> => {
     try {
-        const voterPrisma = await database.voter.update({
+        const userPrisma = await database.user.update({
             where: { id: id },
             data: {
                 email: email,
             },
             include: { location: { include: { type: true } } },
         });
-        return Voter.from(voterPrisma);
+        return User.from(userPrisma);
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
-const changeVoterKey = async ({ id, key }: { id: number; key: string }): Promise<Voter> => {
+const changeUserPassword = async ({ id, password }: { id: number; password: string }): Promise<User> => {
     try {
-        const voterPrisma = await database.voter.update({
+        const userPrisma = await database.user.update({
             where: { id: id },
             data: {
-                key: key,
+                password: password,
             },
             include: { location: { include: { type: true } } },
         });
-        return Voter.from(voterPrisma);
+        return User.from(userPrisma);
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
     }
 };
 
-const changeVoterRegion = async ({
+const changeUserRegion = async ({
     id,
     locationId,
 }: {
     id: number;
     locationId: number;
-}): Promise<Voter> => {
+}): Promise<User> => {
     try {
-        const voterPrisma = await database.voter.update({
+        const userPrisma = await database.user.update({
             where: { id: id },
             data: {
                 location: { connect: { id: locationId } },
             },
             include: { location: { include: { type: true } } },
         });
-        return Voter.from(voterPrisma);
+        return User.from(userPrisma);
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
@@ -158,16 +173,17 @@ const changeVoterRegion = async ({
 };
 
 export default {
-    getVoters,
-    getVoterById,
-    getVoterByEmail,
-    getVotersByRegion,
-    createVoter,
-    deleteVoterById,
-    changeVoterName,
-    changeVoterEmail,
-    changeVoterKey,
-    changeVoterRegion,
+    getUsers,
+    getUserById,
+    getUserByEmail,
+    getUserByUsername,
+    getUsersByRegion,
+    createUser,
+    deleteUserById,
+    changeUserName,
+    changeUserEmail,
+    changeUserPassword,
+    changeUserRegion,
     /*
     submitVote,
     deleteVote,

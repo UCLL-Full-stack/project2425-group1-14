@@ -53,3 +53,14 @@
 - [ ] Er is minstens 1 login formulier met validatie en foutafhandeling.
 - [ ] Er worden minstens 2 waarden opgeslagen in de browser storage en gebruikt in de hele applicatie.
 - [ ] Styling is toegepast in de mate dat je applicatie bruikbaar en leesbaar is. Je mag je eigen styling framework kiezen.
+
+## 6 - Back-end: Security
+- [ ] User Sign-up:
+    - [ ] Paswoorden worden steeds encrypted opgeslagen in de database (bcrypt).
+    - [ ] User input wordt steeds gevalideerd. (Back-end en Front-end)
+- [ ] Authentication:
+    - [ ] Je gebruikt JWT token based authentication waar nodig in de routes en Swagger. 
+    - [ ] Behalve voor login, register, status, de Swagger documentatie en eventueel een beperkt aantal andere routes afhankelijk van de context van je project.
+- [ ] Authorisation:
+    - [ ] Je hebt minstens 3 verschillende rollen in je domain.
+    - [ ] Minstens 1 route in je back-end heeft een ander gedrag afhankelijk van de rol (geeft andere data op basis van de rol)

@@ -1,23 +1,31 @@
 import { Ballot } from './ballot';
-import { Voter } from './voter';
+import { User } from './user';
 import { PartyCandidate } from './partyCandidate';
 import {
     VoterBallot as VoterBallotPrisma,
-    Voter as VoterPrisma,
+    User as UserPrisma,
     Ballot as BallotPrisma,
     Region as RegionPrisma,
     Type as TypePrisma,
 } from '@prisma/client';
+import { DomainError } from '../types/error';
 
 export class VoterBallot {
     readonly ballot: Ballot;
-    readonly voter: Voter;
+    readonly voter: User;
     readonly votedFor: PartyCandidate[];
 
-    constructor(voterBallot: { ballot: Ballot; voter: Voter; votedFor: PartyCandidate[] }) {
+    constructor(voterBallot: { ballot: Ballot; voter: User; votedFor: PartyCandidate[] }) {
+        this.validate(voterBallot)
         this.ballot = voterBallot.ballot;
         this.voter = voterBallot.voter;
         this.votedFor = voterBallot.votedFor;
+    }
+
+    validate(voterBallot: {voter: User}): void {
+        if (voterBallot.voter.role != 'voter') {
+            throw new DomainError("User is not of type 'voter'");
+        }
     }
 
     equals(voterBallot: VoterBallot): boolean {
@@ -32,12 +40,12 @@ export class VoterBallot {
 
     static from(
         data: VoterBallotPrisma & {
-            voter: VoterPrisma & { location: RegionPrisma & { type: TypePrisma } };
+            voter: UserPrisma & { location: RegionPrisma & { type: TypePrisma } };
             ballot: BallotPrisma & { location: RegionPrisma & { type: TypePrisma } };
         }
     ): VoterBallot {
         return new VoterBallot({
-            voter: Voter.from(data.voter),
+            voter: User.from(data.voter),
             ballot: Ballot.from(data.ballot),
             votedFor: [],
         });

@@ -47,8 +47,8 @@ const createRegion = async ({ name, typeId, parentId }: RegionInput): Promise<Re
     if (!type) {
         throw new ServiceError(`Type with id ${typeId} does not exist.`);
     }
-
-    var parent = undefined;
+    
+    var parent: Region | null | undefined = undefined;
     if (parentId != null) {
         parent = await regionDB.getRegionById({ id: parentId });
         if (!parent) {
