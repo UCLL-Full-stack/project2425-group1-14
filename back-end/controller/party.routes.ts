@@ -45,6 +45,8 @@ const partyRouter = express.Router();
  *  get:
  *   tags:
  *    - party
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a list of all parties.
  *   responses:
  *    200:
@@ -71,6 +73,8 @@ partyRouter.get('/', async (req: Request, res: Response, next: NextFunction) => 
  *  get:
  *   tags:
  *    - party
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a party by id.
  *   parameters:
  *    - in: path
@@ -102,6 +106,8 @@ partyRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) 
  *  get:
  *   tags:
  *    - party
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get parties by name, type, or both.
  *   parameters:
  *    - in: query
@@ -151,6 +157,8 @@ partyRouter.get('/by', async (req: Request, res: Response, next: NextFunction) =
  *  get:
  *   tags:
  *    - party
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a party's candidates by id.
  *   parameters:
  *    - in: path
@@ -184,6 +192,8 @@ partyRouter.get('/:id/candidates', async (req: Request, res: Response, next: Nex
  *  post:
  *   tags:
  *    - party
+ *   security:
+ *    - bearerAuth: []
  *   summary: Create a new party.
  *   requestBody:
  *    required: true
@@ -216,6 +226,8 @@ partyRouter.post('/', async (req: Request, res: Response, next: NextFunction) =>
  *  delete:
  *   tags:
  *    - party
+ *   security:
+ *    - bearerAuth: []
  *   summary: Delete a party by id.
  *   parameters:
  *    - in: path
@@ -247,6 +259,8 @@ partyRouter.delete('/:id', async (req: Request, res: Response, next: NextFunctio
  *  patch:
  *   tags:
  *    - party
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a party's name.
  *   requestBody:
  *    required: true
@@ -278,6 +292,8 @@ partyRouter.patch('/name', async (req: Request, res: Response, next: NextFunctio
  *  patch:
  *   tags:
  *    - party
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a party's abbreviation.
  *   requestBody:
  *    required: true
@@ -309,6 +325,8 @@ partyRouter.patch('/abbr', async (req: Request, res: Response, next: NextFunctio
  *  patch:
  *   tags:
  *    - party
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a party's logo.
  *   requestBody:
  *    required: true
@@ -340,6 +358,8 @@ partyRouter.patch('/logo', async (req: Request, res: Response, next: NextFunctio
  *  patch:
  *   tags:
  *    - party
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a party's type.
  *   requestBody:
  *    required: true

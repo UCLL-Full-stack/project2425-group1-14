@@ -76,6 +76,8 @@ const userRouter = express.Router();
  *  get:
  *   tags:
  *    - user
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a list of all users.
  *   responses:
  *    200:
@@ -102,6 +104,8 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *  get:
  *   tags:
  *    - user
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a user by id.
  *   parameters:
  *    - in: path
@@ -133,6 +137,8 @@ userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
  *  get:
  *   tags:
  *    - user
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get users by region.
  *   parameters:
  *    - in: query
@@ -169,6 +175,8 @@ userRouter.get('/by', async (req: Request, res: Response, next: NextFunction) =>
  *  get:
  *   tags:
  *    - user
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get user by email.
  *   parameters:
  *    - in: query
@@ -267,6 +275,8 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
  *  delete:
  *   tags:
  *    - user
+ *   security:
+ *    - bearerAuth: []
  *   summary: Delete a user by id.
  *   parameters:
  *    - in: path
@@ -298,6 +308,8 @@ userRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction
  *  patch:
  *   tags:
  *    - user
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a user's name.
  *   requestBody:
  *    required: true
@@ -329,6 +341,8 @@ userRouter.patch('/name', async (req: Request, res: Response, next: NextFunction
  *  patch:
  *   tags:
  *    - user
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a user's email.
  *   requestBody:
  *    required: true
@@ -360,6 +374,8 @@ userRouter.patch('/email', async (req: Request, res: Response, next: NextFunctio
  *  patch:
  *   tags:
  *    - user
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a user's password.
  *   requestBody:
  *    required: true
@@ -391,6 +407,8 @@ userRouter.patch('/key', async (req: Request, res: Response, next: NextFunction)
  *  patch:
  *   tags:
  *    - user
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a user's region.
  *   requestBody:
  *    required: true

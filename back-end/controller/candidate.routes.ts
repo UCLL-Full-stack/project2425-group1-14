@@ -58,6 +58,8 @@ const candidateRouter = express.Router();
  *  get:
  *   tags:
  *    - candidate
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a list of all candidates.
  *   responses:
  *    200:
@@ -84,6 +86,8 @@ candidateRouter.get('/', async (req: Request, res: Response, next: NextFunction)
  *  get:
  *   tags:
  *    - candidate
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a candidate by id.
  *   parameters:
  *    - in: path
@@ -115,6 +119,8 @@ candidateRouter.get('/:id', async (req: Request, res: Response, next: NextFuncti
  *  get:
  *   tags:
  *    - candidate
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get candidates by region.
  *   parameters:
  *    - in: query
@@ -153,6 +159,8 @@ candidateRouter.get('/by', async (req: Request, res: Response, next: NextFunctio
  *  get:
  *   tags:
  *    - candidate
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a candidate's parties by id.
  *   parameters:
  *    - in: path
@@ -186,6 +194,8 @@ candidateRouter.get('/:id/parties', async (req: Request, res: Response, next: Ne
  *  post:
  *   tags:
  *    - candidate
+ *   security:
+ *    - bearerAuth: []
  *   summary: Create a new candidate.
  *   requestBody:
  *    required: true
@@ -218,6 +228,8 @@ candidateRouter.post('/', async (req: Request, res: Response, next: NextFunction
  *  delete:
  *   tags:
  *    - candidate
+ *   security:
+ *    - bearerAuth: []
  *   summary: Delete a candidate by id.
  *   parameters:
  *    - in: path
@@ -249,6 +261,8 @@ candidateRouter.delete('/:id', async (req: Request, res: Response, next: NextFun
  *  patch:
  *   tags:
  *    - candidate
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a candidate's name.
  *   requestBody:
  *    required: true
@@ -280,6 +294,8 @@ candidateRouter.patch('/name', async (req: Request, res: Response, next: NextFun
  *  patch:
  *   tags:
  *    - candidate
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a candidate's region.
  *   requestBody:
  *    required: true
@@ -311,6 +327,8 @@ candidateRouter.patch('/region', async (req: Request, res: Response, next: NextF
  *  post:
  *   tags:
  *    - candidate
+ *   security:
+ *    - bearerAuth: []
  *   summary: Add a candidate to a party.
  *   requestBody:
  *    required: true
@@ -342,6 +360,8 @@ candidateRouter.post('/party', async (req: Request, res: Response, next: NextFun
  *  delete:
  *   tags:
  *    - candidate
+ *   security:
+ *    - bearerAuth: []
  *   summary: Remove a candidate from a party.
  *   requestBody:
  *    required: true
@@ -373,6 +393,8 @@ candidateRouter.delete('/party', async (req: Request, res: Response, next: NextF
  *  patch:
  *   tags:
  *    - candidate
+ *   security:
+ *    - bearerAuth: []
  *   summary: Update the position of a partyCandidate.
  *   requestBody:
  *    required: true

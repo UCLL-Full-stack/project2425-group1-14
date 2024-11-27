@@ -68,6 +68,8 @@ const ballotRouter = express.Router();
  *  get:
  *   tags:
  *    - ballot
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a list of all ballots.
  *   responses:
  *    200:
@@ -94,6 +96,8 @@ ballotRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
  *  get:
  *   tags:
  *    - ballot
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a ballot by id.
  *   parameters:
  *    - in: path
@@ -125,6 +129,8 @@ ballotRouter.get('/:id', async (req: Request, res: Response, next: NextFunction)
  *  get:
  *   tags:
  *    - ballot
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get ballots by region.
  *   parameters:
  *    - in: query
@@ -161,6 +167,8 @@ ballotRouter.get('/by', async (req: Request, res: Response, next: NextFunction) 
  *  post:
  *   tags:
  *    - ballot
+ *   security:
+ *    - bearerAuth: []
  *   summary: Create a new ballot.
  *   requestBody:
  *    required: true
@@ -193,6 +201,8 @@ ballotRouter.post('/', async (req: Request, res: Response, next: NextFunction) =
  *  get:
  *   tags:
  *    - ballot
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a ballot's parties by id.
  *   parameters:
  *    - in: path
@@ -226,6 +236,8 @@ ballotRouter.get('/:id/parties', async (req: Request, res: Response, next: NextF
  *  get:
  *   tags:
  *    - ballot
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a ballot's votes by id.
  *   parameters:
  *    - in: path
@@ -257,6 +269,8 @@ ballotRouter.get('/:id/votes', async (req: Request, res: Response, next: NextFun
  *  delete:
  *   tags:
  *    - ballot
+ *   security:
+ *    - bearerAuth: []
  *   summary: Delete a ballot by id.
  *   parameters:
  *    - in: path
@@ -288,6 +302,8 @@ ballotRouter.delete('/:id', async (req: Request, res: Response, next: NextFuncti
  *  patch:
  *   tags:
  *    - ballot
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a ballot's name.
  *   requestBody:
  *    required: true
@@ -319,6 +335,8 @@ ballotRouter.patch('/name', async (req: Request, res: Response, next: NextFuncti
  *  patch:
  *   tags:
  *    - ballot
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a ballot's minimum.
  *   requestBody:
  *    required: true
@@ -350,6 +368,8 @@ ballotRouter.patch('/minimum', async (req: Request, res: Response, next: NextFun
  *  patch:
  *   tags:
  *    - ballot
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a ballot's maximum.
  *   requestBody:
  *    required: true
@@ -381,6 +401,8 @@ ballotRouter.patch('/maximum', async (req: Request, res: Response, next: NextFun
  *  post:
  *   tags:
  *    - ballot
+ *   security:
+ *    - bearerAuth: []
  *   summary: Add a party to a ballot.
  *   requestBody:
  *    required: true
@@ -412,6 +434,8 @@ ballotRouter.post('/party', async (req: Request, res: Response, next: NextFuncti
  *  delete:
  *   tags:
  *    - ballot
+ *   security:
+ *    - bearerAuth: []
  *   summary: Remove a party from a ballot.
  *   requestBody:
  *    required: true

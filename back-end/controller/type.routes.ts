@@ -32,6 +32,8 @@ const typeRouter = express.Router();
  *  get:
  *   tags:
  *    - type
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a list of all types.
  *   responses:
  *    200:
@@ -58,6 +60,8 @@ typeRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *  get:
  *   tags:
  *    - type
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a type by id or name.
  *   parameters:
  *    - in: query
@@ -99,6 +103,8 @@ typeRouter.get('/by', async (req: Request, res: Response, next: NextFunction) =>
  *  post:
  *   tags:
  *    - type
+ *   security:
+ *    - bearerAuth: []
  *   summary: Create a new type.
  *   requestBody:
  *    required: true
@@ -131,6 +137,8 @@ typeRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
  *  delete:
  *   tags:
  *    - type
+ *   security:
+ *    - bearerAuth: []
  *   summary: Delete a type by id.
  *   parameters:
  *    - in: path
@@ -162,6 +170,8 @@ typeRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction
  *  patch:
  *   tags:
  *    - type
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a type's name.
  *   requestBody:
  *    required: true

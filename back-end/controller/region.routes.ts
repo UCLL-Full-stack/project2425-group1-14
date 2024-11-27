@@ -42,6 +42,8 @@ const regionRouter = express.Router();
  *  get:
  *   tags:
  *    - region
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a list of all regions.
  *   responses:
  *    200:
@@ -68,6 +70,8 @@ regionRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
  *  get:
  *   tags:
  *    - region
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a region by id.
  *   parameters:
  *    - in: path
@@ -99,6 +103,8 @@ regionRouter.get('/:id', async (req: Request, res: Response, next: NextFunction)
  *  get:
  *   tags:
  *    - region
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get regions by name, type, or both.
  *   parameters:
  *    - in: query
@@ -148,6 +154,8 @@ regionRouter.get('/by', async (req: Request, res: Response, next: NextFunction) 
  *  post:
  *   tags:
  *    - region
+ *   security:
+ *    - bearerAuth: []
  *   summary: Create a new region.
  *   requestBody:
  *    required: true
@@ -180,6 +188,8 @@ regionRouter.post('/', async (req: Request, res: Response, next: NextFunction) =
  *  get:
  *   tags:
  *    - region
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a list of all child regions.
  *   parameters:
  *    - in: path
@@ -214,6 +224,8 @@ regionRouter.get('/:id/children', async (req: Request, res: Response, next: Next
  *  get:
  *   tags:
  *    - region
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a list of all child regions.
  *   parameters:
  *    - in: path
@@ -248,6 +260,8 @@ regionRouter.get('/:id/descendants', async (req: Request, res: Response, next: N
  *  get:
  *   tags:
  *    - region
+ *   security:
+ *    - bearerAuth: []
  *   summary: Get a list of all parent regions.
  *   parameters:
  *    - in: path
@@ -282,6 +296,8 @@ regionRouter.get('/:id/parents', async (req: Request, res: Response, next: NextF
  *  delete:
  *   tags:
  *    - region
+ *   security:
+ *    - bearerAuth: []
  *   summary: Delete a region by id.
  *   parameters:
  *    - in: path
@@ -313,6 +329,8 @@ regionRouter.delete('/:id', async (req: Request, res: Response, next: NextFuncti
  *  patch:
  *   tags:
  *    - region
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a region's name.
  *   requestBody:
  *    required: true
@@ -344,6 +362,8 @@ regionRouter.patch('/name', async (req: Request, res: Response, next: NextFuncti
  *  patch:
  *   tags:
  *    - region
+ *   security:
+ *    - bearerAuth: []
  *   summary: Change a region's parent.
  *   requestBody:
  *    required: true
