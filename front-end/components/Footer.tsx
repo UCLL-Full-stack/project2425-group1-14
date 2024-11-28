@@ -5,15 +5,15 @@ const Footer: React.FC = () => {
         <div style={footerStyles.container}>
             <div style={footerStyles.innerContainer}>
 
-                <p style={footerStyles.text}>© 2024 Hanno. All rights reserved.</p>
+                <p style={footerStyles.text}>© 2024 Hannọ</p>
 
 
                 <div style={footerStyles.legalLinks}>
-                    <a href="/PP" style={footerStyles.link}>
-                        Privacy Policy
+                    <a href="/source" style={footerStyles.link}>
+                        Source
                     </a> |{' '}
-                    <a href="/TOS" style={footerStyles.link}>
-                        Terms of Service
+                    <a href="/license" style={footerStyles.link}>
+                        License
                     </a>
                 </div>
             </div>
@@ -77,21 +77,21 @@ const handleMouseOut = (e: React.MouseEvent) => {
 const legalLinks = (
     <div style={footerStyles.legalLinks}>
         <a
-            href="/privacy-policy"
+            href="/source"
             style={footerStyles.link}
             onMouseEnter={handleHover}
             onMouseLeave={handleMouseOut}
         >
-            Privacy Policy
+            Source
         </a>{' '}
         |{' '}
         <a
-            href="/terms-of-service"
+            href="/license"
             style={footerStyles.link}
             onMouseEnter={handleHover}
             onMouseLeave={handleMouseOut}
         >
-            Terms of Service
+            License
         </a>
     </div>
 );
