@@ -1,20 +1,14 @@
+import "../styles/globals.css";
 import React, { useState } from 'react';
-import Link from 'next/link';
-
-const Header: React.FC = () => {
-    return (
-        <div style={headerStyles.container}>
-
-        </div>
-    );
-};
-
+import { AppProps } from 'next/app';
+import Footer from '../front-end/components/Footer';
+import Header from '@/components/Header';
 const VotingPage: React.FC = () => {
     const [vote, setVote] = useState<string | null>(null);
 
     const handleVote = (option: string) => {
         setVote(option);
-        // backend callen 
+        // Backend call logic here
     };
 
     return (
@@ -23,7 +17,6 @@ const VotingPage: React.FC = () => {
             <h1 style={{ ...styles.header, padding: '20px' }}>Vote here</h1>
             <p style={{ textAlign: 'left', fontSize: '1.2em', marginBottom: '20px', border: '1px solid #ccc', padding: '10px', color: 'black' }}>Select a party</p>
             <div style={{ ...styles.buttonContainer, display: 'flex', justifyContent: 'right', padding: '20px' }}>
-
                 <div style={{ textAlign: 'left' }}>
                     <label style={{ display: 'block', marginBottom: '20px', color: 'black' }}>
                         <input type="radio" name="vote" onChange={() => handleVote('Party 1')} style={{ marginRight: '10px' }} />
@@ -41,22 +34,9 @@ const VotingPage: React.FC = () => {
             </div>
             <button style={{ ...styles.button, borderRadius: '10px' }}>Submit</button>
             {vote && <p style={styles.voteText}>You voted for: {vote}</p>}
-        </div >
+            <Footer />
+        </div>
     );
-};
-
-const headerStyles = {
-    container: {
-        display: 'flex',
-        justifyContent: 'space-around',
-        padding: '10px',
-        backgroundColor: '#0070f3',
-    },
-    link: {
-        color: '#fff',
-        textDecoration: 'none',
-        fontSize: '1.2em',
-    },
 };
 
 const styles = {
@@ -66,6 +46,8 @@ const styles = {
         height: '100vh',
         fontFamily: 'Arial, sans-serif',
         backgroundColor: '#f0f0f0',
+        position: 'relative' as const,
+        paddingBottom: '50px', // Ensure footer space
     },
     header: {
         fontSize: '2em',
@@ -82,23 +64,12 @@ const styles = {
         borderRadius: '5px',
         border: 'none',
         backgroundColor: '#0070f3',
-        color: '#000',
+        color: '#fff',
         transition: 'background-color 0.3s',
-    },
-    buttonHover: {
-        backgroundColor: '#005bb5',
     },
     voteText: {
         fontSize: '1.2em',
         color: '#0070f3',
-    },
-    linkContainer: {
-        marginTop: '20px',
-    },
-    link: {
-        color: '#0070f3',
-        textDecoration: 'none',
-        fontSize: '1em',
     },
 };
 
