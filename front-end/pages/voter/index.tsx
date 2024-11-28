@@ -1,4 +1,4 @@
-import "../styles/globals.css";
+import "@styles/globals.css";
 import React, { useState } from 'react';
 import { AppProps } from 'next/app';
 import Footer from '@components/Footer';
@@ -39,7 +39,7 @@ const VotingPage: React.FC = () => {
     );
 };
 
-const styles = {
+const styles: Object & { [key: string]: React.CSSProperties } = {
     container: {
         textAlign: 'center' as const,
         marginTop: '0',

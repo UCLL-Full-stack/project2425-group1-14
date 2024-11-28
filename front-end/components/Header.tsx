@@ -37,7 +37,7 @@ const Header: React.FC = () => {
     );
 };
 
-const headerStyles = {
+const headerStyles: Object & { [key: string]: React.CSSProperties } = {
     container: {
         display: 'flex',
         justifyContent: 'space-between',

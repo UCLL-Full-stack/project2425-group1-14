@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
     );
 };
 
-const footerStyles = {
+const footerStyles: Object & { [key: string]: React.CSSProperties } = {
     container: {
         padding: '20px 10px',
         backgroundColor: '#0070f3',

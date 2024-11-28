@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '@components/Header';
+import Footer from '@components/Footer';
 
 const IndexPage: React.FC = () => {
   useEffect(() => {
@@ -20,7 +20,7 @@ const IndexPage: React.FC = () => {
     <div style={styles.container}>
       <Header />
       <div style={styles.contentContainer}>
-        <h2 style={styles.heading}>Welcome to Hanno</h2>
+        <h2 style={styles.heading}>Welcome to Hannọ</h2>
         <button
           style={styles.voteButton}
           onClick={() => window.location.href = '/voter'}
@@ -33,7 +33,7 @@ const IndexPage: React.FC = () => {
   );
 };
 
-const styles: React.CSSProperties = {
+const styles: Object & { [key: string]: React.CSSProperties } = {
   container: {
     textAlign: 'center',
     height: '100vh',

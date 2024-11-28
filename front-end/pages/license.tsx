@@ -2,30 +2,34 @@ import React from 'react';
 import Header from '@components/Header'; // Import the Header component
 import Footer from '@components/Footer'; // Import the Footer component
 
-const AboutPage: React.FC = () => {
+const License: React.FC = () => {
     return (
         <div style={styles.container}>
             <Header />
 
             <div style={styles.content}>
                 <section style={styles.blurb}>
-                    <h1 style={styles.title}>About Us</h1>
+                    <h1 style={styles.title}>License for Hannọ</h1>
                     <p style={styles.date}>Last updated: November 2024</p>
                 </section>
 
                 <section style={styles.section}>
-                    <h2 style={styles.sectionTitle}>Our Story</h2>
+                    <h2>MIT License</h2>
+                    <br></br>
                     <p style={styles.sectionText}>
-                        We are just a group of second-year students in university, working on a project for our third semester.
-                        Our goal is simple: to create easy-to-use, self-hostable, and open software for voting.
+                        Copyright (c) 2024 Hannọ
                     </p>
                 </section>
+                
 
                 <section style={styles.section}>
-                    <h2 style={styles.sectionTitle}>Lorem ipsum dolor sit amet</h2>
                     <p style={styles.sectionText}>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores corporis inventore rem debitis exercitationem. Omnis itaque dolorem veritatis reprehenderit sunt ullam officiis nulla, quod reiciendis, repudiandae odit repellat aspernatur quaerat sed iure vitae! Aut, omnis in. Modi, consequatur harum! Fugiat eius repellendus et dignissimos, laudantium voluptates autem? Amet pariatur ratione eveniet doloribus mollitia et praesentium sunt quaerat! Ullam vitae, explicabo blanditiis culpa, omnis, libero assumenda nulla dolorum facere itaque sed minima aliquam aut minus adipisci! Obcaecati quibusdam cupiditate itaque natus officiis aliquid labore earum ducimus cumque ea nesciunt, et repellat suscipit nemo dolorem unde amet eos inventore hic incidunt. Aperiam, aspernatur commodi! Voluptatum nobis hic consequuntur quas tempore laudantium sit nostrum saepe ea perspiciatis ipsa, quaerat praesentium asperiores, omnis placeat provident, officiis dolorum! Placeat, necessitatibus odio. Enim laboriosam laudantium nulla amet. Eveniet saepe numquam, nemo, amet quos explicabo cumque aliquam accusamus esse aliquid consequatur, perspiciatis ab tenetur molestias dolore tempore quia sint sequi asperiores culpa sapiente officia dicta possimus ad. Quaerat ipsum enim itaque adipisci ducimus at totam tenetur praesentium illo soluta earum deleniti vitae perspiciatis qui, sint libero esse. Quisquam tempora qui voluptate eveniet eligendi, molestias aperiam corporis laboriosam debitis minus veniam exercitationem soluta ducimus, quidem maxime dolores suscipit!
+                        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
                     </p>
+                    <br></br>
+                    <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+                    <br></br>
+                    <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
                 </section>
             </div>
 
@@ -78,7 +82,7 @@ const styles: Object & { [key: string]: React.CSSProperties } = {
     },
     sectionText: {
         fontSize: '1.1rem',
-        lineHeight: '1.3',
+        lineHeight: '1.4',
         color: '#000',
     },
     list: {
@@ -93,4 +97,4 @@ const styles: Object & { [key: string]: React.CSSProperties } = {
     },
 };
 
-export default AboutPage;
+export default License;
