@@ -17,9 +17,10 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "front-end/*"
-      ]
+        "@components/*": ["components/*"],
+        "@services/*": ["services/*"],
+        "@types": ["types/index.ts"],
+        "@styles/*": ["styles/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true

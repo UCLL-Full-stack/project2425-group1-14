@@ -15,6 +15,16 @@ const getParties = async (): Promise<Party[]> => {
     }
 };
 
+const countParties = async (): Promise<Number> => {
+    try {
+        const countPrisma = await database.party.count();
+        return countPrisma;
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
 const getPartyById = async ({ id }: { id: number }): Promise<Party | null> => {
     try {
         const partyPrisma = await database.party.findUnique({
@@ -195,6 +205,7 @@ const changePartyType = async ({ id, typeId }: { id: number; typeId: number }): 
 
 export default {
     getParties,
+    countParties,
     getPartyById,
     getPartiesByName,
     getPartiesByType,

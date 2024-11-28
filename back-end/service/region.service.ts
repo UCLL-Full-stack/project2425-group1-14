@@ -9,6 +9,11 @@ const getRegions = async (): Promise<Region[]> => {
     return regions;
 };
 
+const countRegions = async (): Promise<Number> => {
+    const regions = await regionDB.countRegions();
+    return regions;
+};
+
 const getRegionById = async (id: number): Promise<Region> => {
     const region = await regionDB.getRegionById({ id });
     if (!region) {
@@ -112,6 +117,7 @@ const changeRegionParent = async ({ id, parentId }: RegionInput): Promise<Region
 
 export default {
     getRegions,
+    countRegions,
     getRegionById,
     getRegionsByName,
     getRegionsByType,

@@ -16,6 +16,26 @@ const getCandidates = async (): Promise<Candidate[]> => {
     }
 };
 
+const countCandidates = async (): Promise<Number> => {
+    try {
+        const countPrisma = await database.candidate.count();
+        return countPrisma;
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
+const countPartyCandidates = async (): Promise<Number> => {
+    try {
+        const countPrisma = await database.partyCandidate.count();
+        return countPrisma;
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
 const getCandidateById = async ({ id }: { id: number }): Promise<Candidate | null> => {
     try {
         const candidatePrisma = await database.candidate.findUnique({
@@ -225,6 +245,8 @@ const changePartyCandidatePosition = async ({
 
 export default {
     getCandidates,
+    countCandidates,
+    countPartyCandidates,
     getCandidateById,
     getCandidatesByRegion,
     createCandidate,

@@ -14,6 +14,16 @@ const getUsers = async (): Promise<User[]> => {
     }
 };
 
+const countUsers = async (): Promise<Number> => {
+    try {
+        const countPrisma = await database.user.count();
+        return countPrisma;
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
 const getUserById = async ({ id }: { id: number }): Promise<User | null> => {
     try {
         const userPrisma = await database.user.findUnique({
@@ -187,6 +197,7 @@ const changeUserRegion = async ({
 
 export default {
     getUsers,
+    countUsers,
     getUserById,
     getUserByEmail,
     getUserByUsername,

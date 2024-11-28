@@ -11,6 +11,16 @@ const getBallots = async (): Promise<Ballot[]> => {
     return ballots;
 };
 
+const countBallots = async (): Promise<Number> => {
+    const ballots = await ballotDB.countBallots();
+    return ballots;
+};
+
+const countBallotParties = async (): Promise<Number> => {
+    const ballotParties = await ballotDB.countBallotParties();
+    return ballotParties;
+};
+
 const getBallotById = async (id: number): Promise<Ballot> => {
     const ballot = await ballotDB.getBallotById({ id });
     if (!ballot) {
@@ -137,6 +147,8 @@ const removePartyFromBallot = async ({ ballotId, partyId }: BallotPartyInput): P
 
 export default {
     getBallots,
+    countBallots,
+    countBallotParties,
     getBallotById,
     getBallotsByRegion,
     getPartiesByBallot,

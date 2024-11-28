@@ -11,6 +11,16 @@ const getCandidates = async (): Promise<Candidate[]> => {
     return candidates;
 };
 
+const countCandidates = async (): Promise<Number> => {
+    const candidates = await candidateDB.countCandidates();
+    return candidates;
+};
+
+const countPartyCandidates = async (): Promise<Number> => {
+    const partyCandidates = await candidateDB.countPartyCandidates();
+    return partyCandidates;
+};
+
 const getCandidateById = async (id: number): Promise<Candidate> => {
     const candidate = await candidateDB.getCandidateById({ id });
     if (!candidate) {
@@ -136,6 +146,8 @@ const changePartyCandidatePosition = async ({
 
 export default {
     getCandidates,
+    countCandidates,
+    countPartyCandidates,
     getCandidateById,
     getCandidatesByRegion,
     createCandidate,

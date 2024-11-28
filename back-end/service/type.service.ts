@@ -8,6 +8,11 @@ const getTypes = async (): Promise<Type[]> => {
     return types;
 };
 
+const countTypes = async (): Promise<Number> => {
+    const types = await typeDB.countTypes();
+    return types;
+};
+
 const getTypeById = async (id: number): Promise<Type> => {
     const type = await typeDB.getTypeById({ id });
     if (!type) {
@@ -49,4 +54,12 @@ const changeTypeName = async ({ id, name }: TypeInput): Promise<Type> => {
     return type;
 };
 
-export default { getTypes, getTypeById, getTypeByName, createType, deleteTypeById, changeTypeName };
+export default {
+    getTypes,
+    countTypes,
+    getTypeById,
+    getTypeByName,
+    createType,
+    deleteTypeById,
+    changeTypeName,
+};
