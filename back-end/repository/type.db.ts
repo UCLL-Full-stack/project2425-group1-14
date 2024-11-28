@@ -12,6 +12,16 @@ const getTypes = async (): Promise<Type[]> => {
     }
 };
 
+const countTypes = async (): Promise<Number> => {
+    try {
+        const countPrisma = await database.type.count();
+        return countPrisma;
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
 const getTypeById = async ({ id }: { id: number }): Promise<Type | null> => {
     try {
         const typePrisma = await database.type.findUnique({
@@ -90,6 +100,7 @@ const changeTypeName = async ({ id, name }: { id: number; name: string }): Promi
 
 export default {
     getTypes,
+    countTypes,
     getTypeById,
     getTypeByName,
     createType,

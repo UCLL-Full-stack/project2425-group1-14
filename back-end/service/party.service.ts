@@ -10,6 +10,11 @@ const getParties = async (): Promise<Party[]> => {
     return parties;
 };
 
+const countParties = async (): Promise<Number> => {
+    const parties = await partyDB.countParties();
+    return parties;
+};
+
 const getPartyById = async (id: number): Promise<Party> => {
     const party = await partyDB.getPartyById({ id });
     if (!party) {
@@ -131,6 +136,7 @@ const changePartyType = async ({ id, typeId }: PartyInput): Promise<Party> => {
 
 export default {
     getParties,
+    countParties,
     getPartyById,
     getPartiesByName,
     getPartiesByType,

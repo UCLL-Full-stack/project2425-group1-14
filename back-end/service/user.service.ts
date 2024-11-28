@@ -51,6 +51,11 @@ const getUsers = async (auth?: { role: string }): Promise<User[]> => {
     return users;
 };
 
+const countUsers = async (): Promise<Number> => {
+    const users = await userDB.countUsers();
+    return users;
+};
+
 const getUserById = async (id: number, auth?: { role: string }): Promise<User> => {
     const user = await userDB.getUserById({ id });
     if (!user) {
@@ -200,6 +205,7 @@ const changeUserRegion = async ({ id, locationId }: UserInput): Promise<User> =>
 export default {
     authenticate,
     getUsers,
+    countUsers,
     getUserById,
     getUserByEmail,
     getUserByUsername,

@@ -14,6 +14,16 @@ const getRegions = async (): Promise<Region[]> => {
     }
 };
 
+const countRegions = async (): Promise<Number> => {
+    try {
+        const countPrisma = await database.region.count();
+        return countPrisma;
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
 const getRegionById = async ({ id }: { id: number }): Promise<Region | null> => {
     try {
         const regionPrisma = await database.region.findUnique({
@@ -249,6 +259,7 @@ const changeRegionParent = async ({
 
 export default {
     getRegions,
+    countRegions,
     getRegionById,
     getRegionsByName,
     getRegionByNameAndType,

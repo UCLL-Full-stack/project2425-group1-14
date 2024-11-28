@@ -16,6 +16,26 @@ const getBallots = async (): Promise<Ballot[]> => {
     }
 };
 
+const countBallots = async (): Promise<Number> => {
+    try {
+        const countPrisma = await database.ballot.count();
+        return countPrisma;
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
+const countBallotParties = async (): Promise<Number> => {
+    try {
+        const countPrisma = await database.ballotParty.count();
+        return countPrisma;
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
 const getBallotById = async ({ id }: { id: number }): Promise<Ballot | null> => {
     try {
         const ballotPrisma = await database.ballot.findUnique({
@@ -219,6 +239,8 @@ const removePartyFromBallot = async ({
 
 export default {
     getBallots,
+    countBallots,
+    countBallotParties,
     getBallotById,
     getBallotsByRegion,
     getPartiesByBallot,
