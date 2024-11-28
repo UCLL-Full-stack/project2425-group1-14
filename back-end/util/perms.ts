@@ -20,7 +20,7 @@ const permsManager = (data?: JwtPayload): void => {
     }
 }
 
-const permsAll = (data?: JwtPayload): void => {
+const permsVoter = (data?: JwtPayload): void => {
     if (data == undefined) {
         throw new UnauthorizedError("Authorization was not provided");
     }
@@ -41,7 +41,7 @@ const permsAll = (data?: JwtPayload): void => {
 export {
     permsAdmin,
     permsManager,
-    permsAll,
+    permsVoter,
     permsAll,
 }
 

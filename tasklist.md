@@ -65,7 +65,7 @@
     - [x] Je hebt minstens 3 verschillende rollen in je domain.
     - [ ] Minstens 1 route in je back-end heeft een ander gedrag afhankelijk van de rol (geeft andere data op basis van de rol)
 
-## 7 - Front-end security & i18n
+## 7 - Front-end security & i18n
 - [ ] Security in front-end
     - [ ] Je kan inloggen, uitloggen en gebruikers registreren.
     - [ ] Er wordt gebruik gemaakt van token-based authentication met JWT.

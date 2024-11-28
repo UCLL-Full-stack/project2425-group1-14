@@ -46,7 +46,6 @@ const main = async () => {
     const regionGent = await prisma.region.create({data: { name: "Gent", type: { connect: { id: typeMunicipal.id }}, parent: { connect: { id: regionOostVlaanderen.id}}}});
     const regionLeuven = await prisma.region.create({data: { name: "Leuven", type: { connect: { id: typeMunicipal.id }}, parent: { connect: { id: regionVlaamsBrabant.id}}}});
     const regionHasselt = await prisma.region.create({data: { name: "Hasselt", type: { connect: { id: typeMunicipal.id }}, parent: { connect: { id: regionLimburg.id}}}});
-    const regionHeers = await prisma.region.create({data: { name: "Heers", type: { connect: { id: typeMunicipal.id }}, parent: { connect: { id: regionLimburg.id}}}});
     const regionBrugge = await prisma.region.create({data: { name: "Brugge", type: { connect: { id: typeMunicipal.id }}, parent: { connect: { id: regionWestVlaanderen.id}}}});
     const regionMons = await prisma.region.create({data: { name: "Mons", type: { connect: { id: typeMunicipal.id }}, parent: { connect: { id: regionHainaut.id}}}});
     const regionLiegeCite = await prisma.region.create({data: { name: "Liège", type: { connect: { id: typeMunicipal.id }}, parent: { connect: { id: regionLiege.id}}}});
@@ -55,6 +54,38 @@ const main = async () => {
     const regionWavre = await prisma.region.create({data: { name: "Wavre", type: { connect: { id: typeMunicipal.id }}, parent: { connect: { id: regionBrabantWallon.id}}}});
     const regionBruxelles = await prisma.region.create({data: { name: "Bruxelles", type: { connect: { id: typeMunicipal.id }}, parent: { connect: { id: regionBrussels.id}}}});
 
+    const userAdmin = await prisma.user.create({
+        data: {
+            username: 'testadmin',
+            name: 'Admi Strator', // Administrator 
+            email: 'admin@hanno',
+            password: await bcrypt.hash("admin", 12),
+            role: 'admin',
+            location: { connect: { id: regionLeuven.id } },
+        },
+    });
+
+    const userManager = await prisma.user.create({
+        data: {
+            username: 'testmanager',
+            name: 'Mode Strator', // Moderator
+            email: 'mod@hanno',
+            password: await bcrypt.hash("manager", 12),
+            role: 'manager',
+            location: { connect: { id: regionWavre.id } },
+        },
+    });
+
+    const userVoter = await prisma.user.create({
+        data: {
+            username: 'testvoter',
+            name: 'Regi Strator', // Registrator
+            email: 'regi@hanno',
+            password: await bcrypt.hash("voter", 12),
+            role: 'voter',
+            location: { connect: { id: regionBruxelles.id } },
+        },
+    });
 };
 
 (async () => {
