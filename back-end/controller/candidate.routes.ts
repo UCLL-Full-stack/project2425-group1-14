@@ -45,10 +45,12 @@
  *      format: int64
  */
 
-import express, { NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Response } from 'express';
+import { Request } from "express-jwt";
 import candidateService from '../service/candidate.service';
 import { CandidateInput, PartyCandidateInput } from '../types';
 import { ControllerError } from '../types/error';
+import { permsManager, permsAll } from '../util/perms';
 
 const candidateRouter = express.Router();
 
@@ -73,6 +75,7 @@ const candidateRouter = express.Router();
  */
 candidateRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const candidates = await candidateService.getCandidates();
         res.status(200).json(candidates);
     } catch (error) {
@@ -106,6 +109,7 @@ candidateRouter.get('/', async (req: Request, res: Response, next: NextFunction)
  */
 candidateRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const candidate = await candidateService.getCandidateById(Number(req.params.id));
         res.status(200).json(candidate);
     } catch (error) {
@@ -140,6 +144,7 @@ candidateRouter.get('/:id', async (req: Request, res: Response, next: NextFuncti
  */
 candidateRouter.get('/by', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         if (req.query.locationId) {
             const candidate = await candidateService.getCandidatesByRegion(
                 Number(req.query.locationId)
@@ -181,6 +186,7 @@ candidateRouter.get('/by', async (req: Request, res: Response, next: NextFunctio
  */
 candidateRouter.get('/:id/parties', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const candidates = await candidateService.getPartiesByCandidate(Number(req.params.id));
         res.status(200).json(candidates);
     } catch (error) {
@@ -213,6 +219,7 @@ candidateRouter.get('/:id/parties', async (req: Request, res: Response, next: Ne
  */
 candidateRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const candidate = <CandidateInput>req.body;
         console.log(candidate);
         const result = await candidateService.createCandidate(candidate);
@@ -248,6 +255,7 @@ candidateRouter.post('/', async (req: Request, res: Response, next: NextFunction
  */
 candidateRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const candidate = await candidateService.deleteCandidateById(Number(req.params.id));
         res.status(200).json(candidate);
     } catch (error) {
@@ -280,6 +288,7 @@ candidateRouter.delete('/:id', async (req: Request, res: Response, next: NextFun
  */
 candidateRouter.patch('/name', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const candidateInput = <CandidateInput>req.body;
         const candidate = await candidateService.changeCandidateName(candidateInput);
         res.status(200).json(candidate);
@@ -313,6 +322,7 @@ candidateRouter.patch('/name', async (req: Request, res: Response, next: NextFun
  */
 candidateRouter.patch('/region', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const candidateInput = <CandidateInput>req.body;
         const candidate = await candidateService.changeCandidateRegion(candidateInput);
         res.status(200).json(candidate);
@@ -346,6 +356,7 @@ candidateRouter.patch('/region', async (req: Request, res: Response, next: NextF
  */
 candidateRouter.post('/party', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const partyCandidateInput = <PartyCandidateInput>req.body;
         const partyCandidate = await candidateService.addCandidateToParty(partyCandidateInput);
         res.status(200).json(partyCandidate);
@@ -379,6 +390,7 @@ candidateRouter.post('/party', async (req: Request, res: Response, next: NextFun
  */
 candidateRouter.delete('/party', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const partyCandidateInput = <PartyCandidateInput>req.body;
         const partyCandidate = await candidateService.removeCandidateFromParty(partyCandidateInput);
         res.status(200).json(partyCandidate);
@@ -412,6 +424,7 @@ candidateRouter.delete('/party', async (req: Request, res: Response, next: NextF
  */
 candidateRouter.patch('/party', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const partyCandidateInput = <PartyCandidateInput>req.body;
         const partyCandidate = await candidateService.changePartyCandidatePosition(
             partyCandidateInput

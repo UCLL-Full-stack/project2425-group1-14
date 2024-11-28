@@ -32,10 +32,12 @@
  *      format: int64
  */
 
-import express, { NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Response } from 'express';
+import { Request } from "express-jwt";
 import partyService from '../service/party.service';
 import { PartyInput } from '../types';
 import { ControllerError } from '../types/error';
+import { permsManager, permsAll } from '../util/perms';
 
 const partyRouter = express.Router();
 
@@ -60,6 +62,7 @@ const partyRouter = express.Router();
  */
 partyRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const parties = await partyService.getParties();
         res.status(200).json(parties);
     } catch (error) {
@@ -93,6 +96,7 @@ partyRouter.get('/', async (req: Request, res: Response, next: NextFunction) => 
  */
 partyRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const party = await partyService.getPartyById(Number(req.params.id));
         res.status(200).json(party);
     } catch (error) {
@@ -131,6 +135,7 @@ partyRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) 
  */
 partyRouter.get('/by', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         if (req.query.typeId && req.query.name) {
             const party = await partyService.getPartiesByNameAndType(
                 String(req.query.name),
@@ -179,6 +184,7 @@ partyRouter.get('/by', async (req: Request, res: Response, next: NextFunction) =
  */
 partyRouter.get('/:id/candidates', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const candidates = await partyService.getCandidatesByParty(Number(req.params.id));
         res.status(200).json(candidates);
     } catch (error) {
@@ -211,6 +217,7 @@ partyRouter.get('/:id/candidates', async (req: Request, res: Response, next: Nex
  */
 partyRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const party = <PartyInput>req.body;
         console.log(party);
         const result = await partyService.createParty(party);
@@ -246,6 +253,7 @@ partyRouter.post('/', async (req: Request, res: Response, next: NextFunction) =>
  */
 partyRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const party = await partyService.deletePartyById(Number(req.params.id));
         res.status(200).json(party);
     } catch (error) {
@@ -278,6 +286,7 @@ partyRouter.delete('/:id', async (req: Request, res: Response, next: NextFunctio
  */
 partyRouter.patch('/name', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const partyInput = <PartyInput>req.body;
         const party = await partyService.changePartyName(partyInput);
         res.status(200).json(party);
@@ -311,6 +320,7 @@ partyRouter.patch('/name', async (req: Request, res: Response, next: NextFunctio
  */
 partyRouter.patch('/abbr', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const partyInput = <PartyInput>req.body;
         const party = await partyService.changePartyAbbr(partyInput);
         res.status(200).json(party);
@@ -344,6 +354,7 @@ partyRouter.patch('/abbr', async (req: Request, res: Response, next: NextFunctio
  */
 partyRouter.patch('/logo', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const partyInput = <PartyInput>req.body;
         const party = await partyService.changePartyLogo(partyInput);
         res.status(200).json(party);
@@ -377,6 +388,7 @@ partyRouter.patch('/logo', async (req: Request, res: Response, next: NextFunctio
  */
 partyRouter.patch('/type', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const partyInput = <PartyInput>req.body;
         const party = await partyService.changePartyType(partyInput);
         res.status(200).json(party);

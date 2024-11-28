@@ -29,10 +29,12 @@
  *      format: int64
  */
 
-import express, { NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Response } from 'express';
+import { Request } from "express-jwt";
 import regionService from '../service/region.service';
 import { RegionInput } from '../types';
 import { ControllerError } from '../types/error';
+import { permsAdmin, permsAll } from '../util/perms';
 
 const regionRouter = express.Router();
 
@@ -57,6 +59,7 @@ const regionRouter = express.Router();
  */
 regionRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const regions = await regionService.getRegions();
         res.status(200).json(regions);
     } catch (error) {
@@ -90,6 +93,7 @@ regionRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
  */
 regionRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const region = await regionService.getRegionById(Number(req.params.id));
         res.status(200).json(region);
     } catch (error) {
@@ -128,6 +132,7 @@ regionRouter.get('/:id', async (req: Request, res: Response, next: NextFunction)
  */
 regionRouter.get('/by', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         if (req.query.typeId && req.query.name) {
             const region = await regionService.getRegionsByNameAndType(
                 String(req.query.name),
@@ -173,6 +178,7 @@ regionRouter.get('/by', async (req: Request, res: Response, next: NextFunction) 
  */
 regionRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAdmin(req.auth);
         const region = <RegionInput>req.body;
         console.log(region);
         const result = await regionService.createRegion(region);
@@ -211,6 +217,7 @@ regionRouter.post('/', async (req: Request, res: Response, next: NextFunction) =
  */
 regionRouter.get('/:id/children', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const regions = await regionService.getChildren(Number(req.params.id));
         res.status(200).json(regions);
     } catch (error) {
@@ -247,6 +254,7 @@ regionRouter.get('/:id/children', async (req: Request, res: Response, next: Next
  */
 regionRouter.get('/:id/descendants', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const regions = await regionService.getDescendants(Number(req.params.id));
         res.status(200).json(regions);
     } catch (error) {
@@ -283,6 +291,7 @@ regionRouter.get('/:id/descendants', async (req: Request, res: Response, next: N
  */
 regionRouter.get('/:id/parents', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const regions = await regionService.getParents(Number(req.params.id));
         res.status(200).json(regions);
     } catch (error) {
@@ -316,6 +325,7 @@ regionRouter.get('/:id/parents', async (req: Request, res: Response, next: NextF
  */
 regionRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAdmin(req.auth);
         const region = await regionService.deleteRegionById(Number(req.params.id));
         res.status(200).json(region);
     } catch (error) {
@@ -348,6 +358,7 @@ regionRouter.delete('/:id', async (req: Request, res: Response, next: NextFuncti
  */
 regionRouter.patch('/name', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAdmin(req.auth);
         const regionInput = <RegionInput>req.body;
         const region = await regionService.changeRegionName(regionInput);
         res.status(200).json(region);
@@ -381,6 +392,7 @@ regionRouter.patch('/name', async (req: Request, res: Response, next: NextFuncti
  */
 regionRouter.patch('/parent', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAdmin(req.auth);
         const regionInput = <RegionInput>req.body;
         const region = await regionService.changeRegionParent(regionInput);
         res.status(200).json(region);

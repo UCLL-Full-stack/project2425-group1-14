@@ -19,10 +19,12 @@
  *      type: string
  */
 
-import express, { NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Response } from 'express';
+import { Request } from "express-jwt";
 import typeService from '../service/type.service';
 import { TypeInput } from '../types';
 import { ControllerError } from '../types/error';
+import { permsAdmin, permsAll } from '../util/perms';
 
 const typeRouter = express.Router();
 
@@ -47,6 +49,7 @@ const typeRouter = express.Router();
  */
 typeRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const types = await typeService.getTypes();
         res.status(200).json(types);
     } catch (error) {
@@ -83,6 +86,7 @@ typeRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  */
 typeRouter.get('/by', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         if (req.query.id) {
             const type = await typeService.getTypeById(Number(req.query.id));
             res.status(200).json(type);
@@ -122,6 +126,7 @@ typeRouter.get('/by', async (req: Request, res: Response, next: NextFunction) =>
  */
 typeRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAdmin(req.auth);
         const type = <TypeInput>req.body;
         console.log(type);
         const result = await typeService.createType(type);
@@ -157,6 +162,7 @@ typeRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
  */
 typeRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAdmin(req.auth);
         const type = await typeService.deleteTypeById(Number(req.params.id));
         res.status(200).json(type);
     } catch (error) {
@@ -189,6 +195,7 @@ typeRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction
  */
 typeRouter.patch('/name', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAdmin(req.auth);
         const typeInput = <TypeInput>req.body;
         const type = await typeService.changeTypeName(typeInput);
         res.status(200).json(type);

@@ -65,10 +65,12 @@
  *      type: string
  */
 
-import express, { NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Response } from 'express';
+import { Request } from "express-jwt";
 import userService from '../service/user.service';
 import { UserInput } from '../types';
 import { ControllerError } from '../types/error';
+import { permsAdmin, permsManager, permsAll } from '../util/perms';
 
 const userRouter = express.Router();
 
@@ -93,6 +95,7 @@ const userRouter = express.Router();
  */
 userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const users = await userService.getUsers();
         res.status(200).json(users);
     } catch (error) {
@@ -126,6 +129,7 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  */
 userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const user = await userService.getUserById(Number(req.params.id));
         res.status(200).json(user);
     } catch (error) {
@@ -160,6 +164,7 @@ userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) =
  */
 userRouter.get('/by', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         if (req.query.locationId) {
             const user = await userService.getUsersByRegion(Number(req.query.locationId));
             res.status(200).json(user);
@@ -195,6 +200,7 @@ userRouter.get('/by', async (req: Request, res: Response, next: NextFunction) =>
  */
 userRouter.get('/email', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         if (req.query.locationId) {
             const user = await userService.getUsersByRegion(Number(req.query.locationId));
             res.status(200).json(user);
@@ -297,6 +303,13 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
  */
 userRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
+        if (!req.auth) { throw new ControllerError("Authentication was not provided") } // I HATE TYPESCRIPT-ENFORCED REDUNDANCY. permsAll() HAS THIS IN IT ALREADY
+        const userCheck = await userService.getUserByUsername(req.auth.username);
+        if (userCheck.id != Number(req.params.id)) {
+            permsAdmin(req.auth);
+        }
+
         const user = await userService.deleteUserById(Number(req.params.id));
         res.status(200).json(user);
     } catch (error) {
@@ -330,6 +343,14 @@ userRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction
 userRouter.patch('/name', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userInput = <UserInput>req.body;
+        
+        permsAll(req.auth);
+        if (!req.auth) { throw new ControllerError("Authentication was not provided") }
+        const userCheck = await userService.getUserByUsername(req.auth.username);
+        if (userCheck.id != userInput.id) {
+            permsAdmin(req.auth);
+        }
+
         const user = await userService.changeUserName(userInput);
         res.status(200).json(user);
     } catch (error) {
@@ -363,6 +384,14 @@ userRouter.patch('/name', async (req: Request, res: Response, next: NextFunction
 userRouter.patch('/email', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userInput = <UserInput>req.body;
+        
+        permsAll(req.auth);
+        if (!req.auth) { throw new ControllerError("Authentication was not provided") }
+        const userCheck = await userService.getUserByUsername(req.auth.username);
+        if (userCheck.id != userInput.id) {
+            permsAdmin(req.auth);
+        }
+
         const user = await userService.changeUserEmail(userInput);
         res.status(200).json(user);
     } catch (error) {
@@ -396,6 +425,14 @@ userRouter.patch('/email', async (req: Request, res: Response, next: NextFunctio
 userRouter.patch('/password', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userInput = <UserInput>req.body;
+        
+        permsAll(req.auth);
+        if (!req.auth) { throw new ControllerError("Authentication was not provided") }
+        const userCheck = await userService.getUserByUsername(req.auth.username);
+        if (userCheck.id != userInput.id) {
+            permsAdmin(req.auth);
+        }
+        
         const user = await userService.changeUserPassword(userInput);
         res.status(200).json(user);
     } catch (error) {
@@ -429,6 +466,14 @@ userRouter.patch('/password', async (req: Request, res: Response, next: NextFunc
 userRouter.patch('/region', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userInput = <UserInput>req.body;
+        
+        permsAll(req.auth);
+        if (!req.auth) { throw new ControllerError("Authentication was not provided") }
+        const userCheck = await userService.getUserByUsername(req.auth.username);
+        if (userCheck.id != userInput.id) {
+            permsAdmin(req.auth);
+        }
+        
         const user = await userService.changeUserRegion(userInput);
         res.status(200).json(user);
     } catch (error) {

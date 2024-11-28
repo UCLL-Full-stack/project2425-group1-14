@@ -55,10 +55,12 @@
  *      format: int64
  */
 
-import express, { NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Response } from 'express';
+import { Request } from "express-jwt";
 import ballotService from '../service/ballot.service';
 import { BallotInput, BallotPartyInput } from '../types';
 import { ControllerError } from '../types/error';
+import { permsManager, permsAll } from '../util/perms';
 
 const ballotRouter = express.Router();
 
@@ -83,6 +85,7 @@ const ballotRouter = express.Router();
  */
 ballotRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const ballots = await ballotService.getBallots();
         res.status(200).json(ballots);
     } catch (error) {
@@ -116,6 +119,7 @@ ballotRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
  */
 ballotRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const ballot = await ballotService.getBallotById(Number(req.params.id));
         res.status(200).json(ballot);
     } catch (error) {
@@ -150,6 +154,7 @@ ballotRouter.get('/:id', async (req: Request, res: Response, next: NextFunction)
  */
 ballotRouter.get('/by', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         if (req.query.locationId) {
             const ballot = await ballotService.getBallotsByRegion(Number(req.query.locationId));
             res.status(200).json(ballot);
@@ -186,6 +191,7 @@ ballotRouter.get('/by', async (req: Request, res: Response, next: NextFunction) 
  */
 ballotRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const ballot = <BallotInput>req.body;
         console.log(ballot);
         const result = await ballotService.createBallot(ballot);
@@ -223,6 +229,7 @@ ballotRouter.post('/', async (req: Request, res: Response, next: NextFunction) =
  */
 ballotRouter.get('/:id/parties', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const ballots = await ballotService.getPartiesByBallot(Number(req.params.id));
         res.status(200).json(ballots);
     } catch (error) {
@@ -256,6 +263,7 @@ ballotRouter.get('/:id/parties', async (req: Request, res: Response, next: NextF
  */
 ballotRouter.get('/:id/votes', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsAll(req.auth);
         const ballots = await ballotService.getVotesByBallot(Number(req.params.id));
         res.status(200).json(ballots);
     } catch (error) {
@@ -289,6 +297,7 @@ ballotRouter.get('/:id/votes', async (req: Request, res: Response, next: NextFun
  */
 ballotRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const ballot = await ballotService.deleteBallotById(Number(req.params.id));
         res.status(200).json(ballot);
     } catch (error) {
@@ -321,6 +330,7 @@ ballotRouter.delete('/:id', async (req: Request, res: Response, next: NextFuncti
  */
 ballotRouter.patch('/name', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const ballotInput = <BallotInput>req.body;
         const ballot = await ballotService.changeBallotName(ballotInput);
         res.status(200).json(ballot);
@@ -354,6 +364,7 @@ ballotRouter.patch('/name', async (req: Request, res: Response, next: NextFuncti
  */
 ballotRouter.patch('/minimum', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const ballotInput = <BallotInput>req.body;
         const ballot = await ballotService.changeBallotMinimum(ballotInput);
         res.status(200).json(ballot);
@@ -387,6 +398,7 @@ ballotRouter.patch('/minimum', async (req: Request, res: Response, next: NextFun
  */
 ballotRouter.patch('/maximum', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const ballotInput = <BallotInput>req.body;
         const ballot = await ballotService.changeBallotMaximum(ballotInput);
         res.status(200).json(ballot);
@@ -420,6 +432,7 @@ ballotRouter.patch('/maximum', async (req: Request, res: Response, next: NextFun
  */
 ballotRouter.post('/party', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const ballotPartyInput = <BallotPartyInput>req.body;
         const ballotParty = await ballotService.addPartyToBallot(ballotPartyInput);
         res.status(200).json(ballotParty);
@@ -453,6 +466,7 @@ ballotRouter.post('/party', async (req: Request, res: Response, next: NextFuncti
  */
 ballotRouter.delete('/party', async (req: Request, res: Response, next: NextFunction) => {
     try {
+        permsManager(req.auth);
         const ballotPartyInput = <BallotPartyInput>req.body;
         const ballotParty = await ballotService.removePartyFromBallot(ballotPartyInput);
         res.status(200).json(ballotParty);
