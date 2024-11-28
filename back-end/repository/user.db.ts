@@ -66,7 +66,14 @@ const getUserByUsername = async ({ username }: { username: string }): Promise<Us
     }
 };
 
-const createUser = async ({ username, name, email, password, role, location }: User): Promise<User> => {
+const createUser = async ({
+    username,
+    name,
+    email,
+    password,
+    role,
+    location,
+}: User): Promise<User> => {
     try {
         const userPrisma = await database.user.create({
             data: {
@@ -134,7 +141,13 @@ const changeUserEmail = async ({ id, email }: { id: number; email: string }): Pr
     }
 };
 
-const changeUserPassword = async ({ id, password }: { id: number; password: string }): Promise<User> => {
+const changeUserPassword = async ({
+    id,
+    password,
+}: {
+    id: number;
+    password: string;
+}): Promise<User> => {
     try {
         const userPrisma = await database.user.update({
             where: { id: id },

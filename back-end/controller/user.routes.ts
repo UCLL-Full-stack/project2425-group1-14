@@ -66,7 +66,7 @@
  */
 
 import express, { NextFunction, Response } from 'express';
-import { Request } from "express-jwt";
+import { Request } from 'express-jwt';
 import userService from '../service/user.service';
 import { UserInput } from '../types';
 import { ControllerError } from '../types/error';
@@ -304,7 +304,9 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
 userRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         permsAll(req.auth);
-        if (!req.auth) { throw new ControllerError("Authentication was not provided") } // I HATE TYPESCRIPT-ENFORCED REDUNDANCY. permsAll() HAS THIS IN IT ALREADY
+        if (!req.auth) {
+            throw new ControllerError('Authentication was not provided');
+        } // I HATE TYPESCRIPT-ENFORCED REDUNDANCY. permsAll() HAS THIS IN IT ALREADY
         const userCheck = await userService.getUserByUsername(req.auth.username);
         if (userCheck.id != Number(req.params.id)) {
             permsAdmin(req.auth);
@@ -343,9 +345,11 @@ userRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction
 userRouter.patch('/name', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userInput = <UserInput>req.body;
-        
+
         permsAll(req.auth);
-        if (!req.auth) { throw new ControllerError("Authentication was not provided") }
+        if (!req.auth) {
+            throw new ControllerError('Authentication was not provided');
+        }
         const userCheck = await userService.getUserByUsername(req.auth.username);
         if (userCheck.id != userInput.id) {
             permsAdmin(req.auth);
@@ -384,9 +388,11 @@ userRouter.patch('/name', async (req: Request, res: Response, next: NextFunction
 userRouter.patch('/email', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userInput = <UserInput>req.body;
-        
+
         permsAll(req.auth);
-        if (!req.auth) { throw new ControllerError("Authentication was not provided") }
+        if (!req.auth) {
+            throw new ControllerError('Authentication was not provided');
+        }
         const userCheck = await userService.getUserByUsername(req.auth.username);
         if (userCheck.id != userInput.id) {
             permsAdmin(req.auth);
@@ -425,14 +431,16 @@ userRouter.patch('/email', async (req: Request, res: Response, next: NextFunctio
 userRouter.patch('/password', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userInput = <UserInput>req.body;
-        
+
         permsAll(req.auth);
-        if (!req.auth) { throw new ControllerError("Authentication was not provided") }
+        if (!req.auth) {
+            throw new ControllerError('Authentication was not provided');
+        }
         const userCheck = await userService.getUserByUsername(req.auth.username);
         if (userCheck.id != userInput.id) {
             permsAdmin(req.auth);
         }
-        
+
         const user = await userService.changeUserPassword(userInput);
         res.status(200).json(user);
     } catch (error) {
@@ -466,14 +474,16 @@ userRouter.patch('/password', async (req: Request, res: Response, next: NextFunc
 userRouter.patch('/region', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userInput = <UserInput>req.body;
-        
+
         permsAll(req.auth);
-        if (!req.auth) { throw new ControllerError("Authentication was not provided") }
+        if (!req.auth) {
+            throw new ControllerError('Authentication was not provided');
+        }
         const userCheck = await userService.getUserByUsername(req.auth.username);
         if (userCheck.id != userInput.id) {
             permsAdmin(req.auth);
         }
-        
+
         const user = await userService.changeUserRegion(userInput);
         res.status(200).json(user);
     } catch (error) {

@@ -28,10 +28,16 @@ export class User {
         this.email = user.email;
         this.password = user.password;
         this.role = user.role;
-        this.location = user.location
+        this.location = user.location;
     }
 
-    validate(user: { username: string, name: string, email: string, password: string, role: Role }): void {
+    validate(user: {
+        username: string;
+        name: string;
+        email: string;
+        password: string;
+        role: Role;
+    }): void {
         if (user.username.trim() == '') {
             throw new DomainError('Username cannot be empty');
         }
@@ -39,19 +45,21 @@ export class User {
             throw new DomainError('Name cannot be empty');
         }
         if (user.email.trim() == '') {
-            throw new DomainError("Email cannot be empty")
+            throw new DomainError('Email cannot be empty');
         }
         if (user.password.trim() == '') {
-            throw new DomainError("Password cannot be empty")
+            throw new DomainError('Password cannot be empty');
         }
         if (!user.role) {
             throw new Error('Role is required');
         }
         // RFC 5322
         // Sourced from https://emailregex.com/
-        const emailRegex = new RegExp("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])");
+        const emailRegex = new RegExp(
+            '(?:[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)])'
+        );
         if (!emailRegex.test(user.email)) {
-            throw new DomainError("Email is of invalid format")
+            throw new DomainError('Email is of invalid format');
         }
     }
 

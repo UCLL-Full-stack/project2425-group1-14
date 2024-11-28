@@ -22,9 +22,9 @@ app.use(bodyParser.json());
 app.use(
     expressjwt({
         secret: process.env.JWT_SECRET || 'hanno',
-        algorithms: ['HS256']
+        algorithms: ['HS256'],
     }).unless({
-        path: ['/api-docs', /^\/api-docs\/.*/, '/users/login', '/users/signup', '/status']
+        path: ['/api-docs', /^\/api-docs\/.*/, '/users/login', '/users/signup', '/status'],
     })
 );
 

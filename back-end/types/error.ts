@@ -38,10 +38,4 @@ class UnauthorizedError extends Error {
     }
 }
 
-export {
-    DomainError,
-    RepositoryError,
-    ServiceError,
-    ControllerError,
-    UnauthorizedError,
-}
+export { DomainError, RepositoryError, ServiceError, ControllerError, UnauthorizedError };

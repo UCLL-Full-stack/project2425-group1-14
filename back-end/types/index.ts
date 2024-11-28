@@ -80,5 +80,5 @@ export {
     BallotInput,
     VoterBallotInput,
     BallotPartyInput,
-    AuthenticationResponse
+    AuthenticationResponse,
 };

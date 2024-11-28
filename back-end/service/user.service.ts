@@ -6,7 +6,7 @@ import { ServiceError } from '../types/error';
 import bcrypt from 'bcrypt';
 import { generateJwtToken } from '../util/jwt';
 
-const authenticate = async ({ username, password}: UserInput): Promise<AuthenticationResponse> => {
+const authenticate = async ({ username, password }: UserInput): Promise<AuthenticationResponse> => {
     if (!username) {
         throw new ServiceError('Username was not provided');
     }
@@ -24,7 +24,7 @@ const authenticate = async ({ username, password}: UserInput): Promise<Authentic
         token: generateJwtToken({ username, role: user.role }),
         username: username,
         name: user.name,
-        role: user.role
+        role: user.role,
     };
 };
 
@@ -62,7 +62,13 @@ const getUsersByRegion = async (locationId: number): Promise<User[]> => {
     return users;
 };
 
-const createVoter = async ({username, name, email, password, locationId }: UserInput): Promise<User> => {
+const createVoter = async ({
+    username,
+    name,
+    email,
+    password,
+    locationId,
+}: UserInput): Promise<User> => {
     if (!username) {
         throw new ServiceError('Username was not provided');
     }
@@ -85,7 +91,7 @@ const createVoter = async ({username, name, email, password, locationId }: UserI
     }
 
     password = await bcrypt.hash(password, 12);
-    const newUser = new User({ username, name, email, password, role: "voter", location });
+    const newUser = new User({ username, name, email, password, role: 'voter', location });
     return await userDB.createUser(newUser);
 };
 
