@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import React, { useState } from 'react';
 import { AppProps } from 'next/app';
-import Footer from '../front-end/components/Footer';
+import Footer from 'front-end/components/Footer';
 import Header from '@/components/Header';
 const VotingPage: React.FC = () => {
     const [vote, setVote] = useState<string | null>(null);
