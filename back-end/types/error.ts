@@ -1,4 +1,4 @@
-export class DomainError extends Error {
+class DomainError extends Error {
     constructor(message: string) {
         super(message);
         this.name = 'DomainError';
@@ -6,7 +6,7 @@ export class DomainError extends Error {
     }
 }
 
-export class RepositoryError extends Error {
+class RepositoryError extends Error {
     constructor(message: string) {
         super(message);
         this.name = 'RepositoryError';
@@ -14,7 +14,7 @@ export class RepositoryError extends Error {
     }
 }
 
-export class ServiceError extends Error {
+class ServiceError extends Error {
     constructor(message: string) {
         super(message);
         this.name = 'ServiceError';
@@ -22,7 +22,7 @@ export class ServiceError extends Error {
     }
 }
 
-export class ControllerError extends Error {
+class ControllerError extends Error {
     constructor(message: string) {
         super(message);
         this.name = 'ControllerError';
@@ -30,10 +30,18 @@ export class ControllerError extends Error {
     }
 }
 
-export class UnauthorizedError extends Error {
+class UnauthorizedError extends Error {
     constructor(message: string) {
         super(message);
         this.name = 'UnauthorizedError';
         Object.setPrototypeOf(this, UnauthorizedError.prototype);
     }
+}
+
+export {
+    DomainError,
+    RepositoryError,
+    ServiceError,
+    ControllerError,
+    UnauthorizedError,
 }

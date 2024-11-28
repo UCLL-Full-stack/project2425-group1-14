@@ -61,6 +61,8 @@
  *      type: string
  *     name:
  *      type: string
+ *     role:
+ *      type: string
  */
 
 import express, { NextFunction, Request, Response } from 'express';
@@ -391,7 +393,7 @@ userRouter.patch('/email', async (req: Request, res: Response, next: NextFunctio
  *       schema:
  *        $ref: '#/components/schemas/User'
  */
-userRouter.patch('/key', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.patch('/password', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userInput = <UserInput>req.body;
         const user = await userService.changeUserPassword(userInput);

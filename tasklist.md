@@ -17,9 +17,9 @@
 - [ ] Testen:
     - [ ] Alle domeinobjecten zijn volledig getest met Jest, inclusief validatie.
     - [ ] Alle services zijn volledig getest met Jest.
-- [ ] Controllers worden getest via swagger (handmatig), geen aparte tests nodig.
+- [x] Controllers worden getest via swagger (handmatig), geen aparte tests nodig.
 - [x] De gegevens die binnenkomen via requests in de router worden ingekapseld in Data Transfer Objects. Deze DTO's zijn gedefinieerd in een bestand index.ts in de map types.
-- [~] Alle routes zijn volledig gedocumenteerd en uitvoerbaar met Swagger via de url /api-docs.
+- [x] Alle routes zijn volledig gedocumenteerd en uitvoerbaar met Swagger via de url /api-docs.
 - [x] Voor elk type is er een volledig uitgewerkt componentenschema gedefinieerd bovenaan de controller zelf.
 
 ## 3 - Front-end: Introduction to React & Next.js
@@ -55,12 +55,26 @@
 - [ ] Styling is toegepast in de mate dat je applicatie bruikbaar en leesbaar is. Je mag je eigen styling framework kiezen.
 
 ## 6 - Back-end: Security
-- [ ] User Sign-up:
-    - [ ] Paswoorden worden steeds encrypted opgeslagen in de database (bcrypt).
+- [~] User Sign-up:
+    - [x] Paswoorden worden steeds encrypted opgeslagen in de database (bcrypt).
     - [ ] User input wordt steeds gevalideerd. (Back-end en Front-end)
-- [ ] Authentication:
-    - [ ] Je gebruikt JWT token based authentication waar nodig in de routes en Swagger. 
-    - [ ] Behalve voor login, register, status, de Swagger documentatie en eventueel een beperkt aantal andere routes afhankelijk van de context van je project.
-- [ ] Authorisation:
-    - [ ] Je hebt minstens 3 verschillende rollen in je domain.
+- [x] Authentication:
+    - [x] Je gebruikt JWT token based authentication waar nodig in de routes en Swagger. 
+    - [x] Behalve voor login, register, status, de Swagger documentatie en eventueel een beperkt aantal andere routes afhankelijk van de context van je project.
+- [~] Authorisation:
+    - [x] Je hebt minstens 3 verschillende rollen in je domain.
     - [ ] Minstens 1 route in je back-end heeft een ander gedrag afhankelijk van de rol (geeft andere data op basis van de rol)
+
+## 7 - Front-end security & i18n
+- [ ] Security in front-end
+    - [ ] Je kan inloggen, uitloggen en gebruikers registreren.
+    - [ ] Er wordt gebruik gemaakt van token-based authentication met JWT.
+    - [ ] Authentication: de meeste pagina's zijn afgeschermd
+    - [ ] Authorisation: minstens 1 pagina geeft een andere content op basis van de rol
+    - [ ] Als gebruiker een functionaliteit/pagina oproept waartoe hij niet gemachtigd is, wordt hij op een correcte manier geïnformeerd.
+    - [ ] Je voorziet op de homepagina een tabel met een aantal voorgedefinieerde gebruikers die wij als lectoren kunnen gebruiken om je project mee te testen. 
+    - [ ] Indien de username of het password niet voldoet aan je validatieregels dan verander je dat in de tabel.
+
+- [ ] i18n
+    - [ ] Je kan minstens 3 pagina's van je project in minstens 2 talen/locales tonen.
+    - [ ] Je kan op een gebruiksvriendelijke manier de taal switchen op elk van minstens deze 3 pagina's
