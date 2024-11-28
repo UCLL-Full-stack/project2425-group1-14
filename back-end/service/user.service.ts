@@ -6,6 +6,21 @@ import { ServiceError } from '../types/error';
 import bcrypt from 'bcrypt';
 import { generateJwtToken } from '../util/jwt';
 
+const userRedactor = (user: User): User => {
+    return new User({
+        id: user.id,
+        username: user.username,
+        name: user.name,
+        email: user.email,
+        password: '[REDACTED]',
+        role: user.role,
+        location: user.location,
+    });
+};
+const usersRedactor = (users: User[]): User[] => {
+    return users.map((user) => userRedactor(user));
+};
+
 const authenticate = async ({ username, password }: UserInput): Promise<AuthenticationResponse> => {
     if (!username) {
         throw new ServiceError('Username was not provided');
@@ -28,37 +43,52 @@ const authenticate = async ({ username, password }: UserInput): Promise<Authenti
     };
 };
 
-const getUsers = async (): Promise<User[]> => {
+const getUsers = async (auth?: { role: string }): Promise<User[]> => {
     const users = await userDB.getUsers();
+    if (auth.role === 'manager') {
+        return usersRedactor(users);
+    }
     return users;
 };
 
-const getUserById = async (id: number): Promise<User> => {
+const getUserById = async (id: number, auth?: { role: string }): Promise<User> => {
     const user = await userDB.getUserById({ id });
     if (!user) {
         throw new ServiceError(`User with id ${id} does not exist.`);
     }
+    if (auth.role === 'manager') {
+        return userRedactor(user);
+    }
     return user;
 };
 
-const getUserByEmail = async (email: string): Promise<User> => {
+const getUserByEmail = async (email: string, auth?: { role: string }): Promise<User> => {
     const user = await userDB.getUserByEmail({ email });
     if (!user) {
         throw new ServiceError(`User with email ${email} does not exist.`);
     }
-    return user;
-};
-
-const getUserByUsername = async (username: string): Promise<User> => {
-    const user = await userDB.getUserByUsername({ username });
-    if (!user) {
-        throw new ServiceError(`User with username ${username} does not exist.`);
+    if (auth.role === 'manager') {
+        return userRedactor(user);
     }
     return user;
 };
 
-const getUsersByRegion = async (locationId: number): Promise<User[]> => {
+const getUserByUsername = async (username: string, auth?: { role: string }): Promise<User> => {
+    const user = await userDB.getUserByUsername({ username });
+    if (!user) {
+        throw new ServiceError(`User with username ${username} does not exist.`);
+    }
+    if (auth.role === 'manager') {
+        return userRedactor(user);
+    }
+    return user;
+};
+
+const getUsersByRegion = async (locationId: number, auth?: { role: string }): Promise<User[]> => {
     const users = await userDB.getUsersByRegion({ locationId });
+    if (auth.role === 'manager') {
+        return usersRedactor(users);
+    }
     return users;
 };
 

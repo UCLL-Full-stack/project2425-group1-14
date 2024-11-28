@@ -61,9 +61,9 @@
 - [x] Authentication:
     - [x] Je gebruikt JWT token based authentication waar nodig in de routes en Swagger. 
     - [x] Behalve voor login, register, status, de Swagger documentatie en eventueel een beperkt aantal andere routes afhankelijk van de context van je project.
-- [~] Authorisation:
+- [x] Authorisation:
     - [x] Je hebt minstens 3 verschillende rollen in je domain.
-    - [ ] Minstens 1 route in je back-end heeft een ander gedrag afhankelijk van de rol (geeft andere data op basis van de rol)
+    - [x] Minstens 1 route in je back-end heeft een ander gedrag afhankelijk van de rol (geeft andere data op basis van de rol)
 
 ## 7 - Front-end security & i18n
 - [ ] Security in front-end
