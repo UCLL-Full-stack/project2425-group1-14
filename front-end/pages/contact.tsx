@@ -20,14 +20,16 @@ const ContactPage: React.FC = () => {
                     {/* Embed Google Map */}
                     <div style={styles.mapContainer}>
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2538.1781451680326!2d4.701611016234252!3d50.87636947943167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3d9bbf1d38093%3A0x42e2d21f1398ef9d!2sUCLL%20Heverlee%20Campus!5e0!3m2!1sen!2sbe!4v1686278751042!5m2!1sen!2sbe"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2538.3404389650576!2d4.703347383345253!3d50.879258374710015!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3d9bbbf4ba5d5%3A0x4d2ed75f0c19c9a5!2sCampus%20Proximus!5e0!3m2!1sen!2sbe!4v1686278751042!5m2!1sen!2sbe&marker=50.879258374710015,4.703347383345253"
                             width="100%"
                             height="450"
                             style={styles.map}
                             allowFullScreen=""
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"
-                        ></iframe>
+                        />
+
+
                     </div>
                 </div>
 
