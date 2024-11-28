@@ -9,10 +9,10 @@ const Footer: React.FC = () => {
 
 
                 <div style={footerStyles.legalLinks}>
-                    <a href="/privacy-policy" style={footerStyles.link}>
+                    <a href="/PP" style={footerStyles.link}>
                         Privacy Policy
                     </a> |{' '}
-                    <a href="/terms-of-service" style={footerStyles.link}>
+                    <a href="/TOS" style={footerStyles.link}>
                         Terms of Service
                     </a>
                 </div>
