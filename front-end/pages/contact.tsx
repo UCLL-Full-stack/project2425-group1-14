@@ -114,7 +114,7 @@ const styles = {
     },
     sectionText: {
         fontSize: '1.1rem',
-        lineHeight: '1.8',
+        lineHeight: '1.4',
         color: '#000',
     },
     mapContainer: {
