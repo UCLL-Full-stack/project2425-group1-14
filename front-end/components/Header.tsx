@@ -23,12 +23,12 @@ const Header: React.FC = () => {
                 <Link href="/contact" style={headerStyles.link}>Contact</Link>
             </div>
 
-            <div style={headerStyles.userInfoContainer}>
-                <span style={headerStyles.loggedInText}>Logged in as {loggedInUser}</span>
-                <Link href="/profile" style={headerStyles.link}>
-                    <button style={headerStyles.profileButton}>Profile Settings</button>
-                </Link>
-            </div>
+            {loggedInUser && (
+                <div style={headerStyles.userInfoContainer}>
+                    <span style={headerStyles.loggedInText}>Logged in as {loggedInUser}</span>
+                </div>
+            )}
+
 
             <div style={headerStyles.timerContainer}>
                 <span style={headerStyles.timer}>{currentTime}</span>

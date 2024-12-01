@@ -23,9 +23,9 @@ const IndexPage: React.FC = () => {
         <h2 style={styles.heading}>Welcome to Hannọ</h2>
         <button
           style={styles.voteButton}
-          onClick={() => window.location.href = '/voter'}
+          onClick={() => window.location.href = '/login'}
         >
-          Vote Here
+          Log in and Vote Here
         </button>
       </div>
       <Footer />

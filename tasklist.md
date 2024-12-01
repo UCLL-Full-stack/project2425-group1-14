@@ -25,8 +25,8 @@
 ## 3 - Front-end: Introduction to React & Next.js
 - [x] Een Next.js front-end app is geïnstalleerd in de front-end directory.
 - [x] Alle pagina's die een route in Next.js nodig hebben worden in de map “pages” geplaatst.
-- [ ] Pagina's worden opgebouwd uit verschillende herbruikbare componenten die in de map “components” worden geplaatst.
-    - [ ] Componenten worden niet rechtstreeks geïmplementeerd in een pagina.
+- [x] Pagina's worden opgebouwd uit verschillende herbruikbare componenten die in de map “components” worden geplaatst.
+    - [x]  Componenten worden niet rechtstreeks geïmplementeerd in een pagina.
 - [ ] “Props” worden gebruikt om dynamische inhoud binnen componenten weer te geven.
 - [ ] “State” wordt gebruikt om informatie op te slaan tussen verschillende renders van een component (geen lokale variabelen!).
 - [ ] Callback functies worden gebruikt om hogerliggende componenten of pagina's op de hoogte te brengen van een gebeurtenis binnen de huidige component.
