@@ -1,0 +1,95 @@
+.container {
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+main {
+    margin-top: 20px;
+}
+
+.blurb {
+    background: unset;
+    box-shadow: unset;
+    border-radius: unset;
+    text-align: center;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 30px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #222;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.date {
+    font-size: 1rem;
+    color: #888;
+}
+
+section {
+    margin: 2rem;
+    background-color: #d9d9d9;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+section h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+section p {
+    font-size: 1.1rem;
+    line-height: 1.3;
+    color: #000;
+}
+
+li {
+    margin-top: 10px;
+    margin-left: 20px;
+    list-style-type: disc;
+}
+
+ul {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.mapContainer {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+map {
+    border: none;
+    border-radius: 8px;
+}
+
+.contactCard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.contactCard div {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 50%;
+    text-align: center;
+    justify-self: center;
+}
+
+.contactCard div li {
+    list-style-type: none;
+    margin: 0;
+}
