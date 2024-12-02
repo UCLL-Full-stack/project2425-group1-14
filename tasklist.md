@@ -29,10 +29,10 @@
     - [x]  Componenten worden niet rechtstreeks geïmplementeerd in een pagina.
 - [ ] “Props” worden gebruikt om dynamische inhoud binnen componenten weer te geven.
 - [ ] “State” wordt gebruikt om informatie op te slaan tussen verschillende renders van een component (geen lokale variabelen!).
-- [ ] Callback functies worden gebruikt om hogerliggende componenten of pagina's op de hoogte te brengen van een gebeurtenis binnen de huidige component.
+- [x] Callback functies worden gebruikt om hogerliggende componenten of pagina's op de hoogte te brengen van een gebeurtenis binnen de huidige component.
 - [ ] Het aanroepen van een Rest API gebeurt in afzonderlijke, herbruikbare Services. Er wordt nooit fetch logica rechtstreeks in een component geschreven.
-- [ ] Dynamische routing moet op de juiste plaatsen worden gebruikt.
-- [ ] Je gebruikt events op verschillende plaatsen (onclick, onhover, ...).
+- [x] Dynamische routing moet op de juiste plaatsen worden gebruikt.
+- [x] Je gebruikt events op verschillende plaatsen (onclick, onhover, ...).
 
 ## 4 - Database ✓
 - [x] Je werkt niet langer met statische gegevens in de repositories, maar met een echte database.

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import LogoHeader from '../components/LogoHeader'; // Adjust the path as necessary
+import Header from '@components/EmptyHeader';
+import Footer from '@components/Footer';
 
 const Login: React.FC = () => {
+
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [role, setRole] = useState<string>('voter');
@@ -21,8 +23,10 @@ const Login: React.FC = () => {
 
     return (
         <div style={loginStyles.container}>
+            <div style={loginStyles.headerContainer}>
+                <Header />
+            </div>
             <div style={loginStyles.formContainer}>
-                {/* <LogoHeader /> */}
                 <h2 style={loginStyles.title}>Login</h2>
                 <form onSubmit={handleLogin} style={loginStyles.form}>
                     <div style={loginStyles.formGroup}>
@@ -64,6 +68,7 @@ const Login: React.FC = () => {
                     <button type="submit" style={loginStyles.loginButton}>Login</button>
                 </form>
             </div>
+            <Footer />
         </div>
     );
 };
@@ -71,11 +76,14 @@ const Login: React.FC = () => {
 const loginStyles = {
     container: {
         display: 'flex',
-        justifyContent: 'center',
+        flexDirection: 'column' as 'column',
+        justifyContent: 'space-between',
         alignItems: 'center',
         height: '100vh',
         backgroundColor: '#f0f2f5',
-        animation: 'fadeIn 1s ease-in-out',
+    },
+    headerContainer: {
+        width: '100%',
     },
     formContainer: {
         width: '100%',
@@ -85,7 +93,6 @@ const loginStyles = {
         borderRadius: '10px',
         backgroundColor: '#fff',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        animation: 'slideIn 0.5s ease-in-out',
     },
     title: {
         textAlign: 'center' as 'center',
