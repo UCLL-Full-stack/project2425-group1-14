@@ -23,6 +23,7 @@ const headerStyles: Object & { [key: string]: React.CSSProperties } = {
         backgroundColor: '#0070f3',
         color: '#fff',
         fontFamily: 'Arial, sans-serif',
+        width: '100%',
     },
     linksContainer: {
         display: 'flex',

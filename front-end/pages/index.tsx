@@ -37,7 +37,7 @@ const styles: Object & { [key: string]: React.CSSProperties } = {
   container: {
     textAlign: 'center',
     height: '100vh',
-    background: 'linear-gradient(135deg, #ffffff, #e0f7fa)', // Light gradient 
+    background: 'linear-gradient(135deg, #ffffff, #e0f7fa)',
     position: 'relative',
     overflow: 'hidden',
     display: 'flex',
