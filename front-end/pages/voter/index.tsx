@@ -1,76 +1,55 @@
-import "@styles/globals.css";
 import React, { useState } from 'react';
-import { AppProps } from 'next/app';
-import Footer from '@components/Footer';
-import Header from '@components/Header';
-const VotingPage: React.FC = () => {
-    const [vote, setVote] = useState<string | null>(null);
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 
-    const handleVote = (option: string) => {
-        setVote(option);
-        // Backend call logic here
+const VotePage: React.FC = () => {
+    const [selectedOption, setSelectedOption] = useState<string | null>(null);
+    const [submitted, setSubmitted] = useState(false);
+
+    const handleVote = () => {
+        if (selectedOption) {
+            // Submit the vote (e.g., send to an API)
+            console.log(`Voted for: ${selectedOption}`);
+            setSubmitted(true);
+        }
     };
 
     return (
-        <div style={styles.container}>
+
+
+        <div>
             <Header />
-            <h1 style={{ ...styles.header, padding: '20px' }}>Vote here</h1>
-            <p style={{ textAlign: 'left', fontSize: '1.2em', marginBottom: '20px', border: '1px solid #ccc', padding: '10px', color: 'black' }}>Select a party</p>
-            <div style={{ ...styles.buttonContainer, display: 'flex', justifyContent: 'right', padding: '20px' }}>
-                <div style={{ textAlign: 'left' }}>
-                    <label style={{ display: 'block', marginBottom: '20px', color: 'black' }}>
-                        <input type="radio" name="vote" onChange={() => handleVote('Party 1')} style={{ marginRight: '10px' }} />
-                        Party 1
-                    </label>
-                    <label style={{ display: 'block', marginBottom: '20px', color: 'black' }}>
-                        <input type="radio" name="vote" onChange={() => handleVote('Party 2')} style={{ marginRight: '10px' }} />
-                        Party 2
-                    </label>
-                    <label style={{ display: 'block', marginBottom: '20px', color: 'black' }}>
-                        <input type="radio" name="vote" onChange={() => handleVote('Party 3')} style={{ marginRight: '10px' }} />
-                        Party 3
-                    </label>
+            <h1>Vote for your favorite option</h1>
+            {!submitted ? (
+                <div>
+                    <div>
+                        <input
+                            type="radio"
+                            id="option1"
+                            name="vote"
+                            value="Option 1"
+                            onChange={(e) => setSelectedOption(e.target.value)}
+                        />
+                        <label htmlFor="option1">Option 1</label>
+                    </div>
+                    <div>
+                        <input
+                            type="radio"
+                            id="option2"
+                            name="vote"
+                            value="Option 2"
+                            onChange={(e) => setSelectedOption(e.target.value)}
+                        />
+                        <label htmlFor="option2">Option 2</label>
+                    </div>
+                    <button onClick={handleVote}>Submit Vote</button>
                 </div>
-            </div>
-            <button style={{ ...styles.button, borderRadius: '10px' }}>Submit</button>
-            {vote && <p style={styles.voteText}>You voted for: {vote}</p>}
+            ) : (
+                <p>Thank you for voting!</p>
+            )}
             <Footer />
         </div>
     );
 };
 
-const styles: Object & { [key: string]: React.CSSProperties } = {
-    container: {
-        textAlign: 'center' as const,
-        marginTop: '0',
-        height: '100vh',
-        fontFamily: 'Arial, sans-serif',
-        backgroundColor: '#f0f0f0',
-        position: 'relative' as const,
-        paddingBottom: '50px', // Ensure footer space
-    },
-    header: {
-        fontSize: '2em',
-        color: '#333',
-    },
-    buttonContainer: {
-        margin: '20px',
-    },
-    button: {
-        margin: '10px',
-        padding: '10px 20px',
-        fontSize: '1em',
-        cursor: 'pointer',
-        borderRadius: '5px',
-        border: 'none',
-        backgroundColor: '#0070f3',
-        color: '#fff',
-        transition: 'background-color 0.3s',
-    },
-    voteText: {
-        fontSize: '1.2em',
-        color: '#0070f3',
-    },
-};
-
-export default VotingPage;
+export default VotePage;

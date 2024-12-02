@@ -1,132 +1,125 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import Header from '@components/EmptyHeader';
-import Footer from '@components/Footer';
+import { StatusMessage } from "../types";
+import classNames from "classnames";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import Header from "../components/EmptyHeader";
+import Footer from "../components/Footer";
 
-const Login: React.FC = () => {
-
-    const [username, setUsername] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [role, setRole] = useState<string>('voter');
+const UserLoginForm: React.FC = () => {
     const router = useRouter();
+    const [name, setName] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [nameError, setNameError] = useState<string | null>(null);
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
 
-    const handleLogin = (e: React.FormEvent) => {
-        e.preventDefault();
+    const clearErrors = () => {
+        setNameError(null);
+        setPasswordError(null);
+        setStatusMessages([]);
+    };
 
-        console.log(`Logging in as ${role} with username: ${username}`);
+    const validate = (): boolean => {
+        let isValid = true;
+        if (!name.trim()) {
+            setNameError("Name is required");
+            isValid = false;
+        }
+        if (!password.trim()) {
+            setPasswordError("Password is required");
+            isValid = false;
+        }
+        return isValid;
+    };
 
-        // Perform login logic here
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        clearErrors();
 
-        // Navigate to the index page after login
-        router.push('/index');
+        if (!validate()) {
+            return;
+        }
+
+        setStatusMessages([
+            {
+                message: "Login successful. Redirecting to homepage...",
+                type: "success",
+            },
+        ]);
+
+        sessionStorage.setItem("loggedInUser", name);
+
+        setTimeout(() => {
+            router.push("/");
+        }, 2000);
     };
 
     return (
-        <div style={loginStyles.container}>
-            <div style={loginStyles.headerContainer}>
-                <Header />
-            </div>
-            <div style={loginStyles.formContainer}>
-                <h2 style={loginStyles.title}>Login</h2>
-                <form onSubmit={handleLogin} style={loginStyles.form}>
-                    <div style={loginStyles.formGroup}>
-                        <label htmlFor="username">Username:</label>
-                        <input
-                            type="text"
-                            id="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                            placeholder="Enter your username"
-                            style={loginStyles.input}
-                        />
-                    </div>
-                    <div style={loginStyles.formGroup}>
-                        <label htmlFor="password">Password:</label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            placeholder="Enter your password"
-                            style={loginStyles.input}
-                        />
-                    </div>
-                    <div style={loginStyles.formGroup}>
-                        <label htmlFor="role">Role:</label>
-                        <select
-                            id="role"
-                            value={role}
-                            onChange={(e) => setRole(e.target.value)}
-                            style={loginStyles.select}
+        <div className="flex flex-col min-h-screen bg-white">
+            <Header />
+            <main className="flex-grow flex items-center justify-center">
+                <div className="w-full max-w-md p-8">
+                    <h3 className="px-0 mb-4 text-center">Login</h3>
+                    {statusMessages.length > 0 && (
+                        <div className="row">
+                            <ul className="list-none mb-3 mx-auto">
+                                {statusMessages.map(({ message, type }, index) => (
+                                    <li
+                                        key={index}
+                                        className={classNames({
+                                            "text-red-800": type === "error",
+                                            "text-green-800": type === "success",
+                                        })}
+                                    >
+                                        {message}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                    <form onSubmit={handleSubmit}>
+                        <label htmlFor="nameInput" className="block mb-2 text-sm font-medium">
+                            Username:
+                        </label>
+                        <div className="block mb-2 text-sm font-medium">
+                            <input
+                                id="nameInput"
+                                type="text"
+                                value={name}
+                                onChange={(event) => setName(event.target.value)}
+                                placeholder="Enter your username"
+                                className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            />
+                            {nameError && <p className="text-red-800">{nameError}</p>}
+                        </div>
+
+                        <label htmlFor="passwordInput" className="block mb-2 text-sm font-medium">
+                            Password:
+                        </label>
+                        <div className="block mb-2 text-sm font-medium">
+                            <input
+                                id="passwordInput"
+                                type="password"
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                                placeholder="Enter your password"
+                                className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            />
+                            {passwordError && <p className="text-red-800">{passwordError}</p>}
+                        </div>
+
+                        <button
+                            className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full"
+                            type="submit"
                         >
-                            <option value="voter">Voter</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </div>
-                    <button type="submit" style={loginStyles.loginButton}>Login</button>
-                </form>
-            </div>
+                            Login
+                        </button>
+                    </form>
+                </div>
+            </main>
             <Footer />
         </div>
     );
 };
 
-const loginStyles = {
-    container: {
-        display: 'flex',
-        flexDirection: 'column' as 'column',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        height: '100vh',
-        backgroundColor: '#f0f2f5',
-    },
-    headerContainer: {
-        width: '100%',
-    },
-    formContainer: {
-        width: '100%',
-        maxWidth: '400px',
-        padding: '20px',
-        border: '1px solid #ccc',
-        borderRadius: '10px',
-        backgroundColor: '#fff',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    },
-    title: {
-        textAlign: 'center' as 'center',
-        marginBottom: '20px',
-        color: '#333',
-    },
-    form: {
-        display: 'flex',
-        flexDirection: 'column' as 'column',
-    },
-    formGroup: {
-        marginBottom: '15px',
-    },
-    input: {
-        width: '100%',
-        padding: '10px',
-        border: '1px solid #ccc',
-        borderRadius: '5px',
-    },
-    select: {
-        width: '100%',
-        padding: '10px',
-        border: '1px solid #ccc',
-        borderRadius: '5px',
-    },
-    loginButton: {
-        padding: '10px',
-        backgroundColor: '#007BFF',
-        color: 'white',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s ease',
-    },
-};
-
-export default Login;
+export default UserLoginForm;
