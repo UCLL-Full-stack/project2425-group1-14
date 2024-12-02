@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
 interface VoterStats {
     totalVoters: number;
@@ -15,8 +14,12 @@ const AdminPage: React.FC = () => {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const response = await axios.get('/api/admin/stats');
-                setStats(response.data as VoterStats);
+                const response = await fetch('/api/admin/stats');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data: VoterStats = await response.json();
+                setStats(data);
             } catch (err) {
                 setError('Failed to fetch statistics');
             } finally {
