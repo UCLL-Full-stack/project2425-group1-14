@@ -31,19 +31,38 @@ const AdminPage: React.FC = () => {
         return <div>Loading...</div>;
     }
 
-
     if (error) {
         return <div>{error}</div>;
     }
 
     return (
         <div>
-            <h1>Admin Dashboard</h1>
+            <h1>Welcome, Admin</h1>
+            <h2>Here are some statistics:</h2>
             {stats && (
                 <div>
-                    <p>Total Voters: {stats.totalVoters}</p>
-                    <p>Total Votes: {stats.totalVotes}</p>
-                    <p>Total Candidates: {stats.totalCandidates}</p>
+                    <table border={1} cellPadding={10}>
+                        <thead>
+                            <tr>
+                                <th>Statistic</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Total Voters</td>
+                                <td>{stats.totalVoters}</td>
+                            </tr>
+                            <tr>
+                                <td>Total Votes</td>
+                                <td>{stats.totalVotes}</td>
+                            </tr>
+                            <tr>
+                                <td>Total Candidates</td>
+                                <td>{stats.totalCandidates}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             )}
         </div>
