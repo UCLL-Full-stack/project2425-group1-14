@@ -4,6 +4,7 @@ import Link from 'next/link';
 const Header: React.FC = () => {
     return (
         <div style={headerStyles.container}>
+
             <div style={headerStyles.linksContainer}>
                 <Link href="/" style={headerStyles.link}>Hannọ</Link>
             </div>
