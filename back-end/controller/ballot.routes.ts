@@ -95,6 +95,60 @@ ballotRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
 
 /**
  * @swagger
+ * /count:
+ *  get:
+ *   tags:
+ *    - ballot
+ *   security:
+ *    - bearerAuth: []
+ *   summary: Get a count of all ballots
+ *   responses:
+ *    200:
+ *     description: A ballot.
+ *     content:
+ *      text/plain:
+ *       schema:
+ *        type: number
+ */
+ballotRouter.get('/count', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        permsManager(req.auth);
+        const count = await ballotService.countBallots();
+        res.status(200).set('Content-Type', 'text/plain').send(count);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /count/party:
+ *  get:
+ *   tags:
+ *    - ballot
+ *   security:
+ *    - bearerAuth: []
+ *   summary: Get a count of all ballotParties
+ *   responses:
+ *    200:
+ *     description: A ballot.
+ *     content:
+ *      text/plain:
+ *       schema:
+ *        type: number
+ */
+ballotRouter.get('/count/party', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        permsManager(req.auth);
+        const count = await ballotService.countBallotParties();
+        res.status(200).set('Content-Type', 'text/plain').send(count);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
  * /ballots/{id}:
  *  get:
  *   tags:
