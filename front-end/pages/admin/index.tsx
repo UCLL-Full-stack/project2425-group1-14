@@ -1,75 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useRouter } from 'next/router';
 
-interface VoterStats {
-    totalVoters: number;
-    totalVotes: number;
-    totalCandidates: number;
-}
 
-const AdminPage: React.FC = () => {
-    const [stats, setStats] = useState<VoterStats | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+const AdminPanel: React.FC = () => {
+    const router = useRouter();
 
-    useEffect(() => {
-        const fetchStats = async () => {
-            try {
-                const response = await fetch('/api/admin/stats');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data: VoterStats = await response.json();
-                setStats(data);
-            } catch (err) {
-                setError('Failed to fetch statistics');
-            } finally {
-                setLoading(false);
-            }
-        };
+    const navigateTo = (path: string) => {
+        router.push(`/admin/${path}`);
+    };
 
-        fetchStats();
-    }, []);
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>{error}</div>;
-    }
+    const links = [
+        { label: 'Type', path: 'type' },
+        { label: 'Region', path: 'region' },
+        { label: 'Party', path: 'party' },
+        { label: 'Candidate', path: 'candidate' },
+        { label: 'User', path: 'user' },
+        { label: 'Ballot', path: 'ballot' },
+    ];
 
     return (
-        <div>
-            <h1>Welcome, Admin</h1>
-            <h2>Here are some statistics:</h2>
-            {stats && (
-                <div>
-                    <table border={1} cellPadding={10}>
-                        <thead>
-                            <tr>
-                                <th>Statistic</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Total Voters</td>
-                                <td>{stats.totalVoters}</td>
-                            </tr>
-                            <tr>
-                                <td>Total Votes</td>
-                                <td>{stats.totalVotes}</td>
-                            </tr>
-                            <tr>
-                                <td>Total Candidates</td>
-                                <td>{stats.totalCandidates}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            )}
+
+
+
+        <div className="admin-container">
+
+            <nav className="admin-sidebar">
+                {links.map(link => (
+                    <button
+                        key={link.path}
+                        className="admin-circleButton"
+                        onClick={() => navigateTo(link.path)}
+                    >
+                        {link.label}
+                    </button>
+                ))}
+            </nav>
+            <div className="admin-content">
+                <h1>Admin Panel</h1>
+                <p>Select a category from the navigation to view statistics.</p>
+            </div>
         </div>
     );
 };
 
-export default AdminPage;
+export default AdminPanel;
