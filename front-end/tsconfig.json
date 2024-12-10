@@ -20,7 +20,8 @@
         "@components/*": ["components/*"],
         "@services/*": ["services/*"],
         "@types": ["types/index.ts"],
-        "@styles/*": ["styles/*"]
+        "@styles/*": ["styles/*"],
+        "@util": ["util/index.ts"]
     },
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
