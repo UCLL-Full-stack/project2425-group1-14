@@ -28,13 +28,13 @@ const authenticate = async ({ username, password }: UserInput): Promise<Authenti
     if (!password) {
         throw new ServiceError('Password was not provided');
     }
-    const user = await getUserByUsername(username);
+    const user = await getUserByUsername(username, {role: "system"});
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
         throw new Error('Incorrect password.');
     }
-
+    
     return {
         token: generateJwtToken({ username, role: user.role }),
         username: username,

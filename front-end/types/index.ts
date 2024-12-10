@@ -1,18 +1,21 @@
-type Role = 'system' | 'admin' | 'manager' | 'voter';
+type StatusMessage = {
+    message: string;
+    type: "error" | "success";
+};
 
-type TypeInput = {
+type Type = {
     id?: number;
     name?: string;
 };
 
-type RegionInput = {
+type Region = {
     id?: number;
     name?: string;
     typeId?: number;
     parentId?: number | null;
 };
 
-type PartyInput = {
+type Party = {
     id?: number;
     name?: string;
     abbr?: string;
@@ -20,29 +23,29 @@ type PartyInput = {
     typeId?: number;
 };
 
-type CandidateInput = {
+type Candidate = {
     id?: number;
     name?: string;
     locationId?: number;
 };
 
-type PartyCandidateInput = {
+type PartyCandidate = {
     candidateId?: number;
     partyId?: number;
     position?: number;
 };
 
-type UserInput = {
+type User = {
     id?: number;
     username?: string;
     name?: string;
     email?: string;
     password?: string;
-    role?: Role;
+    role?: 'admin' | 'manager' | 'voter';
     locationId?: number;
 };
 
-type BallotInput = {
+type Ballot = {
     id?: number;
     name?: string;
     system?: string;
@@ -51,13 +54,13 @@ type BallotInput = {
     locationId?: number;
 };
 
-type VoterBallotInput = {
+type VoterBallot = {
     ballotId?: number;
     voterId?: number;
     votedFor?: Object;
 };
 
-type BallotPartyInput = {
+type BallotParty = {
     ballotId?: number;
     partyId?: number;
 };
@@ -66,19 +69,19 @@ type AuthenticationResponse = {
     token: string;
     username: string;
     name: string;
-    role: Role;
+    role: 'admin' | 'manager' | 'voter';
 };
 
-export {
-    Role,
-    TypeInput,
-    RegionInput,
-    PartyInput,
-    CandidateInput,
-    PartyCandidateInput,
-    UserInput,
-    BallotInput,
-    VoterBallotInput,
-    BallotPartyInput,
-    AuthenticationResponse,
+export type {
+    StatusMessage,
+    Type,
+    Region,
+    Party,
+    Candidate,
+    PartyCandidate,
+    User,
+    Ballot,
+    VoterBallot,
+    BallotParty,
+    AuthenticationResponse
 };

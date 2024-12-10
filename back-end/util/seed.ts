@@ -210,7 +210,7 @@ const main = async () => {
         data: {
             username: 'testadmin',
             name: 'Admi Strator', // Administrator
-            email: 'admin@hanno',
+            email: 'admin@hanno.localhost',
             password: await bcrypt.hash('admin', 12),
             role: 'admin',
             location: { connect: { id: regionLeuven.id } },
@@ -221,7 +221,7 @@ const main = async () => {
         data: {
             username: 'testmanager',
             name: 'Mode Strator', // Moderator
-            email: 'mod@hanno',
+            email: 'mod@hanno.localhost',
             password: await bcrypt.hash('manager', 12),
             role: 'manager',
             location: { connect: { id: regionWavre.id } },
@@ -232,7 +232,7 @@ const main = async () => {
         data: {
             username: 'testvoter',
             name: 'Regi Strator', // Registrator
-            email: 'regi@hanno',
+            email: 'regi@hanno.localhost',
             password: await bcrypt.hash('voter', 12),
             role: 'voter',
             location: { connect: { id: regionBruxelles.id } },
