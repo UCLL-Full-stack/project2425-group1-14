@@ -1,4 +1,4 @@
-async function makeAGR(url: string, method: string, body?: string) { // authenticated get request
+async function makeAGR(url: string) { // authenticated get request
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL + url, {
         method: "GET",
         headers: {
@@ -9,7 +9,7 @@ async function makeAGR(url: string, method: string, body?: string) { // authenti
     return await response.json();
 }
 
-async function makeAPR(url: string, method: string, body: Object) { // authenticated post request
+async function makeAPR(url: string, body: Object) { // authenticated post request
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL + url, {
         method: "POST",
         headers: {
