@@ -66,8 +66,8 @@ const UserLoginForm: React.FC = () => {
       }
 
       const res: AuthenticationResponse = await response.json();
-      sessionStorage.setItem("token", res.token);
-      sessionStorage.setItem("name", res.name);
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("name", res.name);
       setTimeout(() => {
         router.push("/");
       }, 2000);
