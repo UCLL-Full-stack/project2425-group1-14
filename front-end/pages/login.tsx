@@ -85,20 +85,20 @@ const UserLoginForm: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="login-page-container">
       <Header />
-      <main className="flex-grow flex items-center justify-center">
-        <div className="w-full max-w-md p-8">
-          <h3 className="px-0 mb-4 text-center">Login</h3>
+      <main className="login-main-container">
+        <div className="login-card">
+          <h3 className="login-title decorated-title">Login</h3>
           {statusMessages.length > 0 && (
-            <div className="row">
-              <ul className="list-none mb-3 mx-auto">
+            <div className="login-status-container">
+              <ul className="login-status-list">
                 {statusMessages.map(({ message, type }, index) => (
                   <li
                     key={index}
-                    className={classNames({
-                      "text-red-800": type === "error",
-                      "text-green-800": type === "success",
+                    className={classNames("login-status-item", {
+                      "login-status-error": type === "error",
+                      "login-status-success": type === "success",
                     })}
                   >
                     {message}
@@ -107,47 +107,38 @@ const UserLoginForm: React.FC = () => {
               </ul>
             </div>
           )}
-          <form onSubmit={handleSubmit}>
-            <label
-              htmlFor="nameInput"
-              className="block mb-2 text-sm font-medium"
-            >
+          <form className="login-form" onSubmit={handleSubmit}>
+            <label htmlFor="nameInput" className="login-label decorated-label">
               Username:
             </label>
-            <div className="block mb-2 text-sm font-medium">
+            <div className="login-input-container">
               <input
                 id="nameInput"
                 type="text"
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
                 placeholder="Enter your username"
-                className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="login-input"
               />
-              {usernameError && <p className="text-red-800">{usernameError}</p>}
+              {usernameError && <p className="login-error">{usernameError}</p>}
             </div>
 
-            <label
-              htmlFor="passwordInput"
-              className="block mb-2 text-sm font-medium"
-            >
+            <label htmlFor="passwordInput" className="login-label decorated-label">
               Password:
             </label>
-            <div className="block mb-2 text-sm font-medium">
+            <div className="login-input-container">
               <input
                 id="passwordInput"
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 placeholder="Enter your password"
-                className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="login-input"
               />
-              {passwordError && <p className="text-red-800">{passwordError}</p>}
+              {passwordError && <p className="login-error">{passwordError}</p>}
             </div>
 
-            <button
-              className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center w-full"
-              type="submit"
-            >
+            <button className="login-button" type="submit">
               Login
             </button>
           </form>
