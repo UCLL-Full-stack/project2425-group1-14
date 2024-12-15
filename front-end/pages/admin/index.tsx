@@ -6,16 +6,16 @@ import useSWR from 'swr';
 
 const AdminPanel: React.FC = () => {
     const router = useRouter();
-    const [selectedLink, setSelectedLink] = useState<string>('/types'); // Default to first endpoint
+    const [selectedLink, setSelectedLink] = useState<string>('types'); // Default to first endpoint
     const [error, setError] = useState<string | null>(null); // For specific error messages
 
     const links = [
-        { label: 'Type', path: 'type', endpoint: '/types' },
-        { label: 'Region', path: 'region', endpoint: '/regions' },
-        { label: 'Party', path: 'party', endpoint: '/parties' },
-        { label: 'Candidate', path: 'candidate', endpoint: '/candidates' },
-        { label: 'User', path: 'user', endpoint: '/users' },
-        { label: 'Ballot', path: 'ballot', endpoint: '/ballots' },
+        { label: 'Type', path: 'type', endpoint: 'types' },
+        { label: 'Region', path: 'region', endpoint: 'regions' },
+        { label: 'Party', path: 'party', endpoint: 'parties' },
+        { label: 'Candidate', path: 'candidate', endpoint: 'candidates' },
+        { label: 'User', path: 'user', endpoint: 'users' },
+        { label: 'Ballot', path: 'ballot', endpoint: 'ballots' },
     ];
 
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'; // Flexible configuration
