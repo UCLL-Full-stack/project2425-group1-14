@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Header from '../../components/Header'; // Assuming you have a Header component
 import Footer from '../../components/Footer'; // Assuming you have a Footer component
+import useSWR from 'swr';
 
 const AdminPanel: React.FC = () => {
     const router = useRouter();
-    const [stats, setStats] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [selectedLink, setSelectedLink] = useState<string>('/types'); // Default to first endpoint
     const [error, setError] = useState<string | null>(null); // For specific error messages
 
     const links = [
@@ -20,32 +20,19 @@ const AdminPanel: React.FC = () => {
 
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'; // Flexible configuration
 
-    const fetchData = async (endpoint: string) => {
-        setLoading(true);
-        setStats(null);
-        setError(null); // Reset previous errors
-        try {
-            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                },
-            });
-            if (!response.ok) {
-                throw new Error(`Error fetching data: ${response.status} ${response.statusText}`);
-            }
-            const data = await response.json();
-            setStats(JSON.stringify(data, null, 2));
-        } catch (error) {
-            if (error instanceof Error) {
-                setError(`Failed to fetch data: ${error.message}`);
-            } else {
-                setError('Failed to fetch data: An unknown error occurred.');
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
+    // Use SWR hook to fetch data from the selected API endpoint
+    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+    // useSWR will now fetch based on the selectedLink endpoint
+    const { data, error: swrError, isValidating } = useSWR(
+        `${API_BASE_URL}${selectedLink}`, // Fetch data based on selected endpoint
+        fetcher
+    );
+
+    // If there's a specific error in the SWR response, update state
+    if (swrError) {
+        setError(`Failed to fetch data: ${swrError.message}`);
+    }
 
     const navigateTo = (path: string) => {
         router.push(`/admin/${path}`);
@@ -60,7 +47,7 @@ const AdminPanel: React.FC = () => {
                         <button
                             key={link.path}
                             className="admin-circleButton"
-                            onClick={() => fetchData(link.endpoint)}
+                            onClick={() => setSelectedLink(link.endpoint)} // Update selected endpoint
                         >
                             {link.label}
                         </button>
@@ -69,15 +56,15 @@ const AdminPanel: React.FC = () => {
                 <div className="admin-content">
                     <h1>Admin Panel</h1>
                     <p>Select a category from the navigation to view statistics.</p>
-                    {loading && <p>Loading...</p>}
+                    {isValidating && <p>Loading...</p>}
                     {error && (
                         <p className="error-message">
                             {error}
                         </p>
                     )}
-                    {stats && (
+                    {data && (
                         <pre className="stats-output">
-                            {stats}
+                            {JSON.stringify(data, null, 2)}
                         </pre>
                     )}
                 </div>
