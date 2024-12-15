@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Header from '../../components/Header'; // Assuming you have a Header component
 import Footer from '../../components/Footer'; // Assuming you have a Footer component
 import useSWR from 'swr';
+import { makeAGR } from '@util';
 
 const AdminPanel: React.FC = () => {
     const router = useRouter();
@@ -18,15 +19,13 @@ const AdminPanel: React.FC = () => {
         { label: 'Ballot', path: 'ballot', endpoint: 'ballots' },
     ];
 
-    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'; // Flexible configuration
-
     // Use SWR hook to fetch data from the selected API endpoint
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+    const getFetcher = async (endpoint: string) => await makeAGR(endpoint);
 
     // useSWR will now fetch based on the selectedLink endpoint
     const { data, error: swrError, isValidating } = useSWR(
-        `${API_BASE_URL}${selectedLink}`, // Fetch data based on selected endpoint
-        fetcher
+        selectedLink, // Fetch data based on selected endpoint
+        getFetcher
     );
 
     // If there's a specific error in the SWR response, update state
