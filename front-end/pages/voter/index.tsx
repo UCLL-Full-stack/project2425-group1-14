@@ -3,52 +3,70 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 const VotePage: React.FC = () => {
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
+    const [name, setName] = useState<string>(''); // Tracks user name
+    const [selectedOption, setSelectedOption] = useState<string | null>(null); // Tracks selected party
     const [submitted, setSubmitted] = useState(false);
 
     const handleVote = () => {
-        if (selectedOption) {
-            // Submit the vote (e.g., send to an API)
-            console.log(`Voted for: ${selectedOption}`);
+        if (name && selectedOption) {
+            console.log(`Voter Name: ${name}, Voted for: ${selectedOption}`);
             setSubmitted(true);
+        } else {
+            alert('Please enter your name and select an option.');
         }
     };
 
     return (
+        <div className="page-container">
 
-
-        <div>
             <Header />
-            <h1>Vote for your favorite option</h1>
-            {!submitted ? (
-                <div>
-                    <div>
-                        <input
-                            type="radio"
-                            id="option1"
-                            name="vote"
-                            value="Option 1"
-                            onChange={(e) => setSelectedOption(e.target.value)}
-                        />
-                        <label htmlFor="option1">Option 1</label>
-                    </div>
-                    <div>
-                        <input
-                            type="radio"
-                            id="option2"
-                            name="vote"
-                            value="Option 2"
-                            onChange={(e) => setSelectedOption(e.target.value)}
-                        />
-                        <label htmlFor="option2">Option 2</label>
-                    </div>
-                    <button onClick={handleVote}>Submit Vote</button>
-                </div>
-            ) : (
-                <p>Thank you for voting!</p>
-            )}
-            <Footer />
+
+
+            <div className="vote-container">
+                <main className="vote-main">
+                    <h1 className="vote-title">Vote for your region: </h1>
+                    {!submitted ? (
+                        <div className="vote-form">
+
+                            <div className="vote-input-group">
+                                <p className="vote-name">{name}</p>
+                            </div>
+
+
+
+                            <div className="vote-options">
+                                {['Option 1', 'Option 2', 'Option 3', 'Option 4'].map((option, index) => (
+                                    <div key={index} className="vote-option">
+                                        <input
+                                            type="radio"
+                                            id={`option${index + 1}`}
+                                            name="vote"
+                                            value={option}
+                                            onChange={(e) => setSelectedOption(e.target.value)}
+                                        />
+                                        <label htmlFor={`option${index + 1}`}>{option}</label>
+                                    </div>
+                                ))}
+                            </div>
+
+
+                            <div className="vote-button-container">
+                                <button className="vote-submit-button" onClick={handleVote}>
+                                    Submit Vote
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <p className="vote-thank-you">Thank you for voting!</p>
+                    )}
+                </main>
+            </div>
+
+
+
+
         </div>
+
     );
 };
 

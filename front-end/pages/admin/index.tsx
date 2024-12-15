@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import Header from '../../components/Header'; // Assuming you have a Header component
+import Footer from '../../components/Footer'; // Assuming you have a Footer component
 
 const AdminPanel: React.FC = () => {
     const router = useRouter();
     const [stats, setStats] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null); // Voor specifieke foutmeldingen
+    const [error, setError] = useState<string | null>(null); // For specific error messages
 
     const links = [
         { label: 'Type', path: 'type', endpoint: '/types' },
@@ -16,12 +18,12 @@ const AdminPanel: React.FC = () => {
         { label: 'Ballot', path: 'ballot', endpoint: '/ballots' },
     ];
 
-    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'; // Flexibele configuratie
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'; // Flexible configuration
 
     const fetchData = async (endpoint: string) => {
         setLoading(true);
         setStats(null);
-        setError(null); // Reset eerdere fouten
+        setError(null); // Reset previous errors
         try {
             const response = await fetch(`${API_BASE_URL}${endpoint}`, {
                 method: 'GET',
@@ -51,32 +53,36 @@ const AdminPanel: React.FC = () => {
 
     return (
         <div className="admin-container">
-            <nav className="admin-sidebar">
-                {links.map((link) => (
-                    <button
-                        key={link.path}
-                        className="admin-circleButton"
-                        onClick={() => fetchData(link.endpoint)}
-                    >
-                        {link.label}
-                    </button>
-                ))}
-            </nav>
-            <div className="admin-content">
-                <h1>Admin Panel</h1>
-                <p>Select a category from the navigation to view statistics.</p>
-                {loading && <p>Loading...</p>}
-                {error && (
-                    <p style={{ color: 'red', backgroundColor: '#ffe6e6', padding: '10px', borderRadius: '5px' }}>
-                        {error}
-                    </p>
-                )}
-                {stats && (
-                    <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', borderRadius: '5px' }}>
-                        {stats}
-                    </pre>
-                )}
+            <Header /> {/* Header stays at the top */}
+            <div className="admin-main">
+                <nav className="admin-sidebar">
+                    {links.map((link) => (
+                        <button
+                            key={link.path}
+                            className="admin-circleButton"
+                            onClick={() => fetchData(link.endpoint)}
+                        >
+                            {link.label}
+                        </button>
+                    ))}
+                </nav>
+                <div className="admin-content">
+                    <h1>Admin Panel</h1>
+                    <p>Select a category from the navigation to view statistics.</p>
+                    {loading && <p>Loading...</p>}
+                    {error && (
+                        <p className="error-message">
+                            {error}
+                        </p>
+                    )}
+                    {stats && (
+                        <pre className="stats-output">
+                            {stats}
+                        </pre>
+                    )}
+                </div>
             </div>
+            <Footer /> {/* Footer stays at the bottom */}
         </div>
     );
 };
