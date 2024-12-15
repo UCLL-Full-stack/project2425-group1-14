@@ -188,13 +188,17 @@ footer {
     color: #333;
 }
 
-/* Foutmeldingen */
 .error-message {
-    color: red;
-    background-color: #ffe6e6;
+    color: red !important;
+    font-weight: bold;
+    background-color: #f8d7da;
     padding: 10px;
+    border: 1px solid red;
     border-radius: 5px;
+    margin-top: 20px;
 }
+
+
 
 /* Stats output (indien beschikbaar) */
 .stats-output {

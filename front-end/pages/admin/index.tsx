@@ -62,6 +62,7 @@ const AdminPanel: React.FC = () => {
                             {error}
                         </p>
                     )}
+
                     {data && (
                         <pre className="stats-output">
                             {JSON.stringify(data, null, 2)}
