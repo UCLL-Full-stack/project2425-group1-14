@@ -40,7 +40,7 @@ const AdminPanel: React.FC = () => {
     return (
         <div className="admin-container">
             <Header /> {/* Header stays at the top */}
-            <div className="admin-main">
+            <main className="admin-main">
                 <nav className="admin-sidebar">
                     {links.map((link) => (
                         <button
@@ -68,7 +68,7 @@ const AdminPanel: React.FC = () => {
                         </pre>
                     )}
                 </div>
-            </div>
+            </main>
             <Footer /> {/* Footer stays at the bottom */}
         </div>
     );

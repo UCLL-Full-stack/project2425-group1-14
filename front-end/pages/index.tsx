@@ -19,7 +19,7 @@ const IndexPage: React.FC = () => {
   return (
     <div style={styles.container}>
       <Header />
-      <div style={styles.contentContainer}>
+      <main style={styles.contentContainer}>
         <h2 style={styles.heading}>Welcome to Hannọ</h2>
         <button
           style={styles.voteButton}
@@ -27,7 +27,37 @@ const IndexPage: React.FC = () => {
         >
           Log in and Vote Here
         </button>
-      </div>
+        <br></br>
+        <div>
+            <h3>TEST LOG-INS</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>USERNAME</th>
+                        <th>PASSWORD</th>
+                        <th>ROLE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>testadmin</td>
+                        <td>admin</td>
+                        <td>admin</td>
+                    </tr>
+                    <tr>
+                        <td>testmanager</td>
+                        <td>manager</td>
+                        <td>manager</td>
+                    </tr>
+                    <tr>
+                        <td>testvoter</td>
+                        <td>voter</td>
+                        <td>voter</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </main>
       <Footer />
     </div>
   );
