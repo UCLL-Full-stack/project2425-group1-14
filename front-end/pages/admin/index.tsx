@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import useSWR from 'swr';
-import { makeAGR, tablefy } from '@util';
+import { tablefy } from '@util';
 
 const AdminPanel: React.FC = () => {
     const router = useRouter();
@@ -19,19 +19,28 @@ const AdminPanel: React.FC = () => {
         { label: 'Ballot', path: 'ballot', endpoint: 'ballots' },
     ];
 
-    const getFetcher = async (endpoint: string) => await makeAGR(endpoint);
+    // Fetch data from the API
+    const getFetcher = async (endpoint: string) => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/${endpoint}`);  // Assuming the API is exposed on this URL
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw new Error(error instanceof Error ? error.message : 'An error occurred');
+        }
+    };
 
-    const { data, error: swrError, isValidating } = useSWR(
-        selectedLink,
-        getFetcher
-    );
+    // Use SWR hook to fetch data from the selected API endpoint
+    const { data, error: swrError, isValidating } = useSWR(selectedLink, getFetcher);
 
     useEffect(() => {
         if (swrError) {
             setError(`Failed to fetch data: ${swrError.message}`);
         }
     }, [swrError]);
-
 
     const navigateTo = (path: string) => {
         router.push(`/admin/${path}`);
