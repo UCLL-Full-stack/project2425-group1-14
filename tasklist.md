@@ -28,7 +28,7 @@
 - [x] Pagina's worden opgebouwd uit verschillende herbruikbare componenten die in de map “components” worden geplaatst.
     - [x]  Componenten worden niet rechtstreeks geïmplementeerd in een pagina.
 - [ ] “Props” worden gebruikt om dynamische inhoud binnen componenten weer te geven.
-- [ ] “State” wordt gebruikt om informatie op te slaan tussen verschillende renders van een component (geen lokale variabelen!).
+- [x] “State” wordt gebruikt om informatie op te slaan tussen verschillende renders van een component (geen lokale variabelen!).
 - [x] Callback functies worden gebruikt om hogerliggende componenten of pagina's op de hoogte te brengen van een gebeurtenis binnen de huidige component.
 - [ ] Het aanroepen van een Rest API gebeurt in afzonderlijke, herbruikbare Services. Er wordt nooit fetch logica rechtstreeks in een component geschreven.
 - [x] Dynamische routing moet op de juiste plaatsen worden gebruikt.
@@ -46,13 +46,13 @@
 - [x] Tenminste 1 many-to-many relatie is gemodelleerd in je prisma schema en domein objecten. Er mag geen circulaire afhankelijkheid bestaan in je domeinlaag, dus beslis of je een tussenliggend object gebruikt of dat je de relatie in het domein uni-directioneel maakt.
 
 ## 5 - Front-end: React & Next.js advanced
-- [ ] De hook useSWR wordt gebruikt voor API-requests.
+- [x] De hook useSWR wordt gebruikt voor API-requests.
     - [ ] SSR en SSG kunnen optioneel worden toegepast.
-- [ ] De hook useEffect wordt gebruikt voor interactie met een extern systeem (bijv. browser storage).
-- [ ] Er is minstens 1 functioneel formulier met validatie, foutafhandeling en integratie met de back-end.
-- [ ] Er is minstens 1 login formulier met validatie en foutafhandeling.
+- [x] De hook useEffect wordt gebruikt voor interactie met een extern systeem (bijv. browser storage).
+- [x] Er is minstens 1 functioneel formulier met validatie, foutafhandeling en integratie met de back-end.
+- [x] Er is minstens 1 login formulier met validatie en foutafhandeling.
 - [ ] Er worden minstens 2 waarden opgeslagen in de browser storage en gebruikt in de hele applicatie.
-- [ ] Styling is toegepast in de mate dat je applicatie bruikbaar en leesbaar is. Je mag je eigen styling framework kiezen.
+- [x] Styling is toegepast in de mate dat je applicatie bruikbaar en leesbaar is. Je mag je eigen styling framework kiezen.
 
 ## 6 - Back-end: Security
 - [~] User Sign-up:

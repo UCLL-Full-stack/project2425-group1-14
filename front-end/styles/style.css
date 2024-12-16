@@ -3,6 +3,9 @@
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 main {
@@ -22,6 +25,164 @@ body {
     min-height: 100vh;
     /* zorgt ervoor dat de pagina minstens het volledige scherm in beslag neemt */
 }
+
+/* Header Container */
+.header1-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #0070f3;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+/* Links Container */
+.header1-links-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+/* Links */
+.header1-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2em;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.header1-link:hover {
+    color: #005bb5;
+    /* Hover effect */
+
+}
+
+/* User Info Container */
+.header1-user-info-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Logged In Text */
+.header1-logged-in-text {
+    font-size: 1em;
+}
+
+/* Timer Container */
+.header1-timer-container {
+    font-size: 1.2em;
+    font-weight: lighter;
+}
+
+/* Timer */
+.header1-timer {
+    font-size: 1.5em;
+}
+
+
+/* Container */
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #0070f3;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    width: 100%;
+}
+
+/* Links container */
+.header-links-container {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+/* Link */
+.header-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 2em;
+    font-weight: bold;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.header-link:hover {
+    color: #005bb5;
+
+
+}
+
+
+.header-contact-button-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 20px;
+}
+
+
+.header-contact-button {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1em;
+    padding: 5px 10px;
+    background-color: #005bb5;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.header-contact-button:hover {
+    background-color: #4d535b;
+    /* Donkerdere blauw bij hover */
+    text-decoration: none;
+}
+
+
+.footer-container {
+    padding: 20px 10px;
+    background-color: #0070f3;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.footer-inner-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-text {
+    margin: 10px 0;
+    font-size: 1em;
+    font-weight: lighter;
+}
+
+.footer-legal-links {
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.footer-link {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #005bb5;
+    /* Donkerdere blauwe kleur op hover */
+    text-decoration: underline;
+    /* Onderstreept op hover */
+}
+
 
 
 h1 {
@@ -82,19 +243,149 @@ map {
     border-radius: 8px;
 }
 
+/* eerste index*/
+
+
+/* Algemene container voor de indexpagina */
+.index-container {
+    text-align: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffffff, #e0f7fa);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+/* Content container */
+.index-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 100px);
+    padding: 20px;
+}
+
+/* Hoofdtekst */
+.index-heading {
+    color: #333;
+    font-size: 3rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out, pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+/* Stem knop */
+.index-voteButton {
+    background-color: #0070f3;
+    color: #fff;
+    padding: 15px 30px;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.index-voteButton:hover {
+    background-color: #005bb5;
+    transform: translateY(-2px);
+}
+
+/* Test login table */
+.index-loginTable {
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.index-loginTable th,
+.index-loginTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.index-loginTable th {
+    background-color: #0070f3;
+    color: white;
+    font-weight: bold;
+}
+
+.index-loginTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.index-loginTable tr:hover {
+    background-color: #f1f1f1;
+}
+
+
+
+
+
+
+
 .contactCard {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+
+}
+
+@media (max-width: 768px) {
+    .contactCard {
+        grid-template-columns: 1fr;
+        gap: 20px;
+
+    }
 }
 
 .contactCard div {
     background-color: white;
-    padding: 1rem;
+    padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 50%;
+    max-width: 100%;
     text-align: center;
     justify-self: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: liveAnimation 2s infinite alternate;
+    box-sizing: border-box;
+    word-wrap: break-word;
+}
+
+@keyframes liveAnimation {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    100% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+}
+
+.contactCard div:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .contactCard div li {

@@ -26,29 +26,32 @@ const ContactPage: React.FC = () => {
 
           <div className="contactCard">
             <div>
-                <p>
+              <p>
                 <strong>Saperoi</strong>
-                </p>
-                <ul>
+              </p>
+              <ul>
                 <li>
-                    <strong>Github:</strong> saperoi
+                  <strong>Github:</strong> saperoi
                 </li>
                 <li>
-                    <strong>Email:</strong> sapero@icosahedr.online
+                  <strong>Email:</strong> sapero@icosahedr.online
                 </li>
-                </ul>
+              </ul>
             </div>
             <div>
-                <p>
+              <p>
                 <strong>Jack van Hecke</strong>
-                </p>
-                <ul>
+              </p>
+              <ul>
                 <li>
-                    <strong>Github:</strong> JackvanHecke
+                  <strong>Github:</strong> JackvanHecke
                 </li>
-                </ul>
+                <li>
+                  <strong>Email:</strong> jack.vanhecke@ucll.be
+                </li>
+              </ul>
             </div>
-        </div>
+          </div>
         </section>
       </main>
 
