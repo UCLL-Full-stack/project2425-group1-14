@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Header from '../../components/Header'; // Assuming you have a Header component
-import Footer from '../../components/Footer'; // Assuming you have a Footer component
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 import useSWR from 'swr';
 import { makeAGR, tablefy } from '@util';
 
 const AdminPanel: React.FC = () => {
     const router = useRouter();
-    const [selectedLink, setSelectedLink] = useState<string>('types'); // Default to first endpoint
-    const [error, setError] = useState<string | null>(null); // For specific error messages
+    const [selectedLink, setSelectedLink] = useState<string>('types');
+    const [error, setError] = useState<string | null>(null);
 
     const links = [
         { label: 'Type', path: 'type', endpoint: 'types' },
@@ -19,19 +19,19 @@ const AdminPanel: React.FC = () => {
         { label: 'Ballot', path: 'ballot', endpoint: 'ballots' },
     ];
 
-    // Use SWR hook to fetch data from the selected API endpoint
     const getFetcher = async (endpoint: string) => await makeAGR(endpoint);
 
-    // useSWR will now fetch based on the selectedLink endpoint
     const { data, error: swrError, isValidating } = useSWR(
-        selectedLink, // Fetch data based on selected endpoint
+        selectedLink,
         getFetcher
     );
 
-    // If there's a specific error in the SWR response, update state
-    if (swrError) {
-        setError(`Failed to fetch data: ${swrError.message}`);
-    }
+    useEffect(() => {
+        if (swrError) {
+            setError(`Failed to fetch data: ${swrError.message}`);
+        }
+    }, [swrError]);
+
 
     const navigateTo = (path: string) => {
         router.push(`/admin/${path}`);
@@ -39,14 +39,14 @@ const AdminPanel: React.FC = () => {
 
     return (
         <div className="admin-container">
-            <Header /> {/* Header stays at the top */}
+            <Header />
             <main className="admin-main">
                 <nav className="admin-sidebar">
                     {links.map((link) => (
                         <button
                             key={link.path}
                             className="admin-circleButton"
-                            onClick={() => setSelectedLink(link.endpoint)} // Update selected endpoint
+                            onClick={() => setSelectedLink(link.endpoint)}
                         >
                             {link.label}
                         </button>
@@ -67,7 +67,7 @@ const AdminPanel: React.FC = () => {
                     )}
                 </div>
             </main>
-            <Footer /> {/* Footer stays at the bottom */}
+            <Footer />
         </div>
     );
 };
