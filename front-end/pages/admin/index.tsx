@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Header from '../../components/Header'; // Assuming you have a Header component
 import Footer from '../../components/Footer'; // Assuming you have a Footer component
 import useSWR from 'swr';
-import { makeAGR } from '@util';
+import { makeAGR, tablefy } from '@util';
 
 const AdminPanel: React.FC = () => {
     const router = useRouter();
@@ -63,9 +63,7 @@ const AdminPanel: React.FC = () => {
                     )}
 
                     {data && (
-                        <pre className="stats-output">
-                            {JSON.stringify(data, null, 2)}
-                        </pre>
+                        <table dangerouslySetInnerHTML={{ __html: tablefy(data) }}></table>
                     )}
                 </div>
             </main>
