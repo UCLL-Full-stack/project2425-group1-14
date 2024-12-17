@@ -531,15 +531,24 @@ tr:hover {
     margin-top: 20px;
     display: flex;
     gap: 10px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
 }
 
 .action-btn {
     padding: 10px 20px;
     border: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 12px;
     border-radius: 5px;
     transition: background-color 0.3s;
+    width: 150px;
+    height: 40px;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .action-btn:hover {
@@ -548,19 +557,19 @@ tr:hover {
 
 .action-btn.delete {
     background-color: #f44336;
-    /* Red for delete */
+
     color: white;
 }
 
 .action-btn.edit {
     background-color: #ff9800;
-    /* Orange for edit */
+
     color: white;
 }
 
 .action-btn.add {
     background-color: #4caf50;
-    /* Green for add */
+
     color: white;
 }
 
@@ -846,27 +855,64 @@ footer {
     text-align: center;
 }
 
-/* FloatingLanguageButton.css */
 
-.floating-button-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-}
 
-.floating-button {
-    background-color: #0070f3;
+.action-btn.save,
+.action-btn.cancel {
+    background-color: rgb(37, 82, 246);
     color: white;
-    border: none;
-    border-radius: 50%;
-    padding: 20px 30px;
-    font-size: 16px;
-    font-weight: bold;
+    border: 1px solid #333;
+    margin: 0 5px;
+    padding: 2px 6px;
+    font-size: 10px;
+    width: 60px;
+    height: 20px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    text-align: center;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.floating-button:hover {
-    background-color: #005bb5;
+
+
+.action-btn.save:hover {
+    background-color: #00b54e;
+    color: white;
+}
+
+.action-btn.cancel:hover {
+    background-color: #ba1515;
+    color: white;
+}
+
+
+tr {
+    position: relative;
+}
+
+.actions-column {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.actions-column button {
+    opacity: 0;
+    transition: opacity 0.3s;
+    visibility: hidden;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    min-width: 60px;
+    height: 28px;
+
+}
+
+tr:hover .actions-column button {
+    opacity: 1;
+    visibility: visible;
+}
+
+.selected-row {
+    background-color: #f0f0f0;
 }

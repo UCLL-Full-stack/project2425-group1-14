@@ -11,6 +11,12 @@ const AdminPanel: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const [isAddingRow, setIsAddingRow] = useState<boolean>(false);
+    const [newRowData, setNewRowData] = useState<{ name: string }>({
+        name: '',
+    });
+    const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
+    const [isEditingRow, setIsEditingRow] = useState<number | null>(null); // State for editing row
 
     const links = [
         { label: 'Type', path: 'type', endpoint: 'types' },
@@ -30,7 +36,33 @@ const AdminPanel: React.FC = () => {
         }
     };
 
-    const { data, error: swrError, isValidating } = useSWR(selectedLink, getFetcher);
+    const saveNewRow = async () => {
+        if (!newRowData.name.trim()) {
+            alert('Please fill in all fields before saving.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/${selectedLink}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newRowData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to save the new row.');
+            }
+
+            const savedRow = await response.json();
+            setIsAddingRow(false);
+            setNewRowData({ name: '' });
+            console.log('Saved new row:', savedRow);
+        } catch (error) {
+            alert('An error occurred while saving. Please try again.');
+        }
+    };
+
+    const { data, error: swrError, isValidating, mutate } = useSWR(selectedLink, getFetcher);
 
     useEffect(() => {
         if (swrError) {
@@ -38,9 +70,11 @@ const AdminPanel: React.FC = () => {
         }
     }, [swrError]);
 
-    const navigateTo = (path: string) => {
-        router.push(`/admin/${path}`);
-    };
+    // Reset selected rows and isAddingRow when changing selectedLink (category)
+    useEffect(() => {
+        setSelectedRows([]);
+        setIsAddingRow(false);
+    }, [selectedLink]);
 
     const toggleRowSelection = (index: number) => {
         setSelectedRows((prevSelectedRows) =>
@@ -50,23 +84,78 @@ const AdminPanel: React.FC = () => {
         );
     };
 
-    const deleteSelectedRows = () => {
-        console.log("Deleting selected rows:", selectedRows);
-        setSelectedRows([]);
+    const selectAllRows = () => {
+        if (isAllSelected) {
+            setSelectedRows([]);
+        } else {
+            if (data) {
+                const allRowIndexes = data.map((_: any, index: number) => index);
+                setSelectedRows(allRowIndexes);
+            }
+        }
+        setIsAllSelected(!isAllSelected);
     };
 
-    const addNewRow = () => {
-        console.log("Adding a new row...");
+    const deleteSelectedRows = async () => {
+        try {
+            await Promise.all(
+                selectedRows.map(async (index) => {
+                    const item = data[index];
+                    await fetch(`/api/${selectedLink}/${item.id}`, {
+                        method: 'DELETE',
+                    });
+                })
+            );
+            alert('Selected rows deleted.');
+            mutate(); // Refresh data
+        } catch (error) {
+            alert('Failed to delete rows. Please try again.');
+        }
+        setSelectedRows([]);
     };
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
     };
 
-    const filteredData = data ? data.filter((item: any) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.id.toString().includes(searchTerm)
-    ) : [];
+    const filteredData = data
+        ? data.filter((item: any) =>
+            item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.id.toString().includes(searchTerm)
+        )
+        : [];
+
+    const startEditing = (index: number) => {
+        setIsEditingRow(index);
+    };
+
+    const cancelEditing = () => {
+        setIsEditingRow(null);
+    };
+
+    const saveEditedRow = async (index: number) => {
+        const item = data[index];
+        const updatedData = { ...item, name: newRowData.name }; // Assuming you are editing the name
+
+        try {
+            const response = await fetch(`/api/${selectedLink}/${item.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedData),
+            });
+
+            if (response.ok) {
+                const savedRow = await response.json();
+                console.log('Updated row:', savedRow);
+                cancelEditing();
+                mutate(); // Refresh data after saving
+            } else {
+                alert('Failed to update the row.');
+            }
+        } catch (error) {
+            alert('An error occurred while saving. Please try again.');
+        }
+    };
 
     return (
         <div className="admin-container">
@@ -89,7 +178,7 @@ const AdminPanel: React.FC = () => {
                     {isValidating && <p>Loading...</p>}
                     {error && <p className="error-message">{error}</p>}
 
-                    {selectedLink && data && (
+                    {selectedLink && (
                         <div>
                             <div className="search-container">
                                 <input
@@ -113,6 +202,7 @@ const AdminPanel: React.FC = () => {
                                         <tr>
                                             <th>ID</th>
                                             <th>Data</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -123,22 +213,100 @@ const AdminPanel: React.FC = () => {
                                                 className={selectedRows.includes(index) ? 'selected-row' : ''}
                                             >
                                                 <td>{item.id}</td>
-                                                <td>{item.name}</td>
-                                                <td>{item.description}</td>
+                                                <td>
+                                                    {isEditingRow === index ? (
+                                                        <input
+                                                            type="text"
+                                                            value={newRowData.name}
+                                                            onChange={(e) =>
+                                                                setNewRowData({
+                                                                    ...newRowData,
+                                                                    name: e.target.value,
+                                                                })
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        item.name
+                                                    )}
+                                                </td>
+                                                <td className="actions-column">
+                                                    {isEditingRow === index ? (
+                                                        <>
+                                                            <button
+                                                                className="action-btn save"
+                                                                onClick={() => saveEditedRow(index)}
+                                                            >
+                                                                Save
+                                                            </button>
+                                                            <button
+                                                                className="action-btn cancel"
+                                                                onClick={cancelEditing}
+                                                            >
+                                                                Cancel
+                                                            </button>
+                                                        </>
+                                                    ) : (
+                                                        <button
+                                                            className="action-btn edit"
+                                                            onClick={() => startEditing(index)}
+                                                        >
+                                                            Edit
+                                                        </button>
+                                                    )}
+                                                </td>
                                             </tr>
                                         ))}
+
+                                        {isAddingRow && (
+                                            <tr>
+                                                <td>New</td>
+                                                <td>
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Data"
+                                                        value={newRowData.name}
+                                                        onChange={(e) =>
+                                                            setNewRowData({
+                                                                ...newRowData,
+                                                                name: e.target.value,
+                                                            })
+                                                        }
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <button className="action-btn save" onClick={saveNewRow}>Save</button>
+                                                    <button className="action-btn cancel" onClick={() => setIsAddingRow(false)}>Cancel</button>
+                                                </td>
+                                            </tr>
+                                        )}
                                     </tbody>
                                 </table>
                             </div>
 
-                            {selectedRows.length > 0 && (
-                                <div className="action-buttons">
-                                    <button className="action-btn delete" onClick={deleteSelectedRows}>Delete</button>
-                                    <button className="action-btn edit" onClick={() => console.log('Edit', selectedRows)}>Edit</button>
-                                </div>
-                            )}
+                            <div className="action-buttons">
+                                {selectedRows.length > 0 && (
+                                    <>
+                                        <button className="action-btn delete" onClick={deleteSelectedRows}>
+                                            Delete
+                                        </button>
+                                        <button
+                                            className="action-btn select-all"
+                                            onClick={selectAllRows}
+                                        >
+                                            {isAllSelected ? 'Deselect All' : 'Select All'}
+                                        </button>
+                                    </>
+                                )}
 
-                            <button className="action-btn add" onClick={addNewRow}>Add a new item</button>
+                                {selectedRows.length === 0 && !isAddingRow && (
+                                    <button
+                                        className="action-btn add"
+                                        onClick={() => setIsAddingRow(true)}
+                                    >
+                                        Add a new item
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     )}
                 </div>
