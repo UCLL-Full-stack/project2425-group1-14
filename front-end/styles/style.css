@@ -430,13 +430,16 @@ footer {
     align-items: center;
     background-color: #2c3e50;
     padding: 20px 0;
+
+    /* Voeg ruimte toe aan de linker- en rechterkant */
 }
 
 /* Stijl van de cirkelvormige knoppen in de sidebar */
 .admin-circleButton {
-    width: 100px;
-    height: 60px;
-    margin: 10px 0;
+    width: 80px;
+    height: 80px;
+    margin: 10px 10px;
+
     border-radius: 50%;
     background-color: #3498db;
     border: none;
@@ -466,6 +469,7 @@ footer {
     display: flex;
     flex: 1;
     padding: 20px;
+    overflow-x: auto;
 }
 
 /* De content sectie */
@@ -488,6 +492,82 @@ footer {
     border: 1px solid red;
     border-radius: 5px;
     margin-top: 20px;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th,
+td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f8f8f8;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.selected-row {
+    background-color: lightgray;
+    /* Highlight selected rows */
+}
+
+.selected-count {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Action Buttons Styles */
+.action-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.action-btn {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.action-btn:hover {
+    background-color: #ccc;
+}
+
+.action-btn.delete {
+    background-color: #f44336;
+    /* Red for delete */
+    color: white;
+}
+
+.action-btn.edit {
+    background-color: #ff9800;
+    /* Orange for edit */
+    color: white;
+}
+
+.action-btn.add {
+    background-color: #4caf50;
+    /* Green for add */
+    color: white;
+}
+
+/* Button position at the bottom of the table */
+button.action-btn.add {
+    margin-top: 20px;
+    align-self: flex-start;
 }
 
 
@@ -764,4 +844,29 @@ footer {
     background-color: #2c3e50;
     color: white;
     text-align: center;
+}
+
+/* FloatingLanguageButton.css */
+
+.floating-button-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.floating-button {
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 20px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.floating-button:hover {
+    background-color: #005bb5;
 }

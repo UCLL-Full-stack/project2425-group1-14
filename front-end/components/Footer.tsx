@@ -14,6 +14,9 @@ const Footer: React.FC = () => {
                     <a href="/license" className="footer-link">
                         License
                     </a>
+
+
+
                 </div>
             </div>
         </footer>

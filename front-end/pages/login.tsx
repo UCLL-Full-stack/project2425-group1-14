@@ -68,9 +68,14 @@ const UserLoginForm: React.FC = () => {
       const res: AuthenticationResponse = await response.json();
       localStorage.setItem("token", res.token);
       localStorage.setItem("name", res.name);
-      setTimeout(() => {
+
+      if (username === "testadmin") {
+        router.push("/admin");
+      } else if (username === "testvoter") {
+        router.push("/voter");
+      } else {
         router.push("/");
-      }, 2000);
+      }
     } catch (error: any) {
       if (error.name === "TypeError") {
         setStatusMessages([
