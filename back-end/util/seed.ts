@@ -25,7 +25,7 @@ const main = async () => {
     const regionMallia = await prisma.region.create({
         data: {
             name: 'Mallia',
-            type: { connect: { id: typeNational.id } }
+            type: { connect: { id: typeNational.id } },
         },
     });
 
@@ -238,46 +238,46 @@ const main = async () => {
             name: 'Party en Testing',
             abbr: 'PET',
             logo: 'https://board.icosahedr.online/_images/624050a46014f7b5cb4a78ef20eec3fa/399%20-%20logo%20series%3ATestImages.png',
-            type: { connect: { id: typeNational.id }},
-        }
+            type: { connect: { id: typeNational.id } },
+        },
     });
 
     const candidateQuinn = await prisma.candidate.create({
         data: {
             name: 'Quinn',
-            location: { connect: { id: regionNamurCite.id }},
-        }
+            location: { connect: { id: regionNamurCite.id } },
+        },
     });
 
     const partyCandidateNationalQuinn = await prisma.partyCandidate.create({
         data: {
-            candidate: { connect: {id: candidateQuinn.id }},
-            party: {connect: {id: partyNationalTesters.id }}
-        }
-    })
+            candidate: { connect: { id: candidateQuinn.id } },
+            party: { connect: { id: partyNationalTesters.id } },
+        },
+    });
 
     const partyNationalYappers = await prisma.party.create({
         data: {
             name: 'Full, Open and Public Everyevery Syndicated Party of Yappers',
             abbr: 'FOPESPY',
             logo: 'https://board.icosahedr.online/_images/982da7706f7621303f817c29d7440916/370%20-%20artist%3Asapero%20digital_art%20FOPESPY%20logo.png',
-            type: { connect: { id: typeNational.id }},
-        }
+            type: { connect: { id: typeNational.id } },
+        },
     });
 
     const candidateIke = await prisma.candidate.create({
         data: {
             name: 'Ike',
-            location: { connect: { id: regionLeuven.id }},
-        }
+            location: { connect: { id: regionLeuven.id } },
+        },
     });
 
     const partyCandidateNationalIke = await prisma.partyCandidate.create({
         data: {
-            candidate: { connect: {id: candidateIke.id }},
-            party: {connect: {id: partyNationalYappers.id }},
-            position: 20
-        }
+            candidate: { connect: { id: candidateIke.id } },
+            party: { connect: { id: partyNationalYappers.id } },
+            position: 20,
+        },
     });
 
     const partyNationalWWW = await prisma.party.create({
@@ -285,22 +285,22 @@ const main = async () => {
             name: 'Worldwide Wakened Wutualists',
             abbr: 'WWW',
             logo: 'https://board.icosahedr.online/_images/f54873511e11da904d10a91e230262f3/328%20-%20artist%3Asapero%20digital_art%20logo%20Worldwide_Wakened_Wutualists.png',
-            type: { connect: { id: typeNational.id }},
-        }
+            type: { connect: { id: typeNational.id } },
+        },
     });
 
     const candidateReggie = await prisma.candidate.create({
         data: {
             name: 'Reggie',
-            location: { connect: { id: regionLeuven.id }},
-        }
+            location: { connect: { id: regionLeuven.id } },
+        },
     });
 
     const partyCandidateNationalReggie = await prisma.partyCandidate.create({
         data: {
-            candidate: { connect: {id: candidateReggie.id }},
-            party: {connect: {id: partyNationalWWW.id }}
-        }
+            candidate: { connect: { id: candidateReggie.id } },
+            party: { connect: { id: partyNationalWWW.id } },
+        },
     });
 
     const ballotMallia = await prisma.ballot.create({
@@ -309,29 +309,29 @@ const main = async () => {
             system: 'fptp',
             minimum: 0,
             maximum: 1,
-            location: {connect: {id: regionMallia.id}}
-        }
+            location: { connect: { id: regionMallia.id } },
+        },
     });
-    
+
     const ballotPartyMallianPET = await prisma.ballotParty.create({
         data: {
-            ballot: { connect: {id: ballotMallia.id }},
-            party: {connect: {id: partyNationalTesters.id }}
-        }
+            ballot: { connect: { id: ballotMallia.id } },
+            party: { connect: { id: partyNationalTesters.id } },
+        },
     });
-    
+
     const ballotPartyMallianWWW = await prisma.ballotParty.create({
         data: {
-            ballot: { connect: {id: ballotMallia.id }},
-            party: {connect: {id: partyNationalWWW.id }}
-        }
+            ballot: { connect: { id: ballotMallia.id } },
+            party: { connect: { id: partyNationalWWW.id } },
+        },
     });
-    
+
     const ballotPartyMallianYappers = await prisma.ballotParty.create({
         data: {
-            ballot: { connect: {id: ballotMallia.id }},
-            party: {connect: {id: partyNationalYappers.id }}
-        }
+            ballot: { connect: { id: ballotMallia.id } },
+            party: { connect: { id: partyNationalYappers.id } },
+        },
     });
 
     const partyRegionalWWW = await prisma.party.create({
@@ -339,8 +339,8 @@ const main = async () => {
             name: 'Worldwide Wakened Wutualists',
             abbr: 'WWW',
             logo: 'https://board.icosahedr.online/_images/f54873511e11da904d10a91e230262f3/328%20-%20artist%3Asapero%20digital_art%20logo%20Worldwide_Wakened_Wutualists.png',
-            type: { connect: { id: typeRegional.id }},
-        }
+            type: { connect: { id: typeRegional.id } },
+        },
     });
 
     const partyRegionalYappers = await prisma.party.create({
@@ -348,23 +348,23 @@ const main = async () => {
             name: 'Full, Open and Public Everyevery Syndicated Party of Yappers',
             abbr: 'FOPESPY',
             logo: 'https://board.icosahedr.online/_images/982da7706f7621303f817c29d7440916/370%20-%20artist%3Asapero%20digital_art%20FOPESPY%20logo.png',
-            type: { connect: { id: typeRegional.id }},
-        }
+            type: { connect: { id: typeRegional.id } },
+        },
     });
 
     const partyCandidateRegionalIke = await prisma.partyCandidate.create({
         data: {
-            candidate: { connect: {id: candidateIke.id }},
-            party: {connect: {id: partyRegionalYappers.id }},
-            position: 20
-        }
+            candidate: { connect: { id: candidateIke.id } },
+            party: { connect: { id: partyRegionalYappers.id } },
+            position: 20,
+        },
     });
 
     const partyCandidateRegionalReggie = await prisma.partyCandidate.create({
         data: {
-            candidate: { connect: {id: candidateReggie.id }},
-            party: {connect: {id: partyRegionalWWW.id }}
-        }
+            candidate: { connect: { id: candidateReggie.id } },
+            party: { connect: { id: partyRegionalWWW.id } },
+        },
     });
 
     const ballotFlaumassin = await prisma.ballot.create({
@@ -373,22 +373,22 @@ const main = async () => {
             system: 'approval',
             minimum: 0,
             maximum: -1,
-            location: {connect: {id: regionFlaumassin.id}}
-        }
+            location: { connect: { id: regionFlaumassin.id } },
+        },
     });
-    
+
     const ballotPartyballotFlaumassinWWW = await prisma.ballotParty.create({
         data: {
-            ballot: { connect: {id: ballotFlaumassin.id }},
-            party: {connect: {id: partyRegionalWWW.id }}
-        }
+            ballot: { connect: { id: ballotFlaumassin.id } },
+            party: { connect: { id: partyRegionalWWW.id } },
+        },
     });
-    
+
     const ballotPartyFlaumassinYappers = await prisma.ballotParty.create({
         data: {
-            ballot: { connect: {id: ballotFlaumassin.id }},
-            party: {connect: {id: partyRegionalYappers.id }}
-        }
+            ballot: { connect: { id: ballotFlaumassin.id } },
+            party: { connect: { id: partyRegionalYappers.id } },
+        },
     });
 };
 
