@@ -1,12 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '@components/Header';
 import Footer from '@components/Footer';
 
 const IndexPage: React.FC = () => {
+  const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
+
   useEffect(() => {
     const body = document.querySelector('body');
     if (body) {
       body.classList.add('fade-in');
+    }
+
+
+    const savedName = window.localStorage.getItem("name");
+    if (savedName) {
+      setLoggedInUser(savedName);
     }
 
     return () => {
@@ -16,6 +24,18 @@ const IndexPage: React.FC = () => {
     };
   }, []);
 
+  const getButtonTextAndLink = () => {
+    if (loggedInUser === "testadmin") {
+      return { text: "Admin Panel", link: "/admin" };
+    } else if (loggedInUser === "testvoter") {
+      return { text: "Vote Here", link: "/voter" };
+    } else {
+      return { text: "Log in and Vote Here", link: "/login" };
+    }
+  };
+
+  const { text, link } = getButtonTextAndLink();
+
   return (
     <div className="index-container">
       <Header />
@@ -23,9 +43,9 @@ const IndexPage: React.FC = () => {
         <h2 className="index-heading">Welcome to Hannọ</h2>
         <button
           className="index-voteButton"
-          onClick={() => window.location.href = '/login'}
+          onClick={() => window.location.href = link}
         >
-          Log in and Vote Here
+          {text}
         </button>
         <br />
         <div>
