@@ -4,7 +4,6 @@ import Footer from '@components/Footer';
 
 const IndexPage: React.FC = () => {
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
-  const [showFireworks, setShowFireworks] = useState<boolean>(false);
 
   useEffect(() => {
     const body = document.querySelector('body');
@@ -12,7 +11,7 @@ const IndexPage: React.FC = () => {
       body.classList.add('fade-in');
     }
 
-    // Controleer of een gebruiker is ingelogd
+
     const savedName = window.localStorage.getItem("name");
     if (savedName) {
       setLoggedInUser(savedName);
@@ -37,16 +36,6 @@ const IndexPage: React.FC = () => {
 
   const { text, link } = getButtonTextAndLink();
 
-  const handleButtonClick = () => {
-    setShowFireworks(true);
-
-    // Stop de animatie na 3 seconden
-    setTimeout(() => {
-      setShowFireworks(false);
-      window.location.href = link; // Navigeren na de animatie
-    }, 3000);
-  };
-
   return (
     <div className="index-container">
       <Header />
@@ -54,19 +43,10 @@ const IndexPage: React.FC = () => {
         <h2 className="index-heading">Welcome to Hannọ</h2>
         <button
           className="index-voteButton"
-          onClick={handleButtonClick}
+          onClick={() => window.location.href = link}
         >
           {text}
         </button>
-
-        {showFireworks && (
-          <div className="fireworks-container">
-            <div className="firework firework1"></div>
-            <div className="firework firework2"></div>
-            <div className="firework firework3"></div>
-          </div>
-        )}
-
         <br />
         <div>
           <h3>TEST LOG-INS</h3>
