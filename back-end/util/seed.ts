@@ -17,114 +17,108 @@ const main = async () => {
     await prisma.region.deleteMany();
     await prisma.type.deleteMany();
 
-    const typeEuropean = await prisma.type.create({ data: { name: 'european' } });
     const typeNational = await prisma.type.create({ data: { name: 'national' } });
     const typeRegional = await prisma.type.create({ data: { name: 'regional' } });
     const typeProvincial = await prisma.type.create({ data: { name: 'provincial' } });
     const typeMunicipal = await prisma.type.create({ data: { name: 'municipal' } });
 
-    const regionEurope = await prisma.region.create({
-        data: { name: 'European Union', type: { connect: { id: typeEuropean.id } } },
-    });
-
-    const regionBelgium = await prisma.region.create({
+    const regionMallia = await prisma.region.create({
         data: {
-            name: 'Belgium',
-            type: { connect: { id: typeNational.id } },
-            parent: { connect: { id: regionEurope.id } },
+            name: 'Mallia',
+            type: { connect: { id: typeNational.id } }
         },
     });
 
-    const regionFlanders = await prisma.region.create({
+    const regionFlaumassin = await prisma.region.create({
         data: {
-            name: 'Flanders',
+            name: 'Flaumassin',
             type: { connect: { id: typeRegional.id } },
-            parent: { connect: { id: regionBelgium.id } },
+            parent: { connect: { id: regionMallia.id } },
         },
     });
-    const regionWallonia = await prisma.region.create({
+    const regionWalinnie = await prisma.region.create({
         data: {
-            name: 'Wallonia',
+            name: 'Walinnie',
             type: { connect: { id: typeRegional.id } },
-            parent: { connect: { id: regionBelgium.id } },
+            parent: { connect: { id: regionMallia.id } },
         },
     });
     const regionBrussels = await prisma.region.create({
         data: {
             name: 'Brussels',
             type: { connect: { id: typeRegional.id } },
-            parent: { connect: { id: regionBelgium.id } },
+            parent: { connect: { id: regionMallia.id } },
         },
     });
 
-    const regionWestVlaanderen = await prisma.region.create({
+    const regionWessFlaumassinne = await prisma.region.create({
         data: {
-            name: 'West Vlaanderen',
+            name: 'Wess Flaumassinne',
             type: { connect: { id: typeProvincial.id } },
-            parent: { connect: { id: regionFlanders.id } },
+            parent: { connect: { id: regionFlaumassin.id } },
         },
     });
-    const regionOostVlaanderen = await prisma.region.create({
+    const regionAustFlaumassinne = await prisma.region.create({
         data: {
-            name: 'Oost Vlaanderen',
+            name: 'Aust Flaumassinne',
             type: { connect: { id: typeProvincial.id } },
-            parent: { connect: { id: regionFlanders.id } },
+            parent: { connect: { id: regionFlaumassin.id } },
         },
     });
-    const regionVlaamsBrabant = await prisma.region.create({
+    const regionFlaumsBrabant = await prisma.region.create({
         data: {
-            name: 'Vlaams Brabant',
+            name: 'Flaums Brabant',
             type: { connect: { id: typeProvincial.id } },
-            parent: { connect: { id: regionFlanders.id } },
+            parent: { connect: { id: regionFlaumassin.id } },
         },
     });
     const regionAntwerpen = await prisma.region.create({
         data: {
             name: 'Antwerpen',
             type: { connect: { id: typeProvincial.id } },
-            parent: { connect: { id: regionFlanders.id } },
+            parent: { connect: { id: regionFlaumassin.id } },
         },
     });
     const regionLimburg = await prisma.region.create({
         data: {
             name: 'Limburg',
             type: { connect: { id: typeProvincial.id } },
-            parent: { connect: { id: regionFlanders.id } },
+            parent: { connect: { id: regionFlaumassin.id } },
         },
     });
     const regionHainaut = await prisma.region.create({
         data: {
             name: 'Hainaut',
             type: { connect: { id: typeProvincial.id } },
-            parent: { connect: { id: regionWallonia.id } },
+            parent: { connect: { id: regionWalinnie.id } },
         },
     });
     const regionNamur = await prisma.region.create({
         data: {
             name: 'Namur',
             type: { connect: { id: typeProvincial.id } },
-            parent: { connect: { id: regionWallonia.id } },
+            parent: { connect: { id: regionWalinnie.id } },
         },
     });
-    const regionBrabantWallon = await prisma.region.create({
+    const regionBrabantWalinn = await prisma.region.create({
         data: {
-            name: 'Brabant Wallon',
+            name: 'Brabant Walinn',
             type: { connect: { id: typeProvincial.id } },
-            parent: { connect: { id: regionWallonia.id } },
+            parent: { connect: { id: regionWalinnie.id } },
         },
     });
     const regionLiege = await prisma.region.create({
         data: {
             name: 'Liège',
             type: { connect: { id: typeProvincial.id } },
-            parent: { connect: { id: regionWallonia.id } },
+            parent: { connect: { id: regionWalinnie.id } },
         },
     });
     const regionLuxemburg = await prisma.region.create({
         data: {
             name: 'Luxembourg',
             type: { connect: { id: typeProvincial.id } },
-            parent: { connect: { id: regionWallonia.id } },
+            parent: { connect: { id: regionWalinnie.id } },
         },
     });
 
@@ -139,14 +133,14 @@ const main = async () => {
         data: {
             name: 'Gent',
             type: { connect: { id: typeMunicipal.id } },
-            parent: { connect: { id: regionOostVlaanderen.id } },
+            parent: { connect: { id: regionAustFlaumassinne.id } },
         },
     });
     const regionLeuven = await prisma.region.create({
         data: {
             name: 'Leuven',
             type: { connect: { id: typeMunicipal.id } },
-            parent: { connect: { id: regionVlaamsBrabant.id } },
+            parent: { connect: { id: regionFlaumsBrabant.id } },
         },
     });
     const regionHasselt = await prisma.region.create({
@@ -160,7 +154,7 @@ const main = async () => {
         data: {
             name: 'Brugge',
             type: { connect: { id: typeMunicipal.id } },
-            parent: { connect: { id: regionWestVlaanderen.id } },
+            parent: { connect: { id: regionWessFlaumassinne.id } },
         },
     });
     const regionMons = await prisma.region.create({
@@ -195,7 +189,7 @@ const main = async () => {
         data: {
             name: 'Wavre',
             type: { connect: { id: typeMunicipal.id } },
-            parent: { connect: { id: regionBrabantWallon.id } },
+            parent: { connect: { id: regionBrabantWalinn.id } },
         },
     });
     const regionBruxelles = await prisma.region.create({
@@ -237,6 +231,164 @@ const main = async () => {
             role: 'voter',
             location: { connect: { id: regionBruxelles.id } },
         },
+    });
+
+    const partyNationalTesters = await prisma.party.create({
+        data: {
+            name: 'Party en Testing',
+            abbr: 'PET',
+            logo: 'https://board.icosahedr.online/_images/624050a46014f7b5cb4a78ef20eec3fa/399%20-%20logo%20series%3ATestImages.png',
+            type: { connect: { id: typeNational.id }},
+        }
+    });
+
+    const candidateQuinn = await prisma.candidate.create({
+        data: {
+            name: 'Quinn',
+            location: { connect: { id: regionNamurCite.id }},
+        }
+    });
+
+    const partyCandidateNationalQuinn = await prisma.partyCandidate.create({
+        data: {
+            candidate: { connect: {id: candidateQuinn.id }},
+            party: {connect: {id: partyNationalTesters.id }}
+        }
+    })
+
+    const partyNationalYappers = await prisma.party.create({
+        data: {
+            name: 'Full, Open and Public Everyevery Syndicated Party of Yappers',
+            abbr: 'FOPESPY',
+            logo: 'https://board.icosahedr.online/_images/982da7706f7621303f817c29d7440916/370%20-%20artist%3Asapero%20digital_art%20FOPESPY%20logo.png',
+            type: { connect: { id: typeNational.id }},
+        }
+    });
+
+    const candidateIke = await prisma.candidate.create({
+        data: {
+            name: 'Ike',
+            location: { connect: { id: regionLeuven.id }},
+        }
+    });
+
+    const partyCandidateNationalIke = await prisma.partyCandidate.create({
+        data: {
+            candidate: { connect: {id: candidateIke.id }},
+            party: {connect: {id: partyNationalYappers.id }},
+            position: 20
+        }
+    });
+
+    const partyNationalWWW = await prisma.party.create({
+        data: {
+            name: 'Worldwide Wakened Wutualists',
+            abbr: 'WWW',
+            logo: 'https://board.icosahedr.online/_images/f54873511e11da904d10a91e230262f3/328%20-%20artist%3Asapero%20digital_art%20logo%20Worldwide_Wakened_Wutualists.png',
+            type: { connect: { id: typeNational.id }},
+        }
+    });
+
+    const candidateReggie = await prisma.candidate.create({
+        data: {
+            name: 'Reggie',
+            location: { connect: { id: regionLeuven.id }},
+        }
+    });
+
+    const partyCandidateNationalReggie = await prisma.partyCandidate.create({
+        data: {
+            candidate: { connect: {id: candidateReggie.id }},
+            party: {connect: {id: partyNationalWWW.id }}
+        }
+    });
+
+    const ballotMallia = await prisma.ballot.create({
+        data: {
+            name: 'National Mallian Elections',
+            system: 'fptp',
+            minimum: 0,
+            maximum: 1,
+            location: {connect: {id: regionMallia.id}}
+        }
+    });
+    
+    const ballotPartyMallianPET = await prisma.ballotParty.create({
+        data: {
+            ballot: { connect: {id: ballotMallia.id }},
+            party: {connect: {id: partyNationalTesters.id }}
+        }
+    });
+    
+    const ballotPartyMallianWWW = await prisma.ballotParty.create({
+        data: {
+            ballot: { connect: {id: ballotMallia.id }},
+            party: {connect: {id: partyNationalWWW.id }}
+        }
+    });
+    
+    const ballotPartyMallianYappers = await prisma.ballotParty.create({
+        data: {
+            ballot: { connect: {id: ballotMallia.id }},
+            party: {connect: {id: partyNationalYappers.id }}
+        }
+    });
+
+    const partyRegionalWWW = await prisma.party.create({
+        data: {
+            name: 'Worldwide Wakened Wutualists',
+            abbr: 'WWW',
+            logo: 'https://board.icosahedr.online/_images/f54873511e11da904d10a91e230262f3/328%20-%20artist%3Asapero%20digital_art%20logo%20Worldwide_Wakened_Wutualists.png',
+            type: { connect: { id: typeRegional.id }},
+        }
+    });
+
+    const partyRegionalYappers = await prisma.party.create({
+        data: {
+            name: 'Full, Open and Public Everyevery Syndicated Party of Yappers',
+            abbr: 'FOPESPY',
+            logo: 'https://board.icosahedr.online/_images/982da7706f7621303f817c29d7440916/370%20-%20artist%3Asapero%20digital_art%20FOPESPY%20logo.png',
+            type: { connect: { id: typeRegional.id }},
+        }
+    });
+
+    const partyCandidateRegionalIke = await prisma.partyCandidate.create({
+        data: {
+            candidate: { connect: {id: candidateIke.id }},
+            party: {connect: {id: partyRegionalYappers.id }},
+            position: 20
+        }
+    });
+
+    const partyCandidateRegionalReggie = await prisma.partyCandidate.create({
+        data: {
+            candidate: { connect: {id: candidateReggie.id }},
+            party: {connect: {id: partyRegionalWWW.id }}
+        }
+    });
+
+    const ballotFlaumassin = await prisma.ballot.create({
+        data: {
+            name: 'Regional Flaumassinne Elections',
+            system: 'approval',
+            minimum: 0,
+            maximum: -1,
+            location: {connect: {id: regionFlaumassin.id}}
+        }
+    });
+    
+    const ballotPartyballotFlaumassinWWW = await prisma.ballotParty.create({
+        data: {
+            ballot: { connect: {id: ballotFlaumassin.id }},
+            party: {connect: {id: partyRegionalWWW.id }}
+        }
+    });
+    
+    const ballotPartyFlaumassinYappers = await prisma.ballotParty.create({
+        data: {
+            ballot: { connect: {id: ballotFlaumassin.id }},
+            party: {connect: {id: partyRegionalYappers.id }}
+        }
     });
 };
 
