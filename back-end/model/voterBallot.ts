@@ -13,9 +13,9 @@ import { DomainError } from '../types/error';
 export class VoterBallot {
     readonly ballot: Ballot;
     readonly voter: User;
-    readonly votedFor: PartyCandidate[];
+    readonly votedFor: number[];
 
-    constructor(voterBallot: { ballot: Ballot; voter: User; votedFor: PartyCandidate[] }) {
+    constructor(voterBallot: { ballot: Ballot; voter: User; votedFor: number[] }) {
         this.validate(voterBallot)
         this.ballot = voterBallot.ballot;
         this.voter = voterBallot.voter;
@@ -40,14 +40,14 @@ export class VoterBallot {
 
     static from(
         data: VoterBallotPrisma & {
-            voter: UserPrisma & { location: RegionPrisma & { type: TypePrisma } };
+            user: UserPrisma & { location: RegionPrisma & { type: TypePrisma } };
             ballot: BallotPrisma & { location: RegionPrisma & { type: TypePrisma } };
         }
     ): VoterBallot {
         return new VoterBallot({
-            voter: User.from(data.voter),
+            voter: User.from(data.user),
             ballot: Ballot.from(data.ballot),
-            votedFor: [],
+            votedFor: JSON.parse(data.votedFor),
         });
     }
 }

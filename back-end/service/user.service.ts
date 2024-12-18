@@ -7,6 +7,8 @@ import bcrypt from 'bcrypt';
 import { generateJwtToken } from '../util/jwt';
 import { Ballot } from '../model/ballot';
 import ballotService from './ballot.service';
+import { VoterBallot } from '../model/voterBallot';
+import partyService from './party.service';
 
 const userRedactor = (user: User): User => {
     return new User({
@@ -30,13 +32,13 @@ const authenticate = async ({ username, password }: UserInput): Promise<Authenti
     if (!password) {
         throw new ServiceError('Password was not provided');
     }
-    const user = await getUserByUsername(username, {role: "system"});
+    const user = await getUserByUsername(username, { role: 'system' });
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
         throw new Error('Incorrect password.');
     }
-    
+
     return {
         token: generateJwtToken({ username: user.username, role: user.role }),
         username: username,
@@ -147,7 +149,7 @@ const changeUserName = async ({ id, name }: UserInput): Promise<User> => {
     if (!name) {
         throw new ServiceError('Name was not provided');
     }
-    var validationUser = await getUserById(id, {role: "system"});
+    var validationUser = await getUserById(id, { role: 'system' });
     validationUser = new User({ ...validationUser, name: name });
 
     const user = await userDB.changeUserName({ id, name });
@@ -166,7 +168,7 @@ const changeUserEmail = async ({ id, email }: UserInput): Promise<User> => {
         throw new ServiceError(`User with email ${email} already exists.`);
     }
 
-    var validationUser = await getUserById(id, {role: "system"});
+    var validationUser = await getUserById(id, { role: 'system' });
     validationUser = new User({ ...validationUser, email: email });
 
     const user = await userDB.changeUserEmail({ id, email });
@@ -181,7 +183,7 @@ const changeUserPassword = async ({ id, password }: UserInput): Promise<User> =>
         throw new ServiceError('Password was not provided');
     }
     password = await bcrypt.hash(password, 12);
-    var validationUser = await getUserById(id, {role: "system"});
+    var validationUser = await getUserById(id, { role: 'system' });
     validationUser = new User({ ...validationUser, password: password });
 
     const user = await userDB.changeUserPassword({ id, password });
@@ -200,7 +202,7 @@ const changeUserRegion = async ({ id, locationId }: UserInput): Promise<User> =>
         throw new ServiceError(`Location with id ${locationId} does not exist.`);
     }
 
-    var validationUser = await getUserById(id, {role: "system"});
+    var validationUser = await getUserById(id, { role: 'system' });
     validationUser = new User({ ...validationUser, location: location });
 
     const user = await userDB.changeUserRegion({ id, locationId });
@@ -208,9 +210,39 @@ const changeUserRegion = async ({ id, locationId }: UserInput): Promise<User> =>
 };
 
 const getAllBallotsUser = async (username: string): Promise<Ballot[]> => {
-    const user = await getUserByUsername(username, {role: 'system'});
+    const user = await getUserByUsername(username, { role: 'system' });
     return ballotService.getAllBallotsUpcursive(user.location.id);
-}
+};
+
+const submitVote = async (username: string, ballotId: number, vote: Array<number>): Promise<VoterBallot> => {
+    const user = await getUserByUsername(username, { role: 'system' });
+    
+    if (user.role != "voter") {
+        throw new ServiceError("Logged in as a non-voter");
+    }
+
+    const ballot = await ballotService.getBallotById(ballotId);
+    const parties = await ballotService.getPartiesByBallot(ballotId);
+
+    const candidates = [];
+    for (const p of parties) {
+        candidates.push(...await partyService.getCandidatesByParty(p.id));
+    }
+    const candidateIds = candidates.map((c) => c.id);
+    if (vote.filter((vote) => !candidateIds.includes(vote)).length > 0) {
+        throw new ServiceError("Invalid candidate selected");
+    }
+
+    if (vote.length > ballot.maximum && ballot.maximum > 0) {
+        throw new ServiceError("Too many candidates selected");
+    }
+
+    if (vote.length < ballot.minimum && ballot.minimum > 0) {
+        throw new ServiceError("Too little candidates selected");
+    }
+
+    return userDB.submitVote({ voterId: user.id, ballotId: ballot.id, votedFor: JSON.stringify(vote)})
+};
 
 export default {
     authenticate,
@@ -227,9 +259,5 @@ export default {
     changeUserPassword,
     changeUserRegion,
     getAllBallotsUser,
-    /*
     submitVote,
-    deleteVote,
-    updateVote,
-    */
 };

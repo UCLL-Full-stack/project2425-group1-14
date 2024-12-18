@@ -1,6 +1,7 @@
 import database from '../util/database';
 import { RepositoryError } from '../types/error';
 import { User } from '../model/user';
+import { VoterBallot } from '../model/voterBallot';
 
 const getUsers = async (): Promise<User[]> => {
     try {
@@ -195,6 +196,43 @@ const changeUserRegion = async ({
     }
 };
 
+const submitVote = async ({
+    voterId,
+    ballotId,
+    votedFor,
+}: {
+    voterId: number;
+    ballotId: number;
+    votedFor: string;
+}): Promise<VoterBallot> => {
+    try {
+        const voterBallotPrisma = await database.voterBallot.upsert({
+            create: {
+                user: { connect: { id: voterId } },
+                ballot: { connect: { id: ballotId } },
+                votedFor: votedFor,
+            },
+            update: {
+                votedFor: votedFor,
+            },
+            where: {
+                voterBallotId: {
+                    userId: voterId,
+                    ballotId: ballotId,
+                },
+            },
+            include: {
+                user: { include: { location: { include: { type: true } } } },
+                ballot: { include: { location: { include: { type: true } } } },
+            },
+        });
+        return VoterBallot.from(voterBallotPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
 export default {
     getUsers,
     countUsers,
@@ -208,9 +246,5 @@ export default {
     changeUserEmail,
     changeUserPassword,
     changeUserRegion,
-    /*
     submitVote,
-    deleteVote,
-    updateVote,
-    */
 };

@@ -36,6 +36,7 @@ const getBallotsByRegion = async (locationId: number): Promise<Ballot[]> => {
 };
 
 const getPartiesByBallot = async (id: number): Promise<Party[]> => {
+    await getBallotById(id);
     const parties = await ballotDB.getPartiesByBallot({ id: id });
     return parties;
 };
