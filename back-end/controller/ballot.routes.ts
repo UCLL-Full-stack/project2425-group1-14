@@ -149,7 +149,7 @@ ballotRouter.get('/count/party', async (req: Request, res: Response, next: NextF
 
 /**
  * @swagger
- * /ballots/{id}:
+ * /ballots/id/{id}:
  *  get:
  *   tags:
  *    - ballot
@@ -171,7 +171,7 @@ ballotRouter.get('/count/party', async (req: Request, res: Response, next: NextF
  *       schema:
  *        $ref: '#/components/schemas/Ballot'
  */
-ballotRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+ballotRouter.get('/id/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         permsAll(req.auth);
         const ballot = await ballotService.getBallotById(Number(req.params.id));
@@ -257,7 +257,7 @@ ballotRouter.post('/', async (req: Request, res: Response, next: NextFunction) =
 
 /**
  * @swagger
- * /ballots/{id}/parties:
+ * /ballots/parties/{id}:
  *  get:
  *   tags:
  *    - ballot
@@ -281,7 +281,7 @@ ballotRouter.post('/', async (req: Request, res: Response, next: NextFunction) =
  *        items:
  *         $ref: '#/components/schemas/Party'
  */
-ballotRouter.get('/:id/parties', async (req: Request, res: Response, next: NextFunction) => {
+ballotRouter.get('/parties/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         permsAll(req.auth);
         const ballots = await ballotService.getPartiesByBallot(Number(req.params.id));
@@ -293,7 +293,7 @@ ballotRouter.get('/:id/parties', async (req: Request, res: Response, next: NextF
 
 /**
  * @swagger
- * /ballots/{id}/votes:
+ * /ballots/votes/{id}:
  *  get:
  *   tags:
  *    - ballot
@@ -315,7 +315,7 @@ ballotRouter.get('/:id/parties', async (req: Request, res: Response, next: NextF
  *       schema:
  *        type: object
  */
-ballotRouter.get('/:id/votes', async (req: Request, res: Response, next: NextFunction) => {
+ballotRouter.get('/votes/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         permsAll(req.auth);
         const ballots = await ballotService.getVotesByBallot(Number(req.params.id));

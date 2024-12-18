@@ -72,7 +72,7 @@ partyRouter.get('/', async (req: Request, res: Response, next: NextFunction) => 
 
 /**
  * @swagger
- * /parties/{id}:
+ * /parties/id/{id}:
  *  get:
  *   tags:
  *    - party
@@ -94,7 +94,7 @@ partyRouter.get('/', async (req: Request, res: Response, next: NextFunction) => 
  *       schema:
  *        $ref: '#/components/schemas/Party'
  */
-partyRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+partyRouter.get('/id/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         permsAll(req.auth);
         const party = await partyService.getPartyById(Number(req.params.id));
@@ -158,7 +158,7 @@ partyRouter.get('/by', async (req: Request, res: Response, next: NextFunction) =
 
 /**
  * @swagger
- * /parties/{id}/candidates:
+ * /parties/candidates/{id}:
  *  get:
  *   tags:
  *    - party
@@ -182,7 +182,7 @@ partyRouter.get('/by', async (req: Request, res: Response, next: NextFunction) =
  *        items:
  *         $ref: '#/components/schemas/Candidate'
  */
-partyRouter.get('/:id/candidates', async (req: Request, res: Response, next: NextFunction) => {
+partyRouter.get('/candidates/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         permsAll(req.auth);
         const candidates = await partyService.getCandidatesByParty(Number(req.params.id));

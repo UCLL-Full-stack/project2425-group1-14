@@ -5,6 +5,8 @@ import { Role, UserInput, AuthenticationResponse } from '../types';
 import { ServiceError } from '../types/error';
 import bcrypt from 'bcrypt';
 import { generateJwtToken } from '../util/jwt';
+import { Ballot } from '../model/ballot';
+import ballotService from './ballot.service';
 
 const userRedactor = (user: User): User => {
     return new User({
@@ -36,7 +38,7 @@ const authenticate = async ({ username, password }: UserInput): Promise<Authenti
     }
     
     return {
-        token: generateJwtToken({ username, role: user.role }),
+        token: generateJwtToken({ username: user.username, role: user.role }),
         username: username,
         name: user.name,
         role: user.role,
@@ -57,6 +59,9 @@ const countUsers = async (): Promise<Number> => {
 };
 
 const getUserById = async (id: number, auth?: { role: string }): Promise<User> => {
+    if (!id) {
+        throw new ServiceError('User was not provided');
+    }
     const user = await userDB.getUserById({ id });
     if (!user) {
         throw new ServiceError(`User with id ${id} does not exist.`);
@@ -142,7 +147,7 @@ const changeUserName = async ({ id, name }: UserInput): Promise<User> => {
     if (!name) {
         throw new ServiceError('Name was not provided');
     }
-    var validationUser = await getUserById(id);
+    var validationUser = await getUserById(id, {role: "system"});
     validationUser = new User({ ...validationUser, name: name });
 
     const user = await userDB.changeUserName({ id, name });
@@ -161,7 +166,7 @@ const changeUserEmail = async ({ id, email }: UserInput): Promise<User> => {
         throw new ServiceError(`User with email ${email} already exists.`);
     }
 
-    var validationUser = await getUserById(id);
+    var validationUser = await getUserById(id, {role: "system"});
     validationUser = new User({ ...validationUser, email: email });
 
     const user = await userDB.changeUserEmail({ id, email });
@@ -176,7 +181,7 @@ const changeUserPassword = async ({ id, password }: UserInput): Promise<User> =>
         throw new ServiceError('Password was not provided');
     }
     password = await bcrypt.hash(password, 12);
-    var validationUser = await getUserById(id);
+    var validationUser = await getUserById(id, {role: "system"});
     validationUser = new User({ ...validationUser, password: password });
 
     const user = await userDB.changeUserPassword({ id, password });
@@ -195,12 +200,17 @@ const changeUserRegion = async ({ id, locationId }: UserInput): Promise<User> =>
         throw new ServiceError(`Location with id ${locationId} does not exist.`);
     }
 
-    var validationUser = await getUserById(id);
+    var validationUser = await getUserById(id, {role: "system"});
     validationUser = new User({ ...validationUser, location: location });
 
     const user = await userDB.changeUserRegion({ id, locationId });
     return user;
 };
+
+const getAllBallotsUser = async (username: string): Promise<Ballot[]> => {
+    const user = await getUserByUsername(username, {role: 'system'});
+    return ballotService.getAllBallotsUpcursive(user.location.id);
+}
 
 export default {
     authenticate,
@@ -216,6 +226,7 @@ export default {
     changeUserEmail,
     changeUserPassword,
     changeUserRegion,
+    getAllBallotsUser,
     /*
     submitVote,
     deleteVote,

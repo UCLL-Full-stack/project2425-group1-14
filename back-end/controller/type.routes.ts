@@ -57,6 +57,44 @@ typeRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
+
+
+/**
+ * @swagger
+ * /types/id/{id}:
+ *  get:
+ *   tags:
+ *    - region
+ *   security:
+ *    - bearerAuth: []
+ *   summary: Get a type by id.
+ *   parameters:
+ *    - in: path
+ *      name: id
+ *      schema:
+ *       type: integer
+ *       required: true
+ *       description: The type id.
+ *   responses:
+ *    200:
+ *     description: A type.
+ *     content:
+ *      application/json:
+ *       schema:
+ *        $ref: '#/components/schemas/Type'
+ */
+typeRouter.get('/id/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        permsAll(req.auth);
+        const type = await typeService.getTypeById(Number(req.params.id));
+        res.status(200).json(type);
+    } catch (error) {
+        next(error);
+    }
+});
+
+
+
 /**
  * @swagger
  * /types/by:

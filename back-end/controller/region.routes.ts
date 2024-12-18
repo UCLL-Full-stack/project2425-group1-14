@@ -69,7 +69,7 @@ regionRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
 
 /**
  * @swagger
- * /regions/{id}:
+ * /regions/id/{id}:
  *  get:
  *   tags:
  *    - region
@@ -91,7 +91,7 @@ regionRouter.get('/', async (req: Request, res: Response, next: NextFunction) =>
  *       schema:
  *        $ref: '#/components/schemas/Region'
  */
-regionRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+regionRouter.get('/id/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         permsAll(req.auth);
         const region = await regionService.getRegionById(Number(req.params.id));
@@ -190,7 +190,7 @@ regionRouter.post('/', async (req: Request, res: Response, next: NextFunction) =
 
 /**
  * @swagger
- * /regions/{id}/children:
+ * /regions/children/{id}:
  *  get:
  *   tags:
  *    - region
@@ -215,7 +215,7 @@ regionRouter.post('/', async (req: Request, res: Response, next: NextFunction) =
  *        items:
  *         $ref: '#/components/schemas/Region'
  */
-regionRouter.get('/:id/children', async (req: Request, res: Response, next: NextFunction) => {
+regionRouter.get('/children/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         permsAll(req.auth);
         const regions = await regionService.getChildren(Number(req.params.id));
@@ -227,7 +227,7 @@ regionRouter.get('/:id/children', async (req: Request, res: Response, next: Next
 
 /**
  * @swagger
- * /regions/{id}/descendants:
+ * /regions/descendants/{id}:
  *  get:
  *   tags:
  *    - region
@@ -252,7 +252,7 @@ regionRouter.get('/:id/children', async (req: Request, res: Response, next: Next
  *        items:
  *         $ref: '#/components/schemas/Region'
  */
-regionRouter.get('/:id/descendants', async (req: Request, res: Response, next: NextFunction) => {
+regionRouter.get('/descendants/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         permsAll(req.auth);
         const regions = await regionService.getDescendants(Number(req.params.id));
@@ -264,7 +264,7 @@ regionRouter.get('/:id/descendants', async (req: Request, res: Response, next: N
 
 /**
  * @swagger
- * /regions/{id}/parents:
+ * /regions/parents/{id}:
  *  get:
  *   tags:
  *    - region
@@ -289,7 +289,7 @@ regionRouter.get('/:id/descendants', async (req: Request, res: Response, next: N
  *        items:
  *         $ref: '#/components/schemas/Region'
  */
-regionRouter.get('/:id/parents', async (req: Request, res: Response, next: NextFunction) => {
+regionRouter.get('/parents/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         permsAll(req.auth);
         const regions = await regionService.getParents(Number(req.params.id));

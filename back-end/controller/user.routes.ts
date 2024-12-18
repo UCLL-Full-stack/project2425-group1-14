@@ -63,6 +63,11 @@
  *      type: string
  *     role:
  *      type: string
+ *  securitySchemes:
+     bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
  */
 
 import express, { NextFunction, Response } from 'express';
@@ -105,7 +110,7 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
 
 /**
  * @swagger
- * /users/{id}:
+ * /users/id/{id}:
  *  get:
  *   tags:
  *    - user
@@ -127,10 +132,10 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  *       schema:
  *        $ref: '#/components/schemas/User'
  */
-userRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.get('/id/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         permsAll(req.auth);
-        const userCheck = await userService.getUserByUsername(req.auth.username);
+        const userCheck = await userService.getUserByUsername(req.auth.username, {role: req.auth.role});
         if (userCheck.id != Number(req.params.id)) {
             permsManager(req.auth);
         }
@@ -310,7 +315,7 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
 userRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         permsAll(req.auth);
-        const userCheck = await userService.getUserByUsername(req.auth.username);
+        const userCheck = await userService.getUserByUsername(req.auth.username, {role: req.auth.role});
         if (userCheck.id != Number(req.params.id)) {
             permsAdmin(req.auth);
         }
@@ -350,7 +355,7 @@ userRouter.patch('/name', async (req: Request, res: Response, next: NextFunction
         const userInput = <UserInput>req.body;
 
         permsAll(req.auth);
-        const userCheck = await userService.getUserByUsername(req.auth.username);
+        const userCheck = await userService.getUserByUsername(req.auth.username, {role: req.auth.role});
         if (userCheck.id != userInput.id) {
             permsAdmin(req.auth);
         }
@@ -390,7 +395,7 @@ userRouter.patch('/email', async (req: Request, res: Response, next: NextFunctio
         const userInput = <UserInput>req.body;
 
         permsAll(req.auth);
-        const userCheck = await userService.getUserByUsername(req.auth.username);
+        const userCheck = await userService.getUserByUsername(req.auth.username, {role: req.auth.role});
         if (userCheck.id != userInput.id) {
             permsAdmin(req.auth);
         }
@@ -430,7 +435,7 @@ userRouter.patch('/password', async (req: Request, res: Response, next: NextFunc
         const userInput = <UserInput>req.body;
 
         permsAll(req.auth);
-        const userCheck = await userService.getUserByUsername(req.auth.username);
+        const userCheck = await userService.getUserByUsername(req.auth.username, {role: req.auth.role});
         if (userCheck.id != userInput.id) {
             permsAdmin(req.auth);
         }
@@ -470,13 +475,41 @@ userRouter.patch('/region', async (req: Request, res: Response, next: NextFuncti
         const userInput = <UserInput>req.body;
 
         permsAll(req.auth);
-        const userCheck = await userService.getUserByUsername(req.auth.username);
+        const userCheck = await userService.getUserByUsername(req.auth.username, {role: req.auth.role});
         if (userCheck.id != userInput.id) {
             permsAdmin(req.auth);
         }
 
         const user = await userService.changeUserRegion(userInput);
         res.status(200).json(user);
+    } catch (error) {
+        next(error);
+    }
+});
+
+/**
+ * @swagger
+ * /users/ballot:
+ *  get:
+ *   tags:
+ *    - user
+ *   security:
+ *    - bearerAuth: []
+ *   summary: Get ballots by user's region (and parent regions).
+ *   responses:
+ *    200:
+ *     description: A list of all ballots.
+ *     content:
+ *      application/json:
+ *       schema:
+ *        type: array
+ *        items:
+ *         $ref: '#/components/schemas/Ballot'
+ */
+userRouter.get('/ballot', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const ballots = await userService.getAllBallotsUser(req.auth.username);
+        res.status(200).json(ballots);
     } catch (error) {
         next(error);
     }

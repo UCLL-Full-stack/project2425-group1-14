@@ -85,7 +85,7 @@ candidateRouter.get('/', async (req: Request, res: Response, next: NextFunction)
 
 /**
  * @swagger
- * /candidates/{id}:
+ * /candidates/id/{id}:
  *  get:
  *   tags:
  *    - candidate
@@ -107,7 +107,7 @@ candidateRouter.get('/', async (req: Request, res: Response, next: NextFunction)
  *       schema:
  *        $ref: '#/components/schemas/Candidate'
  */
-candidateRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+candidateRouter.get('/id/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         permsAll(req.auth);
         const candidate = await candidateService.getCandidateById(Number(req.params.id));
@@ -160,7 +160,7 @@ candidateRouter.get('/by', async (req: Request, res: Response, next: NextFunctio
 
 /**
  * @swagger
- * /candidates/{id}/parties:
+ * /candidates/parties/{id}:
  *  get:
  *   tags:
  *    - candidate
@@ -184,7 +184,7 @@ candidateRouter.get('/by', async (req: Request, res: Response, next: NextFunctio
  *        items:
  *         $ref: '#/components/schemas/Party'
  */
-candidateRouter.get('/:id/parties', async (req: Request, res: Response, next: NextFunction) => {
+candidateRouter.get('/parties/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         permsAll(req.auth);
         const candidates = await candidateService.getPartiesByCandidate(Number(req.params.id));

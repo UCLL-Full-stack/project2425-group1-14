@@ -5,6 +5,7 @@ import ballotDB from '../repository/ballot.db';
 import regionDB from '../repository/region.db';
 import { BallotInput, BallotPartyInput } from '../types';
 import { ServiceError } from '../types/error';
+import regionService from './region.service';
 
 const getBallots = async (): Promise<Ballot[]> => {
     const ballots = await ballotDB.getBallots();
@@ -145,6 +146,15 @@ const removePartyFromBallot = async ({ ballotId, partyId }: BallotPartyInput): P
     return ballotParty;
 };
 
+const getAllBallotsUpcursive = async (id: number): Promise<Ballot[]> => {
+    const ballots = [];
+    const regions = [await regionService.getRegionById(id), ...await regionService.getParents(id)];
+    for (const r of regions) {
+        ballots.push(...await ballotDB.getBallotsByRegion({locationId: r.id}));
+    }
+    return ballots;
+}
+
 export default {
     getBallots,
     countBallots,
@@ -160,4 +170,5 @@ export default {
     changeBallotMaximum,
     addPartyToBallot,
     removePartyFromBallot,
+    getAllBallotsUpcursive
 };
