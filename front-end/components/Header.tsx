@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Header: React.FC = () => {
   const [currentTime, setCurrentTime] = useState<string>("");
   const [loggedInUser, setLoggedInUser] = useState<string>("");
+  const router = useRouter();
 
   useEffect(() => {
     const savedName = window.localStorage.getItem("name");
@@ -21,6 +23,13 @@ const Header: React.FC = () => {
 
     return () => clearInterval(timer);
   }, []);
+
+  const handleLogout = () => {
+    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("name");
+    setLoggedInUser("");
+    router.push("/");
+  };
 
   return (
     <div className="header1-container">
@@ -41,6 +50,9 @@ const Header: React.FC = () => {
           <span className="header1-logged-in-text">
             Logged in as {loggedInUser}
           </span>
+          <button className="header1-logout-button" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       )}
 

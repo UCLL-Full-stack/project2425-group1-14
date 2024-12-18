@@ -13,6 +13,14 @@ const UserLoginForm: React.FC = () => {
   const [usernameError, setUsernameError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [statusMessages, setStatusMessages] = useState<StatusMessage[]>([]);
+  const [showSignup, setShowSignup] = useState<boolean>(false); // Voor registratieformulier
+
+  const [signupData, setSignupData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    region: "",
+  });
 
   const clearErrors = () => {
     setUsernameError(null);
@@ -49,17 +57,7 @@ const UserLoginForm: React.FC = () => {
 
       if (!response.ok) {
         if (response.status === 400) {
-          const errorResponse: Map<string, string> = await response.json();
-          const errorMap: Map<string, string> = new Map(
-            Object.entries(errorResponse)
-          );
-
-          const errorMessages: string[] = [];
-          errorMap.forEach((message, type) => {
-            errorMessages.push(`${type}: ${message}`);
-          });
-
-          throw new Error(errorMessages.join(", "));
+          throw new Error("Failed to log in. Please check your username and password.");
         } else {
           throw new Error(`HTTP error with status: ${response.status}`);
         }
@@ -84,9 +82,18 @@ const UserLoginForm: React.FC = () => {
             type: "error",
           },
         ]);
+      } else {
+        setStatusMessages([{ message: error.message, type: "error" }]);
       }
-      setStatusMessages([{ message: error.message, type: "error" }]);
     }
+  };
+
+
+  const handleSignup = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    console.log("Signup data:", signupData);
+    setShowSignup(false);
   };
 
   return (
@@ -94,59 +101,127 @@ const UserLoginForm: React.FC = () => {
       <Header />
       <main className="login-main-container">
         <div className="login-card">
-          <h3 className="login-title decorated-title">Login</h3>
-          {statusMessages.length > 0 && (
-            <div className="login-status-container">
-              <ul className="login-status-list">
-                {statusMessages.map(({ message, type }, index) => (
-                  <li
-                    key={index}
-                    className={classNames("login-status-item", {
-                      "login-status-error": type === "error",
-                      "login-status-success": type === "success",
-                    })}
-                  >
-                    {message}
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {!showSignup ? (
+            <>
+              <h3 className="login-title decorated-title">Login</h3>
+              {statusMessages.length > 0 && (
+                <div className="login-status-container">
+                  <ul className="login-status-list">
+                    {statusMessages.map(({ message, type }, index) => (
+                      <li
+                        key={index}
+                        className={classNames("login-status-item", {
+                          "login-status-error": type === "error",
+                          "login-status-success": type === "success",
+                        })}
+                      >
+                        {message}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <form className="login-form" onSubmit={handleSubmit}>
+                <label htmlFor="nameInput" className="login-label decorated-label">
+                  Username:
+                </label>
+                <div className="login-input-container">
+                  <input
+                    id="nameInput"
+                    type="text"
+                    value={username}
+                    onChange={(event) => setUsername(event.target.value)}
+                    placeholder="Enter your username"
+                    className="login-input"
+                  />
+                  {usernameError && <p className="login-error">{usernameError}</p>}
+                </div>
+
+                <label htmlFor="passwordInput" className="login-label decorated-label">
+                  Password:
+                </label>
+                <div className="login-input-container">
+                  <input
+                    id="passwordInput"
+                    type="password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    placeholder="Enter your password"
+                    className="login-input"
+                  />
+                  {passwordError && <p className="login-error">{passwordError}</p>}
+                </div>
+
+                <button className="login-button" type="submit">
+                  Login
+                </button>
+              </form>
+              <p className="signup-link" onClick={() => setShowSignup(true)}>
+                Click here to sign up.
+              </p>
+            </>
+          ) : (
+            <>
+              <h3 className="login-title decorated-title">Sign Up</h3>
+              <form className="signup-form" onSubmit={handleSignup}>
+                <label htmlFor="signupName" className="signup-label decorated-label">
+                  Name:
+                </label>
+                <input
+                  id="signupName"
+                  type="text"
+                  value={signupData.name}
+                  onChange={(e) => setSignupData({ ...signupData, name: e.target.value })}
+                  placeholder="Enter your name"
+                  className="signup-input"
+                />
+
+
+                <label htmlFor="signupEmail" className="signup-label decorated-label">
+                  Email:
+                </label>
+                <input
+                  id="signupEmail"
+                  type="email"
+                  value={signupData.email}
+                  onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+                  placeholder="Enter your email"
+                  className="signup-input"
+                />
+
+                <label htmlFor="signupPassword" className="signup-label decorated-label">
+                  Password:
+                </label>
+                <input
+                  id="signupPassword"
+                  type="password"
+                  value={signupData.password}
+                  onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+                  placeholder="Enter your password"
+                  className="signup-input"
+                />
+
+                <label htmlFor="signupRegion" className="signup-label decorated-label">
+                  Region:
+                </label>
+                <input
+                  id="signupRegion"
+                  type="text"
+                  value={signupData.region}
+                  onChange={(e) => setSignupData({ ...signupData, region: e.target.value })}
+                  placeholder="Enter your region"
+                  className="signup-input"
+                />
+
+                <button className="signup-button" type="submit">
+                  Sign Up
+                </button>
+              </form>
+              <p className="signup-link" onClick={() => setShowSignup(false)}>
+                Already a member?
+              </p>
+            </>
           )}
-          <form className="login-form" onSubmit={handleSubmit}>
-            <label htmlFor="nameInput" className="login-label decorated-label">
-              Username:
-            </label>
-            <div className="login-input-container">
-              <input
-                id="nameInput"
-                type="text"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-                placeholder="Enter your username"
-                className="login-input"
-              />
-              {usernameError && <p className="login-error">{usernameError}</p>}
-            </div>
-
-            <label htmlFor="passwordInput" className="login-label decorated-label">
-              Password:
-            </label>
-            <div className="login-input-container">
-              <input
-                id="passwordInput"
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                placeholder="Enter your password"
-                className="login-input"
-              />
-              {passwordError && <p className="login-error">{passwordError}</p>}
-            </div>
-
-            <button className="login-button" type="submit">
-              Login
-            </button>
-          </form>
         </div>
       </main>
       <Footer />

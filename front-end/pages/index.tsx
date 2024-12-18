@@ -1,13 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '@components/Header';
 import Footer from '@components/Footer';
 
-
 const IndexPage: React.FC = () => {
+  const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
+  const [showFireworks, setShowFireworks] = useState<boolean>(false);
+
   useEffect(() => {
     const body = document.querySelector('body');
     if (body) {
       body.classList.add('fade-in');
+    }
+
+    // Controleer of een gebruiker is ingelogd
+    const savedName = window.localStorage.getItem("name");
+    if (savedName) {
+      setLoggedInUser(savedName);
     }
 
     return () => {
@@ -17,6 +25,28 @@ const IndexPage: React.FC = () => {
     };
   }, []);
 
+  const getButtonTextAndLink = () => {
+    if (loggedInUser === "testadmin") {
+      return { text: "Admin Panel", link: "/admin" };
+    } else if (loggedInUser === "testvoter") {
+      return { text: "Vote Here", link: "/voter" };
+    } else {
+      return { text: "Log in and Vote Here", link: "/login" };
+    }
+  };
+
+  const { text, link } = getButtonTextAndLink();
+
+  const handleButtonClick = () => {
+    setShowFireworks(true);
+
+    // Stop de animatie na 3 seconden
+    setTimeout(() => {
+      setShowFireworks(false);
+      window.location.href = link; // Navigeren na de animatie
+    }, 3000);
+  };
+
   return (
     <div className="index-container">
       <Header />
@@ -24,10 +54,19 @@ const IndexPage: React.FC = () => {
         <h2 className="index-heading">Welcome to Hannọ</h2>
         <button
           className="index-voteButton"
-          onClick={() => window.location.href = '/login'}
+          onClick={handleButtonClick}
         >
-          Log in and Vote Here
+          {text}
         </button>
+
+        {showFireworks && (
+          <div className="fireworks-container">
+            <div className="firework firework1"></div>
+            <div className="firework firework2"></div>
+            <div className="firework firework3"></div>
+          </div>
+        )}
+
         <br />
         <div>
           <h3>TEST LOG-INS</h3>
@@ -60,7 +99,6 @@ const IndexPage: React.FC = () => {
         </div>
       </main>
       <Footer />
-
     </div>
   );
 };

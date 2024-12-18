@@ -269,7 +269,7 @@ map {
     padding: 20px;
 }
 
-/* Hoofdtekst */
+
 .index-heading {
     color: #333;
     font-size: 3rem;
@@ -394,7 +394,7 @@ map {
 }
 
 
-/* Algemene container voor de admin pagina */
+
 .admin-container {
     display: flex;
     flex-direction: column;
@@ -403,7 +403,7 @@ map {
     background-color: #f5f5f5;
 }
 
-/* Header blijft bovenaan */
+
 header {
     background-color: #2c3e50;
     color: white;
@@ -412,7 +412,7 @@ header {
     font-size: 1.5rem;
 }
 
-/* Footer blijft onderaan */
+
 footer {
     margin-top: auto;
     padding: 20px;
@@ -421,20 +421,20 @@ footer {
     text-align: center;
 }
 
-/* De navigatie sidebar */
+
 .admin-sidebar {
     width: 200px;
-    /* Brede sidebar */
+
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #2c3e50;
     padding: 20px 0;
 
-    /* Voeg ruimte toe aan de linker- en rechterkant */
+
 }
 
-/* Stijl van de cirkelvormige knoppen in de sidebar */
+
 .admin-circleButton {
     width: 80px;
     height: 80px;
@@ -464,7 +464,7 @@ footer {
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
 }
 
-/* De inhoud van de admin panel */
+
 .admin-main {
     display: flex;
     flex: 1;
@@ -472,7 +472,7 @@ footer {
     overflow-x: auto;
 }
 
-/* De content sectie */
+
 .admin-content {
     flex: 1;
     padding: 20px;
@@ -494,7 +494,7 @@ footer {
     margin-top: 20px;
 }
 
-/* Table Styles */
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -518,7 +518,7 @@ tr:hover {
 
 .selected-row {
     background-color: lightgray;
-    /* Highlight selected rows */
+
 }
 
 .selected-count {
@@ -526,7 +526,7 @@ tr:hover {
     font-weight: bold;
 }
 
-/* Action Buttons Styles */
+
 .action-buttons {
     margin-top: 20px;
     display: flex;
@@ -723,7 +723,7 @@ body {
     color: #38a169;
 }
 
-/* General Container Styling */
+
 .vote-container {
     width: 100%;
     max-width: 600px;
@@ -735,10 +735,10 @@ body {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     font-family: 'Arial', sans-serif;
     flex-grow: 1;
-    /* Laat de vote-container de beschikbare ruimte opvullen */
+
 }
 
-/* Header Styling */
+
 .vote-container h1 {
     font-size: 1.8rem;
     font-weight: bold;
@@ -747,7 +747,7 @@ body {
     text-align: left;
 }
 
-/* Input Field Styling */
+
 .vote-container input[type="text"] {
     width: 100%;
     padding: 10px;
@@ -758,7 +758,7 @@ body {
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Label Styling */
+
 .vote-container label {
     font-size: 1rem;
     color: #444;
@@ -766,14 +766,12 @@ body {
     margin-left: 10px;
 }
 
-/* Radio Button Styling */
 .vote-container input[type="radio"] {
     transform: scale(1.2);
     cursor: pointer;
     margin-right: 10px;
 }
 
-/* Voting Options Section */
 .vote-options {
     margin-bottom: 20px;
 }
@@ -794,7 +792,7 @@ body {
     background-color: #f1f1f1;
 }
 
-/* Submit Button Styling */
+
 .vote-container button {
     display: block;
     width: 100px;
@@ -835,7 +833,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /* Zorg ervoor dat de container de volledige hoogte van het scherm inneemt */
+
 }
 
 header {
@@ -848,7 +846,7 @@ header {
 
 footer {
     margin-top: auto;
-    /* Duw de footer naar de onderkant van de page-container */
+
     padding: 20px;
     background-color: #2c3e50;
     color: white;
@@ -915,4 +913,114 @@ tr:hover .actions-column button {
 
 .selected-row {
     background-color: #f0f0f0;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    /* Ruimte tussen de invoervelden */
+}
+
+.signup-input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    /* Ruimte tussen label en input */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.signup-button {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.signup-button:hover {
+    background-color: #0056b3;
+}
+
+.signup-link {
+    text-align: center;
+    color: #495d74;
+    padding: 0.5rem;
+}
+
+.signup-link:hover {
+    color: #007bff;
+}
+
+.header1-logout-button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: white;
+    background-color: #ff4d4f;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.header1-logout-button:hover {
+    background-color: #ff1a1a;
+}
+
+.fireworks-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.firework {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, #ff0, #f00, transparent);
+    border-radius: 50%;
+    animation: explode 1s ease-out infinite;
+}
+
+.firework1 {
+    animation-delay: 0s;
+    top: 30%;
+    left: 40%;
+}
+
+.firework2 {
+    animation-delay: 0.2s;
+    top: 50%;
+    left: 60%;
+}
+
+.firework3 {
+    animation-delay: 0.4s;
+    top: 70%;
+    left: 30%;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(0.5);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
 }

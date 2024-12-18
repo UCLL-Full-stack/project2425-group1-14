@@ -70,7 +70,7 @@ const AdminPanel: React.FC = () => {
         }
     }, [swrError]);
 
-    // Reset selected rows and isAddingRow when changing selectedLink (category)
+
     useEffect(() => {
         setSelectedRows([]);
         setIsAddingRow(false);
@@ -107,7 +107,7 @@ const AdminPanel: React.FC = () => {
                 })
             );
             alert('Selected rows deleted.');
-            mutate(); // Refresh data
+            mutate();
         } catch (error) {
             alert('Failed to delete rows. Please try again.');
         }
@@ -135,7 +135,7 @@ const AdminPanel: React.FC = () => {
 
     const saveEditedRow = async (index: number) => {
         const item = data[index];
-        const updatedData = { ...item, name: newRowData.name }; // Assuming you are editing the name
+        const updatedData = { ...item, name: newRowData.name };
 
         try {
             const response = await fetch(`/api/${selectedLink}/${item.id}`, {
