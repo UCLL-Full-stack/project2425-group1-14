@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Header from '../../components/EmptyHeader';
 import Footer from '../../components/Footer';
 import useSWR from 'swr';
-import { makeAGR, tablefy } from '@util';
+import { makeAGR } from '@util';
 
 const AdminPanel: React.FC = () => {
     const router = useRouter();
@@ -12,11 +12,9 @@ const AdminPanel: React.FC = () => {
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [isAddingRow, setIsAddingRow] = useState<boolean>(false);
-    const [newRowData, setNewRowData] = useState<{ name: string }>({
-        name: '',
-    });
+    const [newRowData, setNewRowData] = useState<any>({});
     const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
-    const [isEditingRow, setIsEditingRow] = useState<number | null>(null); // State for editing row
+    const [isEditingRow, setIsEditingRow] = useState<number | null>(null);
 
     const links = [
         { label: 'Type', path: 'type', endpoint: 'types' },
@@ -33,32 +31,6 @@ const AdminPanel: React.FC = () => {
             return data;
         } catch (error) {
             throw new Error(error instanceof Error ? error.message : 'An error occurred');
-        }
-    };
-
-    const saveNewRow = async () => {
-        if (!newRowData.name.trim()) {
-            alert('Please fill in all fields before saving.');
-            return;
-        }
-
-        try {
-            const response = await fetch(`/api/${selectedLink}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newRowData),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to save the new row.');
-            }
-
-            const savedRow = await response.json();
-            setIsAddingRow(false);
-            setNewRowData({ name: '' });
-            console.log('Saved new row:', savedRow);
-        } catch (error) {
-            alert('An error occurred while saving. Please try again.');
         }
     };
 
@@ -125,16 +97,28 @@ const AdminPanel: React.FC = () => {
         : [];
 
     const startEditing = (index: number) => {
+        const item = data[index];
         setIsEditingRow(index);
+        setNewRowData(item); // Initialize the newRowData with the item data
     };
 
     const cancelEditing = () => {
         setIsEditingRow(null);
     };
 
-    const saveEditedRow = async (index: number) => {
-        const item = data[index];
-        const updatedData = { ...item, name: newRowData.name };
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setNewRowData((prevData: any) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const saveEditedRow = async () => {
+        if (isEditingRow === null) return;
+
+        const item = data[isEditingRow];
+        const updatedData = { ...item, ...newRowData }; // Merge updated data
 
         try {
             const response = await fetch(`/api/${selectedLink}/${item.id}`, {
@@ -180,7 +164,7 @@ const AdminPanel: React.FC = () => {
                                     <td>{item.id}</td>
                                     <td>{item.name}</td>
                                     <td>{item.system}</td>
-                                    <td>{item.location.name}</td>
+                                    <td>{item.location?.name}</td>
                                     <td className="actions-column">
                                         <button
                                             className="action-btn edit"
@@ -214,7 +198,7 @@ const AdminPanel: React.FC = () => {
                                 >
                                     <td>{item.id}</td>
                                     <td>{item.name}</td>
-                                    <td>{item.location.name}</td>
+                                    <td>{item.location?.name}</td>
                                     <td className="actions-column">
                                         <button
                                             className="action-btn edit"
@@ -273,6 +257,7 @@ const AdminPanel: React.FC = () => {
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
+                                <th>Type</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -285,6 +270,7 @@ const AdminPanel: React.FC = () => {
                                 >
                                     <td>{item.id}</td>
                                     <td>{item.name}</td>
+                                    <td>{item.type?.name}</td>
                                     <td className="actions-column">
                                         <button
                                             className="action-btn edit"
@@ -298,7 +284,6 @@ const AdminPanel: React.FC = () => {
                         </tbody>
                     </table>
                 );
-
             case 'types':
                 return (
                     <table>
@@ -338,6 +323,7 @@ const AdminPanel: React.FC = () => {
                             <tr>
                                 <th>ID</th>
                                 <th>Username</th>
+                                <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
                                 <th>Location</th>
@@ -353,9 +339,10 @@ const AdminPanel: React.FC = () => {
                                 >
                                     <td>{item.id}</td>
                                     <td>{item.username}</td>
+                                    <td>{item.name}</td>
                                     <td>{item.email}</td>
                                     <td>{item.role}</td>
-                                    <td>{item.location.name}</td>
+                                    <td>{item.location?.name}</td>
                                     <td className="actions-column">
                                         <button
                                             className="action-btn edit"
