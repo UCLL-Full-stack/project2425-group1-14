@@ -14,15 +14,16 @@ const ContactPage: React.FC = () => {
         </section>
 
         <section>
-          <h2>Get in Touch</h2>
+          <h2 >Get in Touch</h2>
           <p>
             We would love to hear from you! Whether you have a question,
             feedback, or would like to collaborate with us, feel free to reach
-            out via the contact details below.
+            out via the contact details below. You can reach us here:
           </p>
 
-          <p>You can reach us via:</p>
-          <br></br>
+          <br />
+
+
 
           <div className="contactCard">
             <div>

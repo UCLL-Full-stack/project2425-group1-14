@@ -14,17 +14,20 @@ const AboutPage: React.FC = () => {
                 </section>
 
                 <section>
-                    <h2>Our Story</h2>
+                    <h2>Who are we</h2>
                     <p>
-                        We are just a group of second-year students in university, working on a project for our third semester.
-                        Our goal is simple: to create easy-to-use, self-hostable, and open software for voting.
+                        Our team is made up of two students: Jack and Saperoi who are studying computer science at University. We are passionate about technology and its potential to create positive change in the world. We believe that technology can be a powerful tool for social good, and we are committed to using our skills to make a difference. We are excited to share our project with you, and we hope that it will inspire you to think about how technology can be used to create a better future for everyone.
                     </p>
                 </section>
 
                 <section>
-                    <h2>Lorem ipsum dolor sit amet</h2>
+                    <h2>Our story</h2>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores corporis inventore rem debitis exercitationem. Omnis itaque dolorem veritatis reprehenderit sunt ullam officiis nulla, quod reiciendis, repudiandae odit repellat aspernatur quaerat sed iure vitae! Aut, omnis in. Modi, consequatur harum! Fugiat eius repellendus et dignissimos, laudantium voluptates autem? Amet pariatur ratione eveniet doloribus mollitia et praesentium sunt quaerat! Ullam vitae, explicabo blanditiis culpa, omnis, libero assumenda nulla dolorum facere itaque sed minima aliquam aut minus adipisci! Obcaecati quibusdam cupiditate itaque natus officiis aliquid labore earum ducimus cumque ea nesciunt, et repellat suscipit nemo dolorem unde amet eos inventore hic incidunt. Aperiam, aspernatur commodi! Voluptatum nobis hic consequuntur quas tempore laudantium sit nostrum saepe ea perspiciatis ipsa, quaerat praesentium asperiores, omnis placeat provident, officiis dolorum! Placeat, necessitatibus odio. Enim laboriosam laudantium nulla amet. Eveniet saepe numquam, nemo, amet quos explicabo cumque aliquam accusamus esse aliquid consequatur, perspiciatis ab tenetur molestias dolore tempore quia sint sequi asperiores culpa sapiente officia dicta possimus ad. Quaerat ipsum enim itaque adipisci ducimus at totam tenetur praesentium illo soluta earum deleniti vitae perspiciatis qui, sint libero esse. Quisquam tempora qui voluptate eveniet eligendi, molestias aperiam corporis laboriosam debitis minus veniam exercitationem soluta ducimus, quidem maxime dolores suscipit!
+                        Our story begins in the fall of 2024, when we were tasked with creating a project for our third semester.
+                        We wanted to create something that would have a positive impact on society, and after much brainstorming,
+                        we decided to create a voting software. We believe that voting is a fundamental right, and that everyone
+                        should have the opportunity to participate in the democratic process. We hope that our software will make
+                        voting more accessible to everyone, and that it will help to create a more inclusive and democratic society.
                     </p>
                 </section>
             </main>
