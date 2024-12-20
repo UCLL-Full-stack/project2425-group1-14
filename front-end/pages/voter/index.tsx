@@ -1,81 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import Header from '../../components/EmptyHeader';
-import Footer from '../../components/Footer';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import Header from '../../components/Header'; // Assuming you have a Header component
+import Footer from '../../components/Footer'; // Assuming you have a Footer component
+import useSWR from 'swr';
+import { makeAGR } from '@util';
+import { Ballot } from '@types';
 
-const VotePage: React.FC = () => {
-    const [name, setName] = useState<string>(''); // Naam van de gebruiker
-    const [selectedOption, setSelectedOption] = useState<string | null>(null); // Geselecteerde optie
-    const [submitted, setSubmitted] = useState(false); // Of de stem is ingediend
+const BallotSelect: React.FC = () => {
+    const router = useRouter();
+    const [error, setError] = useState<string | null>(null); // For specific error messages
 
-    // Gebruik useEffect om opgeslagen waarden van localStorage op te halen
-    useEffect(() => {
-        const storedName = localStorage.getItem('voterName');
-        const storedOption = localStorage.getItem('selectedOption');
-        if (storedName) setName(storedName); // Naam ophalen uit localStorage
-        if (storedOption) setSelectedOption(storedOption); // Geselecteerde optie ophalen uit localStorage
-    }, []);
+    // Use SWR hook to fetch data from the selected API endpoint
+    const getFetcher = async (endpoint: string) => await makeAGR(endpoint);
 
-    const handleVote = () => {
-        if (name && selectedOption) {
-            console.log(`Voter Name: ${name}, Voted for: ${selectedOption}`);
-            // Bewaar de gegevens in localStorage
-            localStorage.setItem('voterName', name);
-            localStorage.setItem('selectedOption', selectedOption);
-            setSubmitted(true);
-        } else {
-            alert('Please enter your name and select an option.');
-        }
+    // useSWR will now fetch based on the selectedLink endpoint
+    const { data, error: swrError, isValidating } = useSWR(
+        "users/ballot", // Fetch data based on selected endpoint
+        getFetcher
+    );
+
+    // If there's a specific error in the SWR response, update state
+    if (swrError) {
+        setError(`Failed to fetch data: ${swrError.message}`);
+    }
+
+    const navigateTo = (path: string) => {
+        router.push(`/admin/${path}`);
     };
 
     return (
-        <div className="page-container">
+        <div className="container">
             <Header />
-
-            <div className="vote-container">
-                <main className="vote-main">
-                    <h1 className="vote-title">Vote for your region: </h1>
-                    {!submitted ? (
-                        <div className="vote-form">
-                            {/* Toon de naam van de gebruiker */}
-                            <div className="vote-input-group">
-                                {name ? (
-                                    <p className="vote-name">Hello, {name}!</p> // Naam weergeven
-                                ) : (
-                                    <p className="vote-name">Hello, Guest!</p> // Indien naam niet beschikbaar is
-                                )}
-                            </div>
-
-                            <div className="vote-options">
-                                {['Option 1', 'Option 2', 'Option 3', 'Option 4'].map((option, index) => (
-                                    <div key={index} className="vote-option">
-                                        <input
-                                            type="radio"
-                                            id={`option${index + 1}`}
-                                            name="vote"
-                                            value={option}
-                                            checked={selectedOption === option}
-                                            onChange={(e) => setSelectedOption(e.target.value)}
-                                        />
-                                        <label htmlFor={`option${index + 1}`}>{option}</label>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <div className="vote-button-container">
-                                <button className="vote-submit-button" onClick={handleVote}>
-                                    Submit Vote
-                                </button>
-                            </div>
-                        </div>
-                    ) : (
-                        <p className="vote-thank-you">Thank you for voting!</p>
+            
+            <main>
+                <h1>Ongoing Elections</h1>
+                {isValidating && <p>Loading...</p>}
+                {error && (
+                    <p className="error-message">
+                        {error}
+                    </p>
+                )}
+                <ul>
+                    {data && data.map((ballot: Ballot) => <li
+                            id={`${ballot.id}`}
+                        ><a href={`/vote-${ballot.id}`} style={{"color": "blue"}}>{ballot.name}</a></li>
                     )}
-                </main>
-            </div>
+                </ul>
 
-            <Footer />
+            </main>
+            <Footer /> {/* Footer stays at the bottom */}
         </div>
     );
 };
 
-export default VotePage;
+export default BallotSelect;
