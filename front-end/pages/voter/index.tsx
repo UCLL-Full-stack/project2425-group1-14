@@ -43,7 +43,8 @@ const BallotSelect: React.FC = () => {
                 <ul>
                     {data && data.map((ballot: Ballot) => <li
                             id={`${ballot.id}`}
-                        ><a href={`/vote-${ballot.id}`} style={{"color": "blue"}}>{ballot.name}</a></li>
+                            onClick={() => localStorage.setItem('ballot', `${ballot.id}`)}
+                        ><a href={`/voter/vote`} style={{"color": "blue"}}>{ballot.name}</a></li>
                     )}
                 </ul>
 

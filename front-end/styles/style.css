@@ -414,6 +414,11 @@ footer {
 }
 
 
+figure img {
+    max-width: 100%;
+}
+
+
 
 
 

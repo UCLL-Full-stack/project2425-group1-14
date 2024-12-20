@@ -38,13 +38,6 @@ const VotePage: React.FC = () => {
                     {!submitted ? (
                         <div className="vote-form">
                             {/* Toon de naam van de gebruiker */}
-                            <div className="vote-input-group">
-                                {name ? (
-                                    <p className="vote-name">Hello, {name}!</p> // Naam weergeven
-                                ) : (
-                                    <p className="vote-name">Hello, Guest!</p> // Indien naam niet beschikbaar is
-                                )}
-                            </div>
 
                             <div className="vote-options">
                                 {["Option 1"].map((option, index) => (
