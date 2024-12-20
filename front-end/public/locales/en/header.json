@@ -1,0 +1,11 @@
+{
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "loggedInAs": "Logged in as {{user}}",
+    "logout": "Logout",
+    "language": {
+        "en": "English",
+        "nl": "Dutch"
+    }
+}

@@ -818,6 +818,24 @@ footer {
     margin-top: 20px;
 }
 
+.add-row-form {
+    padding: 1rem;
+    background-color: #f9f9f9;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+}
+
+.add-row-form .form-group {
+    margin-bottom: 0.5rem;
+}
+
+.add-row-form input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 
 table {
     width: 100%;
@@ -947,4 +965,45 @@ tr:hover .actions-column button {
 
 .selected-row {
     background-color: #f0f0f0;
+}
+
+.form-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+}
+
+.form-actions button {
+    margin: 5px;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.form-actions button:hover {
+    background: #0056b3;
 }

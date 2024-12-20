@@ -12,7 +12,7 @@ const AdminPanel: React.FC = () => {
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [isAddingRow, setIsAddingRow] = useState<boolean>(false);
-    const [newRowData, setNewRowData] = useState<any>({});
+    // const [newRowData, setNewRowData] = useState<any>({});
     const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
     const [isEditingRow, setIsEditingRow] = useState<number | null>(null);
 
@@ -23,6 +23,8 @@ const AdminPanel: React.FC = () => {
         { label: 'Candidate', path: 'candidate', endpoint: 'candidates' },
         { label: 'User', path: 'user', endpoint: 'users' },
         { label: 'Ballot', path: 'ballot', endpoint: 'ballots' },
+        { label: 'New', },
+
     ];
 
     const getFetcher = async (endpoint: string) => {
@@ -85,6 +87,36 @@ const AdminPanel: React.FC = () => {
         setSelectedRows([]);
     };
 
+    const addNewRow = async () => {
+        try {
+            const response = await fetch(`/api/${selectedLink}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newRowData),
+            });
+            if (!response.ok) throw new Error('Failed to add new item');
+            alert('New item added successfully.');
+            mutate(); // Refresh data
+            setNewRowData({
+                name: '',
+                system: '',
+                location: '',
+                abbr: '',
+                logo: '',
+                type: '',
+                username: '',
+                email: '',
+                role: ''
+            }); // Reset form data
+            setIsAddingRow(false); // Exit adding mode
+        } catch (error) {
+            alert(`Error: ${(error as Error).message}`);
+        }
+    };
+
+
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
     };
@@ -107,261 +139,280 @@ const AdminPanel: React.FC = () => {
         setIsEditingRow(null);
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setNewRowData((prevData: any) => ({
-            ...prevData,
-            [name]: value,
-        }));
+
+
+    const [newRowData, setNewRowData] = useState({
+        name: '',
+        system: '',
+        location: '',
+        abbr: '',
+        logo: '',
+        type: '',
+        username: '',
+        email: '',
+        role: ''
+    });
+
+    const handleAddRow = () => {
+        setIsAddingRow(true); // To display the input fields
     };
 
-    const saveEditedRow = async () => {
-        if (isEditingRow === null) return;  // If no row is being edited, do nothing
-
-        const item = data[isEditingRow];  // Get the item being edited
-        const updatedData = { ...item, ...newRowData };  // Merge existing data with new data
+    const handleSaveNewRow = async () => {
+        if (!selectedLink) return;
 
         try {
-            const response = await fetch(`/api/${selectedLink}/${item.id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updatedData),
+            await fetch(`/api/${selectedLink}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newRowData),
             });
-
-            if (response.ok) {
-                const savedRow = await response.json();
-                console.log('Updated row:', savedRow);
-                cancelEditing();  // Cancel editing after saving
-                mutate();          // Refresh the data after saving
-            } else {
-                alert('Failed to update the row.');
-            }
+            alert('Row added successfully!');
+            setIsAddingRow(false);
+            setNewRowData({
+                name: '',
+                system: '',
+                location: '',
+                abbr: '',
+                logo: '',
+                type: '',
+                username: '',
+                email: '',
+                role: ''
+            });
+            mutate(); // refresh data after adding new row
         } catch (error) {
-            alert('An error occurred while saving. Please try again.');
+            alert('Failed to add row. Please try again.');
         }
     };
-
 
     const renderTable = () => {
         switch (selectedLink) {
             case 'ballots':
                 return (
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>System</th>
-                                <th>Location</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredData.map((item: any, index: number) => (
-                                <tr
-                                    key={item.id}
-                                    onClick={() => toggleRowSelection(index)}
-                                    className={selectedRows.includes(index) ? 'selected-row' : ''}
-                                >
-                                    <td>{item.id}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.system}</td>
-                                    <td>{item.location?.name}</td>
-                                    <td className="actions-column">
-                                        <button
-                                            className="action-btn edit"
-                                            onClick={() => startEditing(index)}
-                                        >
-                                            Edit
-                                        </button>
-                                    </td>
+                    <div>
+                        <button onClick={handleAddRow}>Add Ballot</button>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>System</th>
+                                    <th>Location</th>
+
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {filteredData.map((item: any, index: number) => (
+                                    <tr
+                                        key={item.id}
+                                        onClick={() => toggleRowSelection(index)}
+                                        className={selectedRows.includes(index) ? 'selected-row' : ''}
+                                    >
+                                        <td>{item.id}</td>
+                                        <td>{item.name}</td>
+                                        <td>{item.system}</td>
+                                        <td>{item.location?.name}</td>
+                                        <td>
+                                            <button onClick={() => startEditing(index)}>Edit</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 );
-            case 'candidates':
-                return (
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Location</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredData.map((item: any, index: number) => (
-                                <tr
-                                    key={item.id}
-                                    onClick={() => toggleRowSelection(index)}
-                                    className={selectedRows.includes(index) ? 'selected-row' : ''}
-                                >
-                                    <td>{item.id}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.location?.name}</td>
-                                    <td className="actions-column">
-                                        <button
-                                            className="action-btn edit"
-                                            onClick={() => startEditing(index)}
-                                        >
-                                            Edit
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                );
-            case 'parties':
-                return (
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Abbreviation</th>
-                                <th>Logo</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredData.map((item: any, index: number) => (
-                                <tr
-                                    key={item.id}
-                                    onClick={() => toggleRowSelection(index)}
-                                    className={selectedRows.includes(index) ? 'selected-row' : ''}
-                                >
-                                    <td>{item.id}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.abbr}</td>
-                                    <td>
-                                        <img src={item.logo} alt={item.name} width="50" />
-                                    </td>
-                                    <td className="actions-column">
-                                        <button
-                                            className="action-btn edit"
-                                            onClick={() => startEditing(index)}
-                                        >
-                                            Edit
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                );
-            case 'regions':
-                return (
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredData.map((item: any, index: number) => (
-                                <tr
-                                    key={item.id}
-                                    onClick={() => toggleRowSelection(index)}
-                                    className={selectedRows.includes(index) ? 'selected-row' : ''}
-                                >
-                                    <td>{item.id}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.type?.name}</td>
-                                    <td className="actions-column">
-                                        <button
-                                            className="action-btn edit"
-                                            onClick={() => startEditing(index)}
-                                        >
-                                            Edit
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                );
+
             case 'types':
                 return (
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredData.map((item: any, index: number) => (
-                                <tr
-                                    key={item.id}
-                                    onClick={() => toggleRowSelection(index)}
-                                    className={selectedRows.includes(index) ? 'selected-row' : ''}
-                                >
-                                    <td>{item.id}</td>
-                                    <td>{item.name}</td>
-                                    <td className="actions-column">
-                                        <button
-                                            className="action-btn edit"
-                                            onClick={() => startEditing(index)}
-                                        >
-                                            Edit
-                                        </button>
-                                    </td>
+                    <div>
+                        <button onClick={handleAddRow}>Add Type</button>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {filteredData.map((item: any, index: number) => (
+                                    <tr
+                                        key={item.id}
+                                        onClick={() => toggleRowSelection(index)}
+                                        className={selectedRows.includes(index) ? 'selected-row' : ''}
+                                    >
+                                        <td>{item.id}</td>
+                                        <td>{item.name}</td>
+                                        <td>
+                                            <button onClick={() => startEditing(index)}>Edit</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 );
+
+            case 'regions':
+                return (
+                    <div>
+                        <button onClick={handleAddRow}>Add Region</button>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredData.map((item: any, index: number) => (
+                                    <tr
+                                        key={item.id}
+                                        onClick={() => toggleRowSelection(index)}
+                                        className={selectedRows.includes(index) ? 'selected-row' : ''}
+                                    >
+                                        <td>{item.id}</td>
+                                        <td>{item.name}</td>
+                                        <td>{item.type?.name}</td>
+                                        <td>
+                                            <button onClick={() => startEditing(index)}>Edit</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                );
+
             case 'users':
                 return (
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Location</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredData.map((item: any, index: number) => (
-                                <tr
-                                    key={item.id}
-                                    onClick={() => toggleRowSelection(index)}
-                                    className={selectedRows.includes(index) ? 'selected-row' : ''}
-                                >
-                                    <td>{item.id}</td>
-                                    <td>{item.username}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.email}</td>
-                                    <td>{item.role}</td>
-                                    <td>{item.location?.name}</td>
-                                    <td className="actions-column">
-                                        <button
-                                            className="action-btn edit"
-                                            onClick={() => startEditing(index)}
-                                        >
-                                            Edit
-                                        </button>
-                                    </td>
+                    <div>
+                        <button onClick={handleAddRow}>Add User</button>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Location</th>
+
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {filteredData.map((item: any, index: number) => (
+                                    <tr
+                                        key={item.id}
+                                        onClick={() => toggleRowSelection(index)}
+                                        className={selectedRows.includes(index) ? 'selected-row' : ''}
+                                    >
+                                        <td>{item.id}</td>
+                                        <td>{item.username}</td>
+                                        <td>{item.name}</td>
+                                        <td>{item.email}</td>
+                                        <td>{item.role}</td>
+                                        <td>{item.location?.name}</td>
+                                        <td>
+                                            <button onClick={() => startEditing(index)}>Edit</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 );
+
+            // Add candidates and parties
+            case 'candidates':
+                return (
+                    <div>
+                        <button onClick={handleAddRow}>Add Candidate</button>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Location</th>
+                                    <th>Location Type</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredData.map((item: any, index: number) => (
+                                    <tr
+                                        key={item.id}
+                                        onClick={() => toggleRowSelection(index)}
+                                        className={selectedRows.includes(index) ? 'selected-row' : ''}
+                                    >
+                                        <td>{item.id}</td>
+                                        <td>{item.name}</td>
+                                        <td>{item.location?.name || 'N/A'}</td> {/* Location Name */}
+                                        <td>{item.location?.type?.name || 'N/A'}</td> {/* Location Type */}
+                                        <td>
+                                            <button onClick={() => startEditing(index)}>Edit</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                );
+
+            case 'parties':
+                return (
+                    <div>
+                        <button onClick={handleAddRow}>Add Party</button>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Abbreviation</th>
+                                    <th>Logo</th>
+                                    <th>Type</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredData.map((item: any, index: number) => (
+                                    <tr
+                                        key={item.id}
+                                        onClick={() => toggleRowSelection(index)}
+                                        className={selectedRows.includes(index) ? 'selected-row' : ''}
+                                    >
+                                        <td>{item.id}</td>
+                                        <td>{item.name}</td>
+                                        <td>{item.abbr}</td> {/* Display abbreviation */}
+                                        <td>
+                                            {item.logo ? (
+                                                <img src={item.logo} alt={`${item.name} logo`} style={{ width: '50px', height: 'auto' }} />
+                                            ) : (
+                                                'No logo'
+                                            )}
+                                        </td> {/* Display logo if available */}
+                                        <td>{item.type?.name || 'N/A'}</td> {/* Display type of party */}
+                                        <td>
+                                            <button onClick={() => startEditing(index)}>Edit</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                );
+
+
             default:
                 return null;
         }
     };
+
+
 
 
 
@@ -374,7 +425,7 @@ const AdminPanel: React.FC = () => {
                         <button
                             key={link.path}
                             className="admin-circleButton"
-                            onClick={() => setSelectedLink(link.endpoint)}
+                            onClick={() => link.endpoint && setSelectedLink(link.endpoint)}
                         >
                             {link.label}
                         </button>
@@ -423,21 +474,7 @@ const AdminPanel: React.FC = () => {
                                     </>
                                 )}
 
-                                {selectedRows.length === 0 && !isAddingRow && (
-                                    <button
-                                        className="action-btn add"
-                                        onClick={() => {
-                                            if (isEditingRow !== null) {
-                                                setIsAddingRow(true);
-                                            } else {
-                                                setIsAddingRow(true);
-                                            }
-                                        }}
-                                    >
-                                        {isEditingRow !== null ? "Edit Item" : "Add a new item"}
-                                    </button>
 
-                                )}
                             </div>
                         </div>
                     )}

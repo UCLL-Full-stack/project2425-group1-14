@@ -1,0 +1,11 @@
+{
+    "home": "Startpagina",
+    "about": "Over ons",
+    "contact": "Contact",
+    "loggedInAs": "Ingelogd als {{user}}",
+    "logout": "Uitloggen",
+    "language": {
+        "en": "Engels",
+        "nl": "Nederlands"
+    }
+}
