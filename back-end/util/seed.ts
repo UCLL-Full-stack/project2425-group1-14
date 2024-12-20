@@ -11,8 +11,8 @@ const main = async () => {
     await prisma.voterBallot.deleteMany();
     await prisma.ballot.deleteMany();
     await prisma.user.deleteMany();
-    await prisma.partyCandidate.deleteMany();
-    await prisma.candidate.deleteMany();
+    // await prisma.partyCandidate.deleteMany();
+    // await prisma.candidate.deleteMany();
     await prisma.party.deleteMany();
     await prisma.region.deleteMany();
     await prisma.type.deleteMany();
@@ -239,20 +239,7 @@ const main = async () => {
             abbr: 'PET',
             logo: 'https://board.icosahedr.online/_images/624050a46014f7b5cb4a78ef20eec3fa/399%20-%20logo%20series%3ATestImages.png',
             type: { connect: { id: typeNational.id } },
-        },
-    });
-
-    const candidateQuinn = await prisma.candidate.create({
-        data: {
-            name: 'Quinn',
-            location: { connect: { id: regionNamurCite.id } },
-        },
-    });
-
-    const partyCandidateNationalQuinn = await prisma.partyCandidate.create({
-        data: {
-            candidate: { connect: { id: candidateQuinn.id } },
-            party: { connect: { id: partyNationalTesters.id } },
+            candidate: 'Quinn',
         },
     });
 
@@ -262,21 +249,7 @@ const main = async () => {
             abbr: 'FOPESPY',
             logo: 'https://board.icosahedr.online/_images/982da7706f7621303f817c29d7440916/370%20-%20artist%3Asapero%20digital_art%20FOPESPY%20logo.png',
             type: { connect: { id: typeNational.id } },
-        },
-    });
-
-    const candidateIke = await prisma.candidate.create({
-        data: {
-            name: 'Ike',
-            location: { connect: { id: regionLeuven.id } },
-        },
-    });
-
-    const partyCandidateNationalIke = await prisma.partyCandidate.create({
-        data: {
-            candidate: { connect: { id: candidateIke.id } },
-            party: { connect: { id: partyNationalYappers.id } },
-            position: 20,
+            candidate: 'Ike',
         },
     });
 
@@ -286,22 +259,10 @@ const main = async () => {
             abbr: 'WWW',
             logo: 'https://board.icosahedr.online/_images/f54873511e11da904d10a91e230262f3/328%20-%20artist%3Asapero%20digital_art%20logo%20Worldwide_Wakened_Wutualists.png',
             type: { connect: { id: typeNational.id } },
+            candidate: 'Reggie',
         },
     });
 
-    const candidateReggie = await prisma.candidate.create({
-        data: {
-            name: 'Reggie',
-            location: { connect: { id: regionLeuven.id } },
-        },
-    });
-
-    const partyCandidateNationalReggie = await prisma.partyCandidate.create({
-        data: {
-            candidate: { connect: { id: candidateReggie.id } },
-            party: { connect: { id: partyNationalWWW.id } },
-        },
-    });
 
     const ballotMallia = await prisma.ballot.create({
         data: {
@@ -340,6 +301,7 @@ const main = async () => {
             abbr: 'WWW',
             logo: 'https://board.icosahedr.online/_images/f54873511e11da904d10a91e230262f3/328%20-%20artist%3Asapero%20digital_art%20logo%20Worldwide_Wakened_Wutualists.png',
             type: { connect: { id: typeRegional.id } },
+            candidate: 'Reggie'
         },
     });
 
@@ -349,21 +311,7 @@ const main = async () => {
             abbr: 'FOPESPY',
             logo: 'https://board.icosahedr.online/_images/982da7706f7621303f817c29d7440916/370%20-%20artist%3Asapero%20digital_art%20FOPESPY%20logo.png',
             type: { connect: { id: typeRegional.id } },
-        },
-    });
-
-    const partyCandidateRegionalIke = await prisma.partyCandidate.create({
-        data: {
-            candidate: { connect: { id: candidateIke.id } },
-            party: { connect: { id: partyRegionalYappers.id } },
-            position: 20,
-        },
-    });
-
-    const partyCandidateRegionalReggie = await prisma.partyCandidate.create({
-        data: {
-            candidate: { connect: { id: candidateReggie.id } },
-            party: { connect: { id: partyRegionalWWW.id } },
+            candidate: 'Ike'
         },
     });
 

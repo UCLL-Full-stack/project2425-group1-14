@@ -1,7 +1,7 @@
 import database from '../util/database';
 import { Party } from '../model/party';
 import { RepositoryError } from '../types/error';
-import { Candidate } from '../model/candidate';
+// import { Candidate } from '../model/candidate';
 
 const getParties = async (): Promise<Party[]> => {
     try {
@@ -83,7 +83,7 @@ const getPartiesByNameAndType = async ({
     }
 };
 
-const createParty = async ({ name, abbr, logo, type }: Party): Promise<Party> => {
+const createParty = async ({ name, abbr, logo, type, candidate }: Party): Promise<Party> => {
     try {
         const partyPrisma = await database.party.create({
             data: {
@@ -91,6 +91,7 @@ const createParty = async ({ name, abbr, logo, type }: Party): Promise<Party> =>
                 abbr: abbr,
                 logo: logo,
                 type: { connect: { id: type.id } },
+                candidate: candidate,
             },
             include: { type: true },
         });
@@ -102,6 +103,7 @@ const createParty = async ({ name, abbr, logo, type }: Party): Promise<Party> =>
     }
 };
 
+/*
 const getCandidatesByParty = async ({ partyId }: { partyId: number }): Promise<Candidate[]> => {
     try {
         const partyCandidatesPrisma = await database.partyCandidate.findMany({
@@ -120,19 +122,21 @@ const getCandidatesByParty = async ({ partyId }: { partyId: number }): Promise<C
         throw new RepositoryError('Database error. See server log for details.');
     }
 };
+*/
 
 const deletePartyById = async ({ id }: { id: number }): Promise<String> => {
     try {
-        const candidatesPartyPrisma = await database.partyCandidate.deleteMany({
-            where: { partyId: id },
-        });
+        // const candidatesPartyPrisma = await database.partyCandidate.deleteMany({
+        //     where: { partyId: id },
+        // });
         const ballotPartyPrisma = await database.ballotParty.deleteMany({
             where: { partyId: id },
         });
         const partiesPrisma = await database.party.deleteMany({
             where: { id: id },
         });
-        return `Deleted ${candidatesPartyPrisma.count} PartyCandidates, ${ballotPartyPrisma} BallotParties and ${partiesPrisma.count} Parties.`;
+        // return `Deleted ${candidatesPartyPrisma.count} PartyCandidates, ${ballotPartyPrisma} BallotParties and ${partiesPrisma.count} Parties.`;
+        return `Deleted ${ballotPartyPrisma} BallotParties and ${partiesPrisma.count} Parties.`;
     } catch (error) {
         console.error(error);
         throw new RepositoryError('Database error. See server log for details.');
@@ -203,6 +207,22 @@ const changePartyType = async ({ id, typeId }: { id: number; typeId: number }): 
     }
 };
 
+const changePartyCandidate = async ({ id, candidate }: { id: number; candidate: string }): Promise<Party> => {
+    try {
+        const partyPrisma = await database.party.update({
+            where: { id: id },
+            data: {
+                candidate: candidate,
+            },
+            include: { type: true },
+        });
+        return Party.from(partyPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new RepositoryError('Database error. See server log for details.');
+    }
+};
+
 export default {
     getParties,
     countParties,
@@ -210,11 +230,12 @@ export default {
     getPartiesByName,
     getPartiesByType,
     getPartiesByNameAndType,
-    getCandidatesByParty,
+    // getCandidatesByParty,
     createParty,
     deletePartyById,
     changePartyName,
     changePartyAbbr,
     changePartyLogo,
     changePartyType,
+    changePartyCandidate,
 };

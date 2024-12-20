@@ -20,7 +20,7 @@ const AdminPanel: React.FC = () => {
         { label: 'Type', path: 'type', endpoint: 'types' },
         { label: 'Region', path: 'region', endpoint: 'regions' },
         { label: 'Party', path: 'party', endpoint: 'parties' },
-        { label: 'Candidate', path: 'candidate', endpoint: 'candidates' },
+        // { label: 'Candidate', path: 'candidate', endpoint: 'candidates' },
         { label: 'User', path: 'user', endpoint: 'users' },
         { label: 'Ballot', path: 'ballot', endpoint: 'ballots' },
         { label: 'New', },
@@ -327,41 +327,41 @@ const AdminPanel: React.FC = () => {
                     </div>
                 );
 
-            // Add candidates and parties
-            case 'candidates':
-                return (
-                    <div>
-                        <button onClick={handleAddRow}>Add Candidate</button>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Location</th>
-                                    <th>Location Type</th>
+            // // Add candidates and parties
+            // case 'candidates':
+            //     return (
+            //         <div>
+            //             <button onClick={handleAddRow}>Add Candidate</button>
+            //             <table>
+            //                 <thead>
+            //                     <tr>
+            //                         <th>ID</th>
+            //                         <th>Name</th>
+            //                         <th>Location</th>
+            //                         <th>Location Type</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredData.map((item: any, index: number) => (
-                                    <tr
-                                        key={item.id}
-                                        onClick={() => toggleRowSelection(index)}
-                                        className={selectedRows.includes(index) ? 'selected-row' : ''}
-                                    >
-                                        <td>{item.id}</td>
-                                        <td>{item.name}</td>
-                                        <td>{item.location?.name || 'N/A'}</td> {/* Location Name */}
-                                        <td>{item.location?.type?.name || 'N/A'}</td> {/* Location Type */}
-                                        <td>
-                                            <button onClick={() => startEditing(index)}>Edit</button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                );
+            //                     </tr>
+            //                 </thead>
+            //                 <tbody>
+            //                     {filteredData.map((item: any, index: number) => (
+            //                         <tr
+            //                             key={item.id}
+            //                             onClick={() => toggleRowSelection(index)}
+            //                             className={selectedRows.includes(index) ? 'selected-row' : ''}
+            //                         >
+            //                             <td>{item.id}</td>
+            //                             <td>{item.name}</td>
+            //                             <td>{item.location?.name || 'N/A'}</td> {/* Location Name */}
+            //                             <td>{item.location?.type?.name || 'N/A'}</td> {/* Location Type */}
+            //                             <td>
+            //                                 <button onClick={() => startEditing(index)}>Edit</button>
+            //                             </td>
+            //                         </tr>
+            //                     ))}
+            //                 </tbody>
+            //             </table>
+            //         </div>
+            //     );
 
             case 'parties':
                 return (
@@ -375,6 +375,7 @@ const AdminPanel: React.FC = () => {
                                     <th>Abbreviation</th>
                                     <th>Logo</th>
                                     <th>Type</th>
+                                    <th>Candidate</th>
 
                                 </tr>
                             </thead>
@@ -396,6 +397,7 @@ const AdminPanel: React.FC = () => {
                                             )}
                                         </td> {/* Display logo if available */}
                                         <td>{item.type?.name || 'N/A'}</td> {/* Display type of party */}
+                                        <td>{item.candidate}</td>
                                         <td>
                                             <button onClick={() => startEditing(index)}>Edit</button>
                                         </td>

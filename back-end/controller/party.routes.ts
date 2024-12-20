@@ -16,6 +16,8 @@
  *      type: string
  *     type:
  *      $ref: '#/components/schemas/Type'
+ *     candidate:
+ *      type: string
  *   PartyInput:
  *    properties:
  *     id:
@@ -30,6 +32,8 @@
  *     typeId:
  *      type: number
  *      format: int64
+ *     candidate:
+ *      type: string
  */
 
 import express, { NextFunction, Response } from 'express';
@@ -156,41 +160,41 @@ partyRouter.get('/by', async (req: Request, res: Response, next: NextFunction) =
     }
 });
 
-/**
- * @swagger
- * /parties/candidates/{id}:
- *  get:
- *   tags:
- *    - party
- *   security:
- *    - bearerAuth: []
- *   summary: Get a party's candidates by id.
- *   parameters:
- *    - in: path
- *      name: id
- *      schema:
- *       type: integer
- *       required: true
- *       description: The party id.
- *   responses:
- *    200:
- *     description: A list of candidates.
- *     content:
- *      application/json:
- *       schema:
- *        type: array
- *        items:
- *         $ref: '#/components/schemas/Candidate'
- */
-partyRouter.get('/candidates/:id', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        permsAll(req.auth);
-        const candidates = await partyService.getCandidatesByParty(Number(req.params.id));
-        res.status(200).json(candidates);
-    } catch (error) {
-        next(error);
-    }
-});
+// /**
+//  * @swagger
+//  * /parties/candidates/{id}:
+//  *  get:
+//  *   tags:
+//  *    - party
+//  *   security:
+//  *    - bearerAuth: []
+//  *   summary: Get a party's candidates by id.
+//  *   parameters:
+//  *    - in: path
+//  *      name: id
+//  *      schema:
+//  *       type: integer
+//  *       required: true
+//  *       description: The party id.
+//  *   responses:
+//  *    200:
+//  *     description: A list of candidates.
+//  *     content:
+//  *      application/json:
+//  *       schema:
+//  *        type: array
+//  *        items:
+//  *         $ref: '#/components/schemas/Candidate'
+//  */
+// partyRouter.get('/candidates/:id', async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//         permsAll(req.auth);
+//         const candidates = await partyService.getCandidatesByParty(Number(req.params.id));
+//         res.status(200).json(candidates);
+//     } catch (error) {
+//         next(error);
+//     }
+// });
 
 /**
  * @swagger

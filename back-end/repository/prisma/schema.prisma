@@ -22,7 +22,7 @@ model Region {
   parent    Region?     @relation("ChildRegion", fields: [parentId], references: [id])
   parentId  Int?
   child     Region[]    @relation("ChildRegion")
-  Candidate Candidate[]
+//   Candidate Candidate[]
   User      User[]
   Ballot    Ballot[]
 
@@ -36,29 +36,30 @@ model Party {
   logo           String
   type           Type             @relation(fields: [typeId], references: [id])
   typeId         Int
-  PartyCandidate PartyCandidate[]
+  candidate      String
+//  PartyCandidate PartyCandidate[]
   BallotParty    BallotParty[]
 
   @@unique([name, typeId])
 }
 
-model Candidate {
-  id         Int              @id @default(autoincrement())
-  name       String
-  location   Region           @relation(fields: [locationId], references: [id])
-  locationId Int
-  parties    PartyCandidate[]
-}
+//model Candidate {
+//  id         Int              @id @default(autoincrement())
+//  name       String
+//  location   Region           @relation(fields: [locationId], references: [id])
+//  locationId Int
+//  parties    PartyCandidate[]
+//}
 
-model PartyCandidate {
-  candidate   Candidate @relation(fields: [candidateId], references: [id])
-  candidateId Int
-  party       Party     @relation(fields: [partyId], references: [id])
-  partyId     Int
-  position    Int       @default(autoincrement())
+//model PartyCandidate {
+//  candidate   Candidate @relation(fields: [candidateId], references: [id])
+//  candidateId Int
+//  party       Party     @relation(fields: [partyId], references: [id])
+//  partyId     Int
+//  position    Int       @default(autoincrement())
 
-  @@id(name: "partyCandidateId", [candidateId, partyId])
-}
+//  @@id(name: "partyCandidateId", [candidateId, partyId])
+//}
 
 model User {
   id          Int           @id @default(autoincrement())

@@ -18,19 +18,20 @@ type PartyInput = {
     abbr?: string;
     logo?: string;
     typeId?: number;
+    candidate?: string;
 };
 
-type CandidateInput = {
-    id?: number;
-    name?: string;
-    locationId?: number;
-};
+// type CandidateInput = {
+//     id?: number;
+//     name?: string;
+//     locationId?: number;
+// };
 
-type PartyCandidateInput = {
-    candidateId?: number;
-    partyId?: number;
-    position?: number;
-};
+// type PartyCandidateInput = {
+//     candidateId?: number;
+//     partyId?: number;
+//     position?: number;
+// };
 
 type UserInput = {
     id?: number;
@@ -74,8 +75,8 @@ export {
     TypeInput,
     RegionInput,
     PartyInput,
-    CandidateInput,
-    PartyCandidateInput,
+    // CandidateInput,
+    // PartyCandidateInput,
     UserInput,
     BallotInput,
     VoterBallotInput,

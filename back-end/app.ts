@@ -7,7 +7,7 @@ import swaggerUi from 'swagger-ui-express';
 import { typeRouter } from './controller/type.routes';
 import { regionRouter } from './controller/region.routes';
 import { partyRouter } from './controller/party.routes';
-import { candidateRouter } from './controller/candidate.routes';
+// import { candidateRouter } from './controller/candidate.routes';
 import { userRouter } from './controller/user.routes';
 import { ballotRouter } from './controller/ballot.routes';
 import { expressjwt } from 'express-jwt';
@@ -31,7 +31,7 @@ app.use(
 app.use('/types', typeRouter);
 app.use('/regions', regionRouter);
 app.use('/parties', partyRouter);
-app.use('/candidates', candidateRouter);
+// app.use('/candidates', candidateRouter);
 app.use('/users', userRouter);
 app.use('/ballots', ballotRouter);
 

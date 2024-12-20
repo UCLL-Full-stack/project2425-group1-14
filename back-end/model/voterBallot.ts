@@ -1,6 +1,6 @@
 import { Ballot } from './ballot';
 import { User } from './user';
-import { PartyCandidate } from './partyCandidate';
+// import { PartyCandidate } from './partyCandidate';
 import {
     VoterBallot as VoterBallotPrisma,
     User as UserPrisma,

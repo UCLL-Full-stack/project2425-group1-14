@@ -224,6 +224,7 @@ const submitVote = async (username: string, ballotId: number, vote: Array<number
     const ballot = await ballotService.getBallotById(ballotId);
     const parties = await ballotService.getPartiesByBallot(ballotId);
 
+    /*
     const candidates = [];
     for (const p of parties) {
         candidates.push(...await partyService.getCandidatesByParty(p.id));
@@ -239,6 +240,20 @@ const submitVote = async (username: string, ballotId: number, vote: Array<number
 
     if (vote.length < ballot.minimum && ballot.minimum > 0) {
         throw new ServiceError("Too little candidates selected");
+    }
+    */
+
+    const partyIds = parties.map((c) => c.id);
+    if (vote.filter((vote) => !partyIds.includes(vote)).length > 0) {
+        throw new ServiceError("Invalid party selected");
+    }
+
+    if (vote.length > ballot.maximum && ballot.maximum > 0) {
+        throw new ServiceError("Too many parties selected");
+    }
+
+    if (vote.length < ballot.minimum && ballot.minimum > 0) {
+        throw new ServiceError("Too little parties selected");
     }
 
     return userDB.submitVote({ voterId: user.id, ballotId: ballot.id, votedFor: JSON.stringify(vote)})

@@ -21,19 +21,20 @@ type Party = {
     abbr?: string;
     logo?: string;
     typeId?: number;
+    candidate?: string;
 };
 
-type Candidate = {
-    id?: number;
-    name?: string;
-    locationId?: number;
-};
+// type Candidate = {
+//     id?: number;
+//     name?: string;
+//     locationId?: number;
+// };
 
-type PartyCandidate = {
-    candidateId?: number;
-    partyId?: number;
-    position?: number;
-};
+// type PartyCandidate = {
+//     candidateId?: number;
+//     partyId?: number;
+//     position?: number;
+// };
 
 type User = {
     id?: number;
@@ -77,8 +78,8 @@ export type {
     Type,
     Region,
     Party,
-    Candidate,
-    PartyCandidate,
+    // Candidate,
+    // PartyCandidate,
     User,
     Ballot,
     VoterBallot,

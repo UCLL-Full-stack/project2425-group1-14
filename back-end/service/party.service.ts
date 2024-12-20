@@ -1,4 +1,4 @@
-import { Candidate } from '../model/candidate';
+// import { Candidate } from '../model/candidate';
 import { Party } from '../model/party';
 import partyDB from '../repository/party.db';
 import typeDB from '../repository/type.db';
@@ -38,12 +38,14 @@ const getPartiesByNameAndType = async (name: string, id: number): Promise<Party[
     return parties;
 };
 
+/*
 const getCandidatesByParty = async (id: number): Promise<Candidate[]> => {
     const candidates = await partyDB.getCandidatesByParty({ partyId: id });
     return candidates;
 };
+*/
 
-const createParty = async ({ name, abbr, logo, typeId }: PartyInput): Promise<Party> => {
+const createParty = async ({ name, abbr, logo, typeId, candidate}: PartyInput): Promise<Party> => {
     if (!name) {
         throw new ServiceError('Name was not provided');
     }
@@ -58,13 +60,16 @@ const createParty = async ({ name, abbr, logo, typeId }: PartyInput): Promise<Pa
         logo =
             'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII=';
     }
+    if (!candidate) {
+        throw new ServiceError('Candidate was not provided');
+    }
 
     const type = await typeDB.getTypeById({ id: typeId });
     if (!type) {
         throw new ServiceError(`Type with id ${typeId} does not exist.`);
     }
 
-    const newParty = new Party({ name, abbr, logo, type });
+    const newParty = new Party({ name, abbr, logo, type, candidate });
     return await partyDB.createParty(newParty);
 };
 
@@ -141,7 +146,7 @@ export default {
     getPartiesByName,
     getPartiesByType,
     getPartiesByNameAndType,
-    getCandidatesByParty,
+    // getCandidatesByParty,
     createParty,
     deletePartyById,
     changePartyName,
