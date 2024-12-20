@@ -98,8 +98,9 @@ const AdminPanel: React.FC = () => {
 
     const startEditing = (index: number) => {
         const item = data[index];
-        setIsEditingRow(index);
-        setNewRowData(item); // Initialize the newRowData with the item data
+        setIsEditingRow(index);  // Mark the current row as being edited
+        setNewRowData(item);     // Load the current row data into the form for editing
+        setIsAddingRow(true);    // Switch to editing mode (similar to adding a new row)
     };
 
     const cancelEditing = () => {
@@ -115,10 +116,10 @@ const AdminPanel: React.FC = () => {
     };
 
     const saveEditedRow = async () => {
-        if (isEditingRow === null) return;
+        if (isEditingRow === null) return;  // If no row is being edited, do nothing
 
-        const item = data[isEditingRow];
-        const updatedData = { ...item, ...newRowData }; // Merge updated data
+        const item = data[isEditingRow];  // Get the item being edited
+        const updatedData = { ...item, ...newRowData };  // Merge existing data with new data
 
         try {
             const response = await fetch(`/api/${selectedLink}/${item.id}`, {
@@ -130,8 +131,8 @@ const AdminPanel: React.FC = () => {
             if (response.ok) {
                 const savedRow = await response.json();
                 console.log('Updated row:', savedRow);
-                cancelEditing();
-                mutate(); // Refresh data after saving
+                cancelEditing();  // Cancel editing after saving
+                mutate();          // Refresh the data after saving
             } else {
                 alert('Failed to update the row.');
             }
@@ -139,6 +140,7 @@ const AdminPanel: React.FC = () => {
             alert('An error occurred while saving. Please try again.');
         }
     };
+
 
     const renderTable = () => {
         switch (selectedLink) {
@@ -361,6 +363,8 @@ const AdminPanel: React.FC = () => {
         }
     };
 
+
+
     return (
         <div className="admin-container">
             <Header />
@@ -422,10 +426,17 @@ const AdminPanel: React.FC = () => {
                                 {selectedRows.length === 0 && !isAddingRow && (
                                     <button
                                         className="action-btn add"
-                                        onClick={() => setIsAddingRow(true)}
+                                        onClick={() => {
+                                            if (isEditingRow !== null) {
+                                                setIsAddingRow(true);
+                                            } else {
+                                                setIsAddingRow(true);
+                                            }
+                                        }}
                                     >
-                                        Add a new item
+                                        {isEditingRow !== null ? "Edit Item" : "Add a new item"}
                                     </button>
+
                                 )}
                             </div>
                         </div>

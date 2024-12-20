@@ -1,0 +1,19 @@
+{
+    "login": {
+        "loginTitle": "Login",
+        "username": "Username",
+        "password": "Password",
+        "loginButton": "Login",
+        "signupLink": "Click here to sign up.",
+        "signupTitle": "Sign Up",
+        "name": "Name",
+        "email": "Email",
+        "region": "Region",
+        "signupButton": "Sign Up",
+        "alreadyMember": "Already a member?",
+        "usernameError": "Username is required",
+        "passwordError": "Password is required",
+        "loginError": "Failed to log in. Please check your username and password.",
+        "networkError": "NetworkError: Unable to reach the server."
+    }
+}

@@ -1,54 +1,54 @@
-import React from "react";
-import Header from "@components/Header";
-import Footer from "@components/Footer";
+import React from 'react';
+import Header from '@components/Header';
+import Footer from '@components/Footer';
+import { useTranslation } from 'next-i18next';
+import { GetServerSideProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import nextI18NextConfig from '../next-i18next.config'; // Pad aanpassen indien nodig
 
 const ContactPage: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="container">
       <Header />
 
       <main>
         <section className="blurb">
-          <h1>Contact Us</h1>
-          <p className="date">Last updated: November 2024</p>
+          <h1>{t('contact:contactUs')}</h1>
+          <p className="date">{t('contact:lastUpdated', { date: 'November 2024' })}</p>
         </section>
 
         <section>
-          <h2 >Get in Touch</h2>
-          <p>
-            We would love to hear from you! Whether you have a question,
-            feedback, or would like to collaborate with us, feel free to reach
-            out via the contact details below. You can reach us here:
-          </p>
+          <h2>{t('contact:getInTouch')}</h2>
+          <p>{t('contact:description')}</p>
 
           <br />
-
-
 
           <div className="contactCard">
             <div>
               <p>
-                <strong>Saperoi</strong>
+                <strong>{t('contact:saperoi')}</strong>
               </p>
               <ul>
                 <li>
-                  <strong>Github:</strong> saperoi
+                  <strong>{t('contact:github')}:</strong> saperoi
                 </li>
                 <li>
-                  <strong>Email:</strong> sapero@icosahedr.online
+                  <strong>{t('contact:email')}:</strong> sapero@icosahedr.online
                 </li>
               </ul>
             </div>
             <div>
               <p>
-                <strong>Jack van Hecke</strong>
+                <strong>{t('contact:jackVanHecke')}</strong>
               </p>
               <ul>
                 <li>
-                  <strong>Github:</strong> JackvanHecke
+                  <strong>{t('contact:github')}:</strong> JackvanHecke
                 </li>
                 <li>
-                  <strong>Email:</strong> jack.vanhecke@ucll.be
+                  <strong>{t('contact:email')}:</strong> jack.vanhecke@ucll.be
                 </li>
               </ul>
             </div>
@@ -59,6 +59,14 @@ const ContactPage: React.FC = () => {
       <Footer />
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['contact', 'common'], nextI18NextConfig)),
+    },
+  };
 };
 
 export default ContactPage;

@@ -1,0 +1,20 @@
+{
+    "login": {
+        "loginTitle": "Inloggen",
+        "username": "Gebruikersnaam",
+        "password": "Wachtwoord",
+        "loginButton": "Inloggen",
+        "signupLink": "Klik hier om je aan te melden.",
+        "signupTitle": "Aanmelden",
+        "name": "Naam",
+        "email": "E-mail",
+        "region": "Regio",
+        "signupButton": "Aanmelden",
+        "alreadyMember": "Al een lid?",
+        "usernameError": "Gebruikersnaam is vereist",
+        "passwordError": "Wachtwoord is vereist",
+        "loginError": "Fout bij het inloggen. Controleer je gebruikersnaam en wachtwoord.",
+        "networkError": "Netwerkfout: Kan de server niet bereiken.",
+        "success": "Je bent succesvol ingelogd."
+    }
+}

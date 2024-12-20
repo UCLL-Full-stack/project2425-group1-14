@@ -1,0 +1,13 @@
+{
+    "welcome": "Welkom bij Hannọ",
+    "adminPanel": "Beheerderspaneel",
+    "voteHere": "Stem Hier",
+    "loginAndVote": "Log in en Stem Hier",
+    "testLogins": "TEST LOGINS",
+    "username": "GEBRUIKERSNAAM",
+    "password": "WACHTWOORD",
+    "role": "ROL",
+    "admin": "Beheerder",
+    "manager": "Manager",
+    "voter": "Stemmer"
+}

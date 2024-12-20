@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Header from '@components/Header';
 import Footer from '@components/Footer';
+import nextI18NextConfig from '../next-i18next.config'; // Pad aanpassen indien nodig
+
+import { useTranslation } from 'next-i18next';
+import { GetServerSideProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const IndexPage: React.FC = () => {
+  const { t } = useTranslation();  // Haal de vertaalfunctie op
   const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
 
   useEffect(() => {
@@ -10,7 +16,6 @@ const IndexPage: React.FC = () => {
     if (body) {
       body.classList.add('fade-in');
     }
-
 
     const savedName = window.localStorage.getItem("name");
     if (savedName) {
@@ -26,11 +31,11 @@ const IndexPage: React.FC = () => {
 
   const getButtonTextAndLink = () => {
     if (loggedInUser === "testadmin") {
-      return { text: "Admin Panel", link: "/admin" };
+      return { text: t("index:adminPanel"), link: "/admin" }; // Vertaalde tekst voor de knop
     } else if (loggedInUser === "testvoter") {
-      return { text: "Vote Here", link: "/voter" };
+      return { text: t("index:voteHere"), link: "/voter" }; // Vertaalde tekst voor de knop
     } else {
-      return { text: "Log in and Vote Here", link: "/login" };
+      return { text: t("index:loginAndVote"), link: "/login" }; // Vertaalde tekst voor de knop
     }
   };
 
@@ -40,7 +45,7 @@ const IndexPage: React.FC = () => {
     <div className="index-container">
       <Header />
       <main className="index-content">
-        <h2 className="index-heading">Welcome to Hannọ</h2>
+        <h2 className="index-heading">{t("index:welcomeMessage")}</h2> {/* Vertaalde header */}
         <button
           className="index-voteButton"
           onClick={() => window.location.href = link}
@@ -49,13 +54,13 @@ const IndexPage: React.FC = () => {
         </button>
         <br />
         <div>
-          <h3>TEST LOG-INS</h3>
+          <h3>{t("index:testLogins")}</h3> {/* Vertaalde subkopje */}
           <table className="index-loginTable">
             <thead>
               <tr>
-                <th>USERNAME</th>
-                <th>PASSWORD</th>
-                <th>ROLE</th>
+                <th>{t("index:username")}</th> {/* Vertaalde tekst */}
+                <th>{t("index:password")}</th> {/* Vertaalde tekst */}
+                <th>{t("index:role")}</th> {/* Vertaalde tekst */}
               </tr>
             </thead>
             <tbody>
@@ -81,6 +86,15 @@ const IndexPage: React.FC = () => {
       <Footer />
     </div>
   );
+};
+
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? 'en', ['index', 'common'])),
+    },
+  };
 };
 
 export default IndexPage;

@@ -17,14 +17,25 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-        "@components/*": ["components/*"],
-        "@services/*": ["services/*"],
-        "@types": ["types/index.ts"],
-        "@styles/*": ["styles/*"],
-        "@util": ["util/index.ts"]
+      "@components/*": [
+        "components/*"
+      ],
+      "@services/*": [
+        "services/*"
+      ],
+      "@types": [
+        "types/index.ts"
+      ],
+      "@styles/*": [
+        "styles/*"
+      ],
+      "@util": [
+        "util/index.ts"
+      ]
     },
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
